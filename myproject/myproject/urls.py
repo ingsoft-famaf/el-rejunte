@@ -30,6 +30,11 @@ urlpatterns = [
     url(r'^user/password/done/$', password_reset_complete),
     url(r'^admin/', admin.site.urls),
     url(r'', include('goalsettracker.urls')),
+<<<<<<< HEAD
     url(r'^login/$', views.login, {'template_name': 'login.html'}, name='login')
     # , 'authentication_form': LoginForm}),
+=======
+    url(r'^login/$', views.login, {'template_name': 'login.html'}, name='login'),  # , 'authentication_form': LoginForm}),
+    url(r'^logout/$', views.logout, {'next_page': '/login'}),
+>>>>>>> development
 ]
