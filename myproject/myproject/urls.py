@@ -22,6 +22,7 @@ from django.contrib.auth.views import password_reset, password_reset_done, passw
 # from goalsettracker.forms import LoginForm
 
 urlpatterns = [
+    url(r'', include('goalsettracker.urls')),
     url(r'^user/password/reset/$', password_reset, {'post_reset_redirect': '/user/password/reset/done/'},
         name="password_reset"),
     url(r'^user/password/reset/done/$', password_reset_done),
@@ -29,7 +30,6 @@ urlpatterns = [
         {'post_reset_redirect': '/user/password/done/'}),
     url(r'^user/password/done/$', password_reset_complete),
     url(r'^admin/', admin.site.urls),
-    url(r'', include('goalsettracker.urls')),
     url(r'^login/$', views.login, {'template_name': 'login.html'}, name='login'),  # , 'authentication_form': LoginForm}),
     url(r'^logout/$', views.logout, {'next_page': '/login'}),
 
