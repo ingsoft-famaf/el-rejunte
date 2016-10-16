@@ -25,11 +25,11 @@ A partir de aqui podemos editar el contenido del repositorio local y modificar a
 
 5- Para commitiar los archivos agregados:
 
-   git commit -m 'Comentario descriptivo'
+    git commit -m 'Comentario descriptivo'
 
 6- Para pushear el commit al repositorio remoto:
 
-   git push origin nuevo_branch
+    git push origin nuevo_branch
     
 
 
