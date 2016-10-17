@@ -8,7 +8,7 @@ Desde consola linux:
 
     git checkout -b nuevo_branch
 
-2-Para verificar que estamos en ese branch:    
+2- Para verificar que estamos en ese branch:    
 
     git branch -a
 
