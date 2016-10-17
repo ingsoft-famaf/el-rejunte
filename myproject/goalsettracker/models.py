@@ -75,4 +75,4 @@ class Categoria(models.Model):
         return self._name
 
     # default categories
-    # TODO definir y crear los modelos de categorias predeterminados.
+        # TODO definir y crear los modelos de categorias predeterminados.
