@@ -57,9 +57,11 @@ class Categoria(models.Model):
         set the tuple colour for this object
         :return
         """
-
-        self._colour = value
-
+        if value in defaultColourList:
+            self._colour = value
+        else:
+            # TODO raise an error if colour is not permited
+            pass
     @property
     def colourName(self):
         """
