@@ -61,6 +61,14 @@
 
 body {
     background-image: url("../img/index5.jpg");
-    background-size: 1366px 768px;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+
+}
+
+html {
+    height: 100%
+    width: 100%
 }
