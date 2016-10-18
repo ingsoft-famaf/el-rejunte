@@ -27,9 +27,7 @@
 <div class="row col-md-4">
 <form method="post" action="">
         {% csrf_token %}
-          <table = border="0">
-            {{ form.as_table }}
-          </table>
+            {{ form.as_p }}
         <br>
           <button class = "col-md-3 btn btn-success" type="submit" value="Register">Register</button>
           <button class = "col-md-3 btn btn-primary" type="button" onclick="window.location.href='/login'">Login</button>
