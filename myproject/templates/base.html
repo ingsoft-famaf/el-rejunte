@@ -17,9 +17,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
     <title>{% block title %}{% endblock %}</title>
-</head>
 
-<body>
   <nav class="navbar  navbar-inverse  navbar-fixed-top">
   <div class="container">
   <button type="button" class="navbar-toggle"
@@ -32,7 +30,7 @@
   <span class="icon-bar"> </span>
   </button>
 
-   <a class="navbar-brand" href="#"> Goalsettracker</a>
+   <a class="navbar-brand" href="/home"> Goalsettracker</a>
    
        <div class="navbar-collapse collapse">
            <ul class="nav navbar-nav navbar-right">
@@ -66,6 +64,8 @@
        </div>
   </div>
 </nav>
+</head>
+<body>
     {% block content %}
     {% endblock %}
 
@@ -73,7 +73,13 @@
 <!-- Core Scripts - Include with every page -->
 <script src = "{% static 'js/jquery.min.js' %}"></script>
 <script src = "{% static 'js/bootstrap.min.js' %}"></script>
-        {% block javascript %}
-        {% endblock %}
+
+{% block javascript %}
+<script>
+  {% if not user.is_authenticated %}
+    $("ul.nav.navbar-nav.navbar-right").css("display","none");
+  {% endif %}
+</script>
+{% endblock %}
   </body>
 </html>
