@@ -32,7 +32,7 @@ class Categoria(models.Model):
 
     id = models.AutoField(primary_key=True)
     _name = models.CharField(max_length=15)
-    _owner = models.ForeignKey(User, unique=True)
+    _owner = models.ForeignKey(User, on_delete=models.CASCADE)
     _colour = models.CharField(max_length=10, choices=defaultColourList, default=defaultColourList[defaultColour])
 
     def __init__(self, name, user, colour=defaultColourList[defaultColour]):
