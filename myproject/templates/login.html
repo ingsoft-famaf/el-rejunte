@@ -32,6 +32,9 @@
                                     <td>{{ form.password }}</td>
                                 </tr>
                             </table>
+                            {% if form.errors %}
+                                <p style="color:red;font-size : 12px" >Your username and password didn't match. Please try again.</p>
+                            {% endif %}
                             </p>
                             <p class="bs-component">
                             <div class="omb_logincol-xs-12 col-sm-10 ">
