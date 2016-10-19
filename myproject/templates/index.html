@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
-     <link rel="stylesheet" type="text/css" href="/static/css/mycss.css">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
+{% extends 'base.html' %}
 
-    <title>Goal Set Tracker</title>
+   {% block title %}Goal Set Tracker{% endblock %}
    
-    </head>
+</head>
+{% block content %}
 
 <body>
+  <br>
+  <br>
   <div class="wrapper-shadow">
-         <section id="hero" class = grayb class="wrapper wrapper-dark wrapper-huge wrapper-bg-gradient" style="background-image: url(static/js/img/index.jpg); background-size:cover;" data-start="background-position:0% 50%;" data-top-bottom="background-position:0% 0%;">
+         <section id="hero" class = grayb class="wrapper wrapper-dark wrapper-huge wrapper-bg-gradient";" data-start="background-position:0% 50%;" data-top-bottom="background-position:0% 0%;">
             <div class="overlay"></div>
            <div class="container  wow fadeIn text-center">
              <div class="row">
@@ -64,9 +55,21 @@
         </section>
 
 
+{% endblock %}
 
-    <script src="/static/js/jquery.min.js" type="text/javascript"></script> <!-- A must-have - dont remove it! -->
-    <script src="/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script> <!-- A must-have - dont remove it! -->
+{% block javascript %}
+
+<script>
+  {% if not user.is_authenticated %}
+    $("ul.nav.navbar-nav.navbar-right").css("display","none");
+  {% endif %}
+</script>
+
+<script src="/static/js/jquery.min.js" type="text/javascript"></script> <!-- A must-have - dont remove it! -->
+<script src="/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script> <!-- A must-have - dont remove it! -->
+
+
+{% endblock %}
 
   </body>
 </html>
