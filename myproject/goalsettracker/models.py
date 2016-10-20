@@ -31,16 +31,16 @@ defaultColour = 0
 
 
 
-class Metas(models.Model):
+class Goal(models.Model):
     """
     Meta Principal
     """
 
     id = models.AutoField(primary_key=True)
-    _name = models.CharField(null=False, max_length=100, blank=True)
-    _owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    _creationdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
-    _finishdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
+    name = models.CharField(null=False, max_length=100, blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    creationdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
+    finishdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
     #date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
     #time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
 

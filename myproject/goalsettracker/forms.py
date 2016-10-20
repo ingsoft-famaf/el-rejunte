@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
-from .models import Metas
+from .models import Goal
 from django.forms import ModelForm
 
 
@@ -31,22 +31,19 @@ class UserRegisterForm(UserCreationForm):
         return user
 
 
-class AddMetaForm(ModelForm):
+class AddGoalForm(ModelForm):
     
     class Meta:
-        model = Metas
-        fields = ('_name', '_creationdate', '_finishdate')
+        model = Goal
+        fields = ('name', 'creationdate', 'finishdate')
 
     def save(self, commit=True):
-    	def getuser(request):
-    		current_user = request.user
-    	return current_user.id
-        
-        meta = super(AddMetaForm, self).save(commit=False)
-        meta._name = self.cleaned_data["_name"]
-        meta.user = getuser()
-        meta._creationdate = self.cleaned_data["_creationdate"]
-        meta._finishdate = self.cleaned_data["_finishdate"]
+    	       
+        goal = super(AddGoalForm, self).save(commit=False)
+        goal._name = self.cleaned_data["name"]
+        #goal.user = getuser()
+        goal._creationdate = self.cleaned_data["creationdate"]
+        goal._finishdate = self.cleaned_data["finishdate"]
         if commit:
-            meta.save()
-        return meta
+            goal.save()
+        return goal
