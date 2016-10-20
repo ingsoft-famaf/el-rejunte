@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^login/register$', Register.as_view(), name='register'),
     url(r'^register/', Register.as_view(), name='register'),
     url(r'^home/addmeta/', AddMeta.as_view(), name='addmeta'),
-    #url(r'^register/$', views.register, name = 'register'),
+    url(r'^home/metadetail/', views.metadetail , name='metadetail'),
+    #url(r'^register/$', views.register, name = 'rgister'),
 ]

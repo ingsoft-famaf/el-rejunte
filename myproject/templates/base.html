@@ -17,6 +17,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
+    {% block style %}
+    {% endblock %}
     <title>{% block title %}{% endblock %}</title>
     {% if user.is_authenticated %}
         <nav class="navbar  navbar-inverse  navbar-fixed-top">
@@ -56,7 +58,9 @@
         </nav>
     {% endif %}
 </head>
+
 <body>
+
 {% block content %}
 {% endblock %}
 
