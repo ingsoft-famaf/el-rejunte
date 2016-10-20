@@ -20,6 +20,10 @@
     {% block style %}
     {% endblock %}
     <title>{% block title %}{% endblock %}</title>
+
+</head>
+
+<body>
     {% if user.is_authenticated %}
         <nav class="navbar  navbar-inverse  navbar-fixed-top">
             <div class="container">
@@ -57,13 +61,10 @@
             </div>
         </nav>
     {% endif %}
-</head>
-
-<body>
-
+<div>
 {% block content %}
 {% endblock %}
-
+</div>
 
 <!-- Core Scripts - Include with every page -->
 <script src="{% static 'js/jquery.min.js' %}"></script>
