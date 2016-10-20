@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from forms import UserCreationForm
+from forms import UserCreationForm, AddMetaForm
 from django.views.generic import CreateView
 
 # Create your views here.
@@ -31,3 +31,15 @@ def home(request):
     'home.html',
     { 'user': request.user }
 )
+
+class AddMeta(CreateView):
+    """
+    Vista de registro de usuario para uso de django. Posee la funcionalidad
+    de crear nuevos usuarios con sus passwords. Hereda de
+    django.views.generic.CreateView
+    """
+    template_name = 'addmeta.html'
+    form_class = AddMetaForm
+    success_url = '/home/'
+
+    

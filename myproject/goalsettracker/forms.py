@@ -4,6 +4,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
+from .models import Metas
+from django.forms import ModelForm
 
 
 # # If you don't do this you cannot use Bootstrap CSS
@@ -27,3 +29,19 @@ class UserRegisterForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class AddMetaForm(ModelForm):
+    
+    class Meta:
+        model = Metas
+        fields = ('_name', '_creationdate', '_finishdate')
+
+    def save(self, commit=True):
+        meta = super(AddMetaForm, self).save(commit=False)
+        meta._name = self.cleaned_data["_name"]
+        meta._creationdate = self.cleaned_data["_creationdate"]
+        meta._finishdate = self.cleaned_data["_finishdate"]
+        if commit:
+            meta.save()
+        return meta

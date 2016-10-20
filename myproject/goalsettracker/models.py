@@ -1,5 +1,9 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
+
+from django.utils import timezone
 
 # Create your models here.
 
@@ -23,6 +27,31 @@ defaultColourList = (
     ("Purple", "800080"),  # rgb(128, 0, 128)
 )
 defaultColour = 0
+
+
+class Metas(models.Model):
+    """
+    Meta Principal
+    """
+
+    id = models.AutoField(primary_key=True)
+    _name = models.CharField(null=False, max_length=100, blank=True)
+    #_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    _creationdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
+    _finishdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
+    #date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
+    #time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
+
+
+
+#class SubMetas(Models.Model):
+#    """
+#    Sub Metas
+#    """
+#    id = models.AutoField(primary_key=True)
+#    _name = models.CharField(max_length=15)
+#    _mp = models.ForeignKey(Metas, on_delete=models.CASCADE)
+        
 
 
 class Categoria(models.Model):
@@ -78,3 +107,4 @@ class Categoria(models.Model):
 
     # default categories
         # TODO definir y crear los modelos de categorias predeterminados.
+
