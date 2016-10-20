@@ -29,6 +29,8 @@ defaultColourList = (
 defaultColour = 0
 
 
+
+
 class Metas(models.Model):
     """
     Meta Principal
@@ -36,11 +38,12 @@ class Metas(models.Model):
 
     id = models.AutoField(primary_key=True)
     _name = models.CharField(null=False, max_length=100, blank=True)
-    #_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    _owner = models.ForeignKey(User, on_delete=models.CASCADE)
     _creationdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
     _finishdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
     #date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
     #time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
+
 
 
 

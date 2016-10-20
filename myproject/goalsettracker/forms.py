@@ -38,8 +38,13 @@ class AddMetaForm(ModelForm):
         fields = ('_name', '_creationdate', '_finishdate')
 
     def save(self, commit=True):
+    	def getuser(request):
+    		current_user = request.user
+    	return current_user.id
+        
         meta = super(AddMetaForm, self).save(commit=False)
         meta._name = self.cleaned_data["_name"]
+        meta.user = getuser()
         meta._creationdate = self.cleaned_data["_creationdate"]
         meta._finishdate = self.cleaned_data["_finishdate"]
         if commit:
