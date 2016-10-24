@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Goal
 
 
 # # If you don't do this you cannot use Bootstrap CSS
@@ -44,3 +45,21 @@ class DeactivateUserForm(forms.ModelForm):
         # to deactivate their account
         is_active = not(self.cleaned_data["is_active"])
         return is_active
+
+
+class AddGoalForm(forms.ModelForm):
+    
+    class Meta:
+        model = Goal
+        fields = ('name', 'creationdate', 'finishdate')
+
+    def save(self, commit=True):
+               
+        goal = super(AddGoalForm, self).save(commit=False)
+        goal._name = self.cleaned_data["name"]
+        goal.user = request.user.id
+        goal._creationdate = self.cleaned_data["creationdate"]
+        goal._finishdate = self.cleaned_data["finishdate"]
+        if commit:
+            goal.save()
+        return goal

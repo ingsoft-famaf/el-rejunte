@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.views.generic import CreateView
-
 from .forms import *
 
 
@@ -57,3 +56,17 @@ def deactivate_user(request):
             # es necesario mandar un mail?
             # email_user(subject, message, from_email=None, **kwargs)
         return render(request, "deactivate_user.html", {"user_form": user_form, })
+
+
+class AddGoal(CreateView):
+    """
+    Vista de agregar meta. Posee la funcionalidad
+    de crear nuevas metas. Hereda de 
+    django.views.generic.CreateView
+    """
+    template_name = 'goals/addgoal.html'
+    form_class = AddGoalForm
+    success_url = '/home/'
+
+def goaldetail(request):
+    return render(request, "goals/goaldetail.html")    

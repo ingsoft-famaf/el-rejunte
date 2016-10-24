@@ -20,7 +20,44 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+{% if user.is_authenticated %}
+<nav class="navbar  navbar-inverse  navbar-fixed-top">
+            <div class="container">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse"
+                        data-target=".navbar-collapse"
+                >
+                    <span class="sr-only"> Toggle navigation</span>
+                    <span class="icon-bar"> </span>
+                    <span class="icon-bar"> </span>
+                    <span class="icon-bar"> </span>
+                </button>
+                <a class="navbar-brand" href="/home"> Goalsettracker</a>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class=""><a href="#">Profile</a></li>
+                        <li><a href="#">Metas</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{ user.username|capfirst }}
+                                <b class="caret"> </b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/home">Home</a></li>
+                                <li><a href="#">Crear Meta</a></li>
+                                <li><a href="#">Crear Categoria</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="/user/password/reset/">Change Password</a></li>
+                                <li><a href="/deactivate_user"> Disable User</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 <div>
+{% endif %}
     {% block content %}
     {% endblock %}
 </div>

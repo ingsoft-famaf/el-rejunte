@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'', include('goalsettracker.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', views.login, {'template_name': 'login.html'}, name='login'),
+    url(r'^accounts/login/$', views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', views.logout, {'next_page': '/login'}),
     url(r'^user/password/reset/$', password_reset, {'post_reset_redirect': '/user/password/reset/done/'}),
     url(r'^user/password/reset/done/$', password_reset_done),
