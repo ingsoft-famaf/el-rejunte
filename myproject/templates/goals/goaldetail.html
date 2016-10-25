@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+
+
+{% block style %}
+   
+
+<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+<link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">
+<link href="../static/css/goaldetail/styles.css" rel="stylesheet">
+<!--Icons-->
+<script src="../static/js/goaldetail/lumino.glyphs.js"></script>
+{% endblock %}
+
+</head>
+<body>
+{% block content %}
+<br>
+<br>
+{% for goal in goal_detail %}
+<div class="col-md-4 md-offset-4 ">
+  <div class="panel panel-blue">
+					<div class="panel-heading dark-overlay"><svg class="glyph stroked clipboard-with-paper"><use xlink:href="#stroked-clipboard-with-paper"></use></svg>{{ goal.name }}</div>
+					<div class="panel-body">
+						<ul class="todo-list">
+							{% for subgoal in subgoal_detail %}
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">{{ subgoal.name }}</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg></a>
+									<a href="#" class="flag"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag"></use></svg></a>
+									<a href="#" class="trash"><svg class="glyph stroked trash"><use xlink:href="#stroked-trash"></use></svg></a>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="panel-footer">
+						<div class="input-group">
+							<input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" />
+							<span class="input-group-btn">
+								<button class="btn btn-primary btn-md" id="btn-todo">Add</button>
+							</span>
+						</div>
+					</div>
+				</div>
+  </div>
+</div>
+{% endfor %}
+
+	
+	<script src="../static/js/goaldetail/bootstrap.min.js"></script>
+	<script src="../static/js/goaldetail/chart.min.js"></script>
+	<script src="../static/js/goaldetail/chart-data.js"></script>
+	<script src="../static/js/goaldetail/easypiechart.js"></script>
+	<script src="../static/js/goaldetail/easypiechart-data.js"></script>
+	<script src="../static/js/goaldetail/bootstrap-datepicker.js"></script>
+	
+	{% endblock %}
+</body>
+
+</html>

@@ -22,8 +22,9 @@ from django.contrib.auth.views import password_reset, password_reset_confirm, pa
 urlpatterns = [
     url(r'', include('goalsettracker.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^home/$', views.login, {'template_name': 'home.html'}, name='login'),
-    url(r'^logout/$', views.logout, {'next_page': '/home'}),
+    url(r'^login/$', views.login, {'template_name': 'login.html'}, name='login'),
+    url(r'^accounts/login/$', views.login, {'template_name': 'login.html'}, name='login'),
+    url(r'^logout/$', views.logout, {'next_page': '/login'}),
     url(r'^user/password/reset/$', password_reset, {'post_reset_redirect': '/user/password/reset/done/'}),
     url(r'^user/password/reset/done/$', password_reset_done),
     url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_confirm,
