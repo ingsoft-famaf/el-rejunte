@@ -10,8 +10,8 @@ urlpatterns = [
     url(r'^login/register$', Register.as_view(), name='register'),
     url(r'^register/', Register.as_view(), name='register'),
     url(r'^deactivate_user$', deactivate_user, name='deactivate_user'),
-    url(r'^home/addgoal/', AddGoal.as_view(), name='addgoal'),
-    url(r'^home/goaldetail/', views.goaldetail, name='goaldetail'),
+    url(r'^addgoal/', AddGoal.as_view() , name='addgoal'),
+    url(r'^goaldetail/', views.goaldetail, name='goaldetail'),
     
 
 ]

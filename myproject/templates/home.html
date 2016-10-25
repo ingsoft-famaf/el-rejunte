@@ -1,5 +1,38 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block style %}
    
+
+<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+<link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">
+<link href="../static/css/goaldetail/styles.css" rel="stylesheet">
+<!--Icons-->
+<script src="../static/js/goaldetail/lumino.glyphs.js"></script>
+{% endblock %}
+{% block content %}
+<br>
+<br>
+{% for goal in user_goals %}
+	{% if goal.state == 'inprogress' %}
+		<div class="col-md-4 md-offset-4 ">
+  			<a href="#"><div class="panel panel-blue">
+				<div class="panel-heading dark-overlay"><svg class="glyph stroked clipboard-with-paper"><use xlink:href="#stroked-clipboard-with-paper"></use></svg>{{ goal.name }}</div></a>
+			</div></a>
+		</div>
+{% endif %}
+	{% if goal.state == 'done' %}
+		<div class="col-md-4 md-offset-4 ">
+  			<a href="#"><div class="panel panel-success">
+				<div class="panel-heading dark-overlay"><svg class="glyph stroked clipboard-with-paper"><use xlink:href="#stroked-clipboard-with-paper"></use></svg>{{ goal.name }}</div>
+				</div>
+		</div></a>
+{% endif %}
+	{% if goal.state == 'fail' %}
+		<div class="col-md-4 md-offset-4 ">
+  			<a href="#"><div class="panel panel-red">
+				<div class="panel-heading dark-overlay"><svg class="glyph stroked clipboard-with-paper"><use xlink:href="#stroked-clipboard-with-paper"></use></svg>{{ goal.name }}</div>
+			</div></a>
+		</div>
+{% endif %}
+{% endfor %}
 {% endblock %}
