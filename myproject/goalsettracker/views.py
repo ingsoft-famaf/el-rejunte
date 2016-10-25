@@ -21,7 +21,7 @@ class Register(CreateView):
     """
     template_name = 'registration/register.html'
     form_class = UserRegisterForm
-    success_url = '/login/'
+    success_url = '/home'
 
 
 @login_required
