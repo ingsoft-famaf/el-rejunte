@@ -70,8 +70,8 @@ TEMPLATES = [
 
 
 LOGIN_REDIRECT_URL = '/home'
-LOGIN_URL = '/home'
-LOGOUT_REDIRECT_URL = '/index'
+
+
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
 
