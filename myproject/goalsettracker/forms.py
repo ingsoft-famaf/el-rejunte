@@ -1,11 +1,9 @@
-import datetime
-from django.utils.timezone import now
 from django import forms
+from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from .models import Goal
-from django.contrib.admin.widgets import AdminDateWidget 
+from django.utils.timezone import now
 
+from .models import *
 
 
 # # If you don't do this you cannot use Bootstrap CSS
@@ -47,22 +45,22 @@ class DeactivateUserForm(forms.ModelForm):
         # a value you don't want, to prevent the form's is_valid
         # method from return true if, say, the user hasn't chosen
         # to deactivate their account
-        is_active = not(self.cleaned_data["is_active"])
+        is_active = not (self.cleaned_data["is_active"])
         return is_active
 
 
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+
 class AddGoalForm(forms.ModelForm):
-    
     class Meta:
         model = Goal
         fields = ('name', 'finishdate', 'owner')
         widgets = {
             'finishdate': DateInput(),
         }
-        
+
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(AddGoalForm, self).__init__(*args, **kwargs)
@@ -71,7 +69,6 @@ class AddGoalForm(forms.ModelForm):
         self.fields['owner'].help_text = 'Selecciona tu nombre de usuario'
 
     def save(self, commit=True):
-        
         goal = super(AddGoalForm, self).save(commit=False)
         goal.name = self.cleaned_data["name"]
         goal.creationdate = now()
@@ -82,3 +79,41 @@ class AddGoalForm(forms.ModelForm):
             goal.save()
         return goal
 
+
+class NewCategoryForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ('name', 'owner', 'colour')
+        # widgets = {
+        #     '_colour': Choises(),
+        # }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(NewCategoryForm, self).__init__(*args, **kwargs)
+        # self.fields['name'].help_text = 'ingresar nombre de meta'
+        # self.fields['colour'].help_text = 'Selecciona el color'
+
+    def save(self, commit=True):
+        cat = super(NewCategoryForm, self).save(commit=False)
+        cat.name = self.cleaned_data["name"]
+        if commit:
+            cat.save()
+        return cat
+# class NewCategoryForm(forms.ModelForm):
+#     class Meta:
+#         model = Categoria
+#         fields = ('_name', '_colour')
+#
+#     def __init__(self, name, owner, *args, **kwargs):
+#         self.name = name
+#         self.owner = owner
+#         self.colour = forms.ChoiceField(choices=defaultColourList)
+#         #super(NewCategoryForm, self).__init__(self.name, self.owner, self.colour)
+#         #self.exclude('_owner')
+#
+#     def save(self, commit=True):
+#         new_cat = super(NewCategoryForm, self).save(commit=False)
+#         new_cat.owner = self.owner
+#         new_cat.name = self.name
+#         new_cat.colour = self.colour
