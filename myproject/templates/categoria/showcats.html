@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+	{% if catlist %}
+	    {% for cat in catlist %}
+	        	<div class="col-md-2 md-offset-2 ">
+  					<div class="panel panel-blue" style="background-color:#{{ cat.colour }}"">
+						<div class="panel-heading dark-overlay">{{ cat.name }}</div>
+						<div class="panel-footer">
+							<div class="input-group">
+								<button class="btn btn-primary btn-md" id="btn-todo">Borrar Categoria</button>
+							</div>
+						</div>
+					</div>
+				  </div>
+				</div>
+	    {% endfor %}
+	{% else %}
+	    <p>No tienes ninguna categoria creada, puedes añadir una <a href="newcategory">aquí</a>.</p>
+	{% endif %}
+		<script src="../static/js/goaldetail/bootstrap.min.js"></script>
+	<script src="../static/js/goaldetail/chart.min.js"></script>
+	<script src="../static/js/goaldetail/chart-data.js"></script>
+	<script src="../static/js/goaldetail/easypiechart.js"></script>
+	<script src="../static/js/goaldetail/easypiechart-data.js"></script>
+	<script src="../static/js/goaldetail/bootstrap-datepicker.js"></script>
+{% endblock content %}

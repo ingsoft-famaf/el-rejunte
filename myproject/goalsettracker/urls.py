@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^addgoal/', AddGoal.as_view() , name='addgoal'),
     url(r'^goaldetail/', views.goaldetail, name='goaldetail'),
     url(r'^newcategory/', NewCategory.as_view(), name='newcategory'),
-
+    url(r'^miscategorias/', views.miscategorias, name='miscategorias'),
+    
 ]
