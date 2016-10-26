@@ -135,3 +135,11 @@ class NewCategory(CreateView):
 #     else:
 #         form = NewCategoryForm("","",request.user)
 #     return render(request, 'categoria/nuevacategoria.html', {'form': form, 'owner': request.user})
+
+
+def miscategorias(request):
+    user = request.user
+    catlist = Categoria.objects.filter(owner=user)
+    template = loader.get_template('categoria/showcats.html')
+    context = {'catlist': catlist,}
+    return HttpResponse(template.render(context, request))
