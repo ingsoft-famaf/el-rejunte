@@ -31,7 +31,7 @@ class Register(CreateView):
 def home(request):
     order = 'id'
     
-    user = currentuser(request)
+    user = request.user
     print user
     
     all_goals = Goal.objects.order_by(order)
@@ -75,12 +75,25 @@ def deactivate_user(request):
 
 @login_required
 def addgoal(request):
-    """
-    Vista de agregar meta. 
-    Crea nuevas metas. 
-    """
-    pk = request.user.id
-    user = User.objects.get(pk=pk)
+    
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = AddGoalForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            user_id = request.user.id
+            user = get_object_or_404(User, pk= user_id)
+            goal = form.save(commit=False)
+            goal.owner = user
+            goal.state = 'inprogress'
+            goal.save()
+            return HttpResponseRedirect('/home')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = AddGoalForm()
+
+    return render(request, 'goals/addgoal.html', {'form': form})
 
 
 @login_required
@@ -105,25 +118,9 @@ def addsubgoal(request, goal_id):
     return render(request, 'goals/addsubgoal.html', {'form': form})
 
 
-class AddGoal(CreateView):
-    """
-    Vista de registro de usuario para uso de django. Posee la funcionalidad
-    de crear nuevos usuarios con sus passwords. Hereda de
-    django.views.generic.CreateView
-    """
-    template_name = 'goals/addgoal.html'
-    form_class = AddGoalForm
-    success_url = '/home'
-
-
-def currentuser(request):
-    user = request.user
-    return user
-
-
 def allgoaldetail(request):
     order = 'id'
-    user = currentuser(request)
+    user = request.user
     print user
     all_goals = Goal.objects.order_by(order)
     user_goals = all_goals.filter(owner = user)

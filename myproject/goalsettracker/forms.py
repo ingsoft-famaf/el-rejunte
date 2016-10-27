@@ -57,24 +57,19 @@ class DateInput(forms.DateInput):
 class AddGoalForm(forms.ModelForm):
     class Meta:
         model = Goal
-        fields = ('name', 'finishdate')
-        widgets = {
-            'finishdate': DateInput(),
-        }
-
+        fields = ('name','finishdate')
+       
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
         super(AddGoalForm, self).__init__(*args, **kwargs)
-        self.fields['name'].help_text = 'ingresar nombre de meta'
-        self.fields['finishdate'] = forms.DateTimeField(widget=AdminDateWidget)
-        self.fields['owner'].help_text = 'Selecciona tu nombre de usuario'
+        self.fields['name'].help_text = 'Ingresar meta'
+        self.fields['finishdate'].help_text = 'yyyy-mm-dd hh:mm:ss'
+
 
     def save(self, commit=True):
         goal = super(AddGoalForm, self).save(commit=False)
         goal.name = self.cleaned_data["name"]
         goal.creationdate = now()
         goal.finishdate = self.cleaned_data["finishdate"]
-        goal.owner = request.user
         goal.state = "inprogress"
         if commit:
             goal.save()
@@ -87,7 +82,6 @@ class AddSubgoalForm(forms.ModelForm):
         fields = ('name',)
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
         super(AddSubgoalForm, self).__init__(*args, **kwargs)
         self.fields['name'].help_text = 'Ingresar submeta'
 
