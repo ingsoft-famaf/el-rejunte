@@ -1,6 +1,11 @@
+import datetime
+from django.utils.timezone import now
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Goal
+from django.contrib.admin.widgets import AdminDateWidget 
+
 
 
 # # If you don't do this you cannot use Bootstrap CSS
@@ -44,3 +49,36 @@ class DeactivateUserForm(forms.ModelForm):
         # to deactivate their account
         is_active = not(self.cleaned_data["is_active"])
         return is_active
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+class AddGoalForm(forms.ModelForm):
+    
+    class Meta:
+        model = Goal
+        fields = ('name', 'finishdate', 'owner')
+        widgets = {
+            'finishdate': DateInput(),
+        }
+        
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(AddGoalForm, self).__init__(*args, **kwargs)
+        self.fields['name'].help_text = 'ingresar nombre de meta'
+        self.fields['finishdate'] = forms.DateTimeField(widget=AdminDateWidget)
+        self.fields['owner'].help_text = 'Selecciona tu nombre de usuario'
+
+    def save(self, commit=True):
+        
+        goal = super(AddGoalForm, self).save(commit=False)
+        goal.name = self.cleaned_data["name"]
+        goal.creationdate = now()
+        goal.finishdate = self.cleaned_data["finishdate"]
+        goal.owner = self.cleaned_data["owner"]
+        goal.state = "inprogress"
+        if commit:
+            goal.save()
+        return goal
+

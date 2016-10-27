@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render_to_response
 from django.views.generic import CreateView
-
 from .forms import *
+from django.http import HttpResponse
+from django.template import loader
+from .models import Goal, Subgoal
 
 
 # Create your views here.
@@ -26,11 +28,21 @@ class Register(CreateView):
 
 @login_required
 def home(request):
-    return render_to_response(
-        'home.html',
-        {'user': request.user}
-    )
-
+    order = 'id'
+    
+    user = currentuser(request)
+    print user
+    
+    all_goals = Goal.objects.order_by(order)
+    user_goals = all_goals.filter(owner = user)
+    
+    template = loader.get_template('home.html')
+    context = {
+        'user': request.user,
+        'user_goals': user_goals,
+    }
+    return HttpResponse(template.render(context, request))
+   
 
 @login_required
 def deactivate_user(request):
@@ -57,3 +69,55 @@ def deactivate_user(request):
             # es necesario mandar un mail?
             # email_user(subject, message, from_email=None, **kwargs)
         return render(request, "deactivate_user.html", {"user_form": user_form, })
+
+@login_required
+def addgoal(request):
+    """
+    Vista de agregar meta. 
+    Crea nuevas metas. 
+    """
+    pk = request.user.id
+    user = User.objects.get(pk=pk)
+    
+
+class AddGoal(CreateView):
+    """
+    Vista de registro de usuario para uso de django. Posee la funcionalidad
+    de crear nuevos usuarios con sus passwords. Hereda de
+    django.views.generic.CreateView
+    """
+    template_name = 'goals/addgoal.html'
+    form_class = AddGoalForm
+    success_url = '/home'
+
+def currentuser(request):
+    user = request.user
+    return user
+
+"""
+def allgoaldetail(request):
+    filtro = 1
+    goal_detail = Goal.objects.filter(pk = filtro)[:1]
+    subgoal_detail = Subgoal.objects.all()
+    template = loader.get_template('goals/goaldetail.html')
+    context = {
+        'goal_detail': goal_detail,
+        'subgoal_detail': subgoal_detail,
+    }
+    return HttpResponse(template.render(context, request))
+"""
+
+
+def goaldetail(request, goal_id):
+    goal_detail = get_object_or_404(Goal, pk= goal_id)
+    #goal_detail = Goal.objects.filter(pk = goal_id)[:1]
+    all_subgoal= Subgoal.objects.all()
+    subgoal_detail = all_subgoal.filter(maingoal = goal_detail)
+    template = loader.get_template('goals/goaldetail.html')
+    context = {
+        'goal_detail': goal_detail,
+        'subgoal_detail': subgoal_detail,
+    }
+    return HttpResponse(template.render(context, request))
+
+
