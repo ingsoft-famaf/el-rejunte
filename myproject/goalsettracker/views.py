@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import loader
 from django.views.generic import CreateView
@@ -82,12 +82,9 @@ def addgoal(request):
     pk = request.user.id
     user = User.objects.get(pk=pk)
 
-"""
+
 @login_required
 def addsubgoal(request, goal_id):
-
-    Vista de agregar meta. 
-    Crea nuevas sub metas. 
 
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -95,19 +92,18 @@ def addsubgoal(request, goal_id):
         # check whether it's valid:
         if form.is_valid():
             goal= get_object_or_404(Goal, pk= goal_id)
-            AddSubgoalForm.save()
-            subgoal.maingoal = goal
-            subgoal.state = False
-            if commit:
-                subgoal.save()
-            return HttpResponseRedirect('/home/')
+            sub = form.save(commit=False)
+            sub.maingoal = goal
+            sub.state = False
+            sub.save()
+            return HttpResponseRedirect('/goal/'+ goal_id)
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = AddSubgoalForm()
 
-    return render(request, 'goals/addsubgoal.html', {'form': form})2Z
-"""
+    return render(request, 'goals/addsubgoal.html', {'form': form})
+
 
 class AddGoal(CreateView):
     """
@@ -117,17 +113,6 @@ class AddGoal(CreateView):
     """
     template_name = 'goals/addgoal.html'
     form_class = AddGoalForm
-    success_url = '/home'
-
-
-class AddSubgoal(CreateView):
-    """
-    Vista de registro de usuario para uso de django. Posee la funcionalidad
-    de crear nuevos usuarios con sus passwords. Hereda de
-    django.views.generic.CreateView
-    """
-    template_name = 'goals/addsubgoal.html'
-    form_class = AddSubgoalForm
     success_url = '/home'
 
 

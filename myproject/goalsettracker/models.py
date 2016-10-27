@@ -31,7 +31,6 @@ class Goal(models.Model):
     Meta Principal
     """
 
-    id = models.AutoField(primary_key=True)
     name = models.CharField(null=False, max_length=100, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     creationdate = models.DateTimeField(null=False)
@@ -47,7 +46,6 @@ class Subgoal(models.Model):
     """
     Sub Metas
     """
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=25)
     maingoal = models.ForeignKey(Goal, on_delete=models.CASCADE)
     state = models.BooleanField(default=False)
@@ -58,7 +56,6 @@ class Categoria(models.Model):
     categoria en la cual se puede encontrar una meta
     """
 
-    id = models.AutoField(primary_key=True)
     name = models.CharField(null=False, max_length=15)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     colour = models.CharField(max_length=10, choices=defaultColourList, default=defaultColourList[defaultColour])

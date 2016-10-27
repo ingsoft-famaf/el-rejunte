@@ -57,7 +57,7 @@ class DateInput(forms.DateInput):
 class AddGoalForm(forms.ModelForm):
     class Meta:
         model = Goal
-        fields = ('name', 'finishdate', 'owner')
+        fields = ('name', 'finishdate')
         widgets = {
             'finishdate': DateInput(),
         }
@@ -74,7 +74,7 @@ class AddGoalForm(forms.ModelForm):
         goal.name = self.cleaned_data["name"]
         goal.creationdate = now()
         goal.finishdate = self.cleaned_data["finishdate"]
-        goal.owner = self.cleaned_data["owner"]
+        goal.owner = request.user
         goal.state = "inprogress"
         if commit:
             goal.save()
@@ -84,18 +84,16 @@ class AddGoalForm(forms.ModelForm):
 class AddSubgoalForm(forms.ModelForm):
     class Meta:
         model = Subgoal
-        fields = ('name', "maingoal")
+        fields = ('name',)
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(AddSubgoalForm, self).__init__(*args, **kwargs)
         self.fields['name'].help_text = 'Ingresar submeta'
-        self.fields['maingoal'].help_text = 'Meta principal'
 
     def save(self, commit=True):
         subgoal = super(AddSubgoalForm, self).save(commit=False)
         subgoal.name = self.cleaned_data["name"]
-        subgoal.maingoal = self.cleaned_data["maingoal"]
         subgoal.state = False
         if commit:
             subgoal.save()
