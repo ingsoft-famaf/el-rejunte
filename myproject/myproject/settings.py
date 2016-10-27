@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'goalsettracker',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +55,7 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +67,10 @@ TEMPLATES = [
         },
     },
 ]
+
+
+LOGIN_REDIRECT_URL = '/home'
+
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
@@ -105,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Argentina/Buenos_Aires'
 
 USE_I18N = True
 
@@ -118,3 +123,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+os.path.join(BASE_DIR, "static"),
+]
+
+
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'goalsettracker@no-reply.com'
+SERVER_EMAIL = 'goalsettracker@no-reply.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'goalsettracker@gmail.com'
+EMAIL_HOST_PASSWORD = 'goalsettracker123'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# if DEBUG:
+#     EMAIL_HOST = 'localhost'
+#     EMAIL_PORT = 1025
+#     EMAIL_HOST_USER = ''
+#     EMAIL_HOST_PASSWORD = ''
+#     EMAIL_USE_TLS = False
+#     DEFAULT_FROM_EMAIL = 'goalsettracker@no-reply.com'

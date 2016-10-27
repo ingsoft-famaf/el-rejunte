@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+  <title>Registro</title>
+</head>
+
+<body>
+
+<div class="row col-md-4">
+<form method="post" action="">
+        {% csrf_token %}
+            {{ form.as_p }}
+        <br>
+          <button class = "col-md-3 btn btn-success" type="submit" value="Register">Register</button>
+          <button class = "col-md-3 btn btn-primary" type="button" onclick="window.location.href='/login'">Login</button>
+</form>
+</div>
+
+    <script src="/static/js/jquery.min.js" type="text/javascript"></script> <!-- A must-have - dont remove it! -->
+    <script src="/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script> <!-- A must-have - dont remove it! -->
+</body>
+</html>
+
+{% endblock %}
+
