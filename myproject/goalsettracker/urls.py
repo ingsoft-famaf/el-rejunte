@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^register/', Register.as_view(), name='register'),
     url(r'^deactivate_user$', deactivate_user, name='deactivate_user'),
     url(r'^addgoal/', AddGoal.as_view() , name='addgoal'),
-    url(r'^goaldetail/', views.goaldetail, name='goaldetail'),
+    url(r'^goal/(?P<goal_id>[0-9]+)$', views.goaldetail, name='goaldetail'),
     
 
 ]

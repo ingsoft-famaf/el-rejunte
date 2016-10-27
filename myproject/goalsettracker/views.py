@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render_to_response
 from django.views.generic import CreateView
 from .forms import *
@@ -32,7 +32,9 @@ def home(request):
     
     user = currentuser(request)
     print user
-    user_goals = Goal.objects.order_by(order)
+    
+    all_goals = Goal.objects.order_by(order)
+    user_goals = all_goals.filter(owner = user)
     
     template = loader.get_template('home.html')
     context = {
@@ -92,8 +94,8 @@ def currentuser(request):
     user = request.user
     return user
 
-
-def goaldetail(request):
+"""
+def allgoaldetail(request):
     filtro = 1
     goal_detail = Goal.objects.filter(pk = filtro)[:1]
     subgoal_detail = Subgoal.objects.all()
@@ -103,3 +105,19 @@ def goaldetail(request):
         'subgoal_detail': subgoal_detail,
     }
     return HttpResponse(template.render(context, request))
+"""
+
+
+def goaldetail(request, goal_id):
+    goal_detail = get_object_or_404(Goal, pk= goal_id)
+    #goal_detail = Goal.objects.filter(pk = goal_id)[:1]
+    all_subgoal= Subgoal.objects.all()
+    subgoal_detail = all_subgoal.filter(maingoal = goal_detail)
+    template = loader.get_template('goals/goaldetail.html')
+    context = {
+        'goal_detail': goal_detail,
+        'subgoal_detail': subgoal_detail,
+    }
+    return HttpResponse(template.render(context, request))
+
+
