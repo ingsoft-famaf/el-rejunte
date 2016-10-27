@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.timezone import now
+from django.shortcuts import get_object_or_404
 
 from .models import *
 
@@ -78,6 +79,27 @@ class AddGoalForm(forms.ModelForm):
         if commit:
             goal.save()
         return goal
+
+
+class AddSubgoalForm(forms.ModelForm):
+    class Meta:
+        model = Subgoal
+        fields = ('name', "maingoal")
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(AddSubgoalForm, self).__init__(*args, **kwargs)
+        self.fields['name'].help_text = 'Ingresar submeta'
+        self.fields['maingoal'].help_text = 'Meta principal'
+
+    def save(self, commit=True):
+        subgoal = super(AddSubgoalForm, self).save(commit=False)
+        subgoal.name = self.cleaned_data["name"]
+        subgoal.maingoal = self.cleaned_data["maingoal"]
+        subgoal.state = False
+        if commit:
+            subgoal.save()
+        return subgoal
 
 
 class NewCategoryForm(forms.ModelForm):

@@ -1,10 +1,6 @@
 from django.contrib.auth.decorators import login_required
-<<<<<<< HEAD
 from django.shortcuts import get_object_or_404, render
-=======
 from django.http import HttpResponse
-from django.shortcuts import render
->>>>>>> 1ed100d5e198bbee02c706a25bddf763f37b6898
 from django.shortcuts import render_to_response
 from django.template import loader
 from django.views.generic import CreateView
@@ -34,24 +30,20 @@ class Register(CreateView):
 @login_required
 def home(request):
     order = 'id'
-
+    
     user = currentuser(request)
     print user
-<<<<<<< HEAD
     
     all_goals = Goal.objects.order_by(order)
     user_goals = all_goals.filter(owner = user)
     
-=======
-    user_goals = Goal.objects.order_by(order)
-
->>>>>>> 1ed100d5e198bbee02c706a25bddf763f37b6898
     template = loader.get_template('home.html')
     context = {
         'user': request.user,
         'user_goals': user_goals,
     }
     return HttpResponse(template.render(context, request))
+
 
 
 @login_required
@@ -90,6 +82,32 @@ def addgoal(request):
     pk = request.user.id
     user = User.objects.get(pk=pk)
 
+"""
+@login_required
+def addsubgoal(request, goal_id):
+
+    Vista de agregar meta. 
+    Crea nuevas sub metas. 
+
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = AddSubgoalForm(request.POST, goal_id)
+        # check whether it's valid:
+        if form.is_valid():
+            goal= get_object_or_404(Goal, pk= goal_id)
+            AddSubgoalForm.save()
+            subgoal.maingoal = goal
+            subgoal.state = False
+            if commit:
+                subgoal.save()
+            return HttpResponseRedirect('/home/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = AddSubgoalForm()
+
+    return render(request, 'goals/addsubgoal.html', {'form': form})2Z
+"""
 
 class AddGoal(CreateView):
     """
@@ -102,23 +120,36 @@ class AddGoal(CreateView):
     success_url = '/home'
 
 
+class AddSubgoal(CreateView):
+    """
+    Vista de registro de usuario para uso de django. Posee la funcionalidad
+    de crear nuevos usuarios con sus passwords. Hereda de
+    django.views.generic.CreateView
+    """
+    template_name = 'goals/addsubgoal.html'
+    form_class = AddSubgoalForm
+    success_url = '/home'
+
+
 def currentuser(request):
     user = request.user
     return user
 
-"""
+
 def allgoaldetail(request):
-    filtro = 1
-    goal_detail = Goal.objects.filter(pk=filtro)[:1]
+    order = 'id'
+    user = currentuser(request)
+    print user
+    all_goals = Goal.objects.order_by(order)
+    user_goals = all_goals.filter(owner = user)
     subgoal_detail = Subgoal.objects.all()
-    template = loader.get_template('goals/goaldetail.html')
+    template = loader.get_template('goals/allgoaldetail.html')
     context = {
-        'goal_detail': goal_detail,
+        'user_goals': user_goals,
         'subgoal_detail': subgoal_detail,
     }
     return HttpResponse(template.render(context, request))
-<<<<<<< HEAD
-"""
+
 
 
 def goaldetail(request, goal_id):
@@ -133,8 +164,10 @@ def goaldetail(request, goal_id):
     }
     return HttpResponse(template.render(context, request))
 
-
-=======
+def subgoalupdate(subgoal_id):
+    subgoal = get_object_or_404(Subgoal, pk= goal_id)
+    subgoal.state = True
+    subgoal.save
 
 
 @login_required
@@ -172,4 +205,3 @@ def miscategorias(request):
     template = loader.get_template('categoria/showcats.html')
     context = {'catlist': catlist,}
     return HttpResponse(template.render(context, request))
->>>>>>> 1ed100d5e198bbee02c706a25bddf763f37b6898

@@ -50,6 +50,7 @@ class Subgoal(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=25)
     maingoal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    state = models.BooleanField(default=False)
 
 
 class Categoria(models.Model):
