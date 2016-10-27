@@ -6,24 +6,24 @@ from django.conf import settings
 
 # Default oolours for categoria.
 defaultColourList = (
-    ("White", "FFFFFF"),  # rgb(255, 255, 255)
-    ("Silver", "C0C0C0"),  # rgb(192, 192, 192)
-    ("Gray", "808080"),  # rgb(128, 128, 128)
-    ("Black", "000000"),  # rgb(0, 0, 0)
-    ("Red", "FF0000"),  # rgb(255, 0, 0)
-    ("Maroon", "800000"),  # rgb(128, 0, 0)
-    ("Yellow", "FFFF00"),  # rgb(255, 255, 0)
-    ("Olive", "808000"),  # rgb(128, 128, 0)
-    ("Lime", "00FF00"),  # rgb(0, 255, 0)
-    ("Green", "008000"),  # rgb(0, 128, 0)
-    ("Aqua", "00FFFF"),  # rgb(0, 255, 255)
-    ("Teal", "008080"),  # rgb(0, 128, 128)
-    ("Blue", "0000FF"),  # rgb(0, 0, 255)
-    ("Navy", "000080"),  # rgb(0, 0, 128)
-    ("Fuchsia", "FF00FF"),  # rgb(255, 0, 255)
-    ("Purple", "800080"),  # rgb(128, 0, 128)
+    ("FFFFFF", "White"),  # rgb(255, 255, 255)
+    ("C0C0C0", "Silver"),  # rgb(192, 192, 192)
+    ("808080", "Gray"),  # rgb(128, 128, 128)
+    ("000000", "Black"),  # rgb(0, 0, 0)
+    ("FF0000", "Red"),  # rgb(255, 0, 0)
+    ("800000", "Maroon"),  # rgb(128, 0, 0)
+    ("FFFF00", "Yellow"),  # rgb(255, 255, 0)
+    ("808000", "Olive"),  # rgb(128, 128, 0)
+    ("00FF00", "Lime"),  # rgb(0, 255, 0)
+    ("008000", "Green"),  # rgb(0, 128, 0)
+    ("00FFFF", "Aqua"),  # rgb(0, 255, 255)
+    ("008080", "Teal"),  # rgb(0, 128, 128)
+    ("0000FF", "Blue"),  # rgb(0, 0, 255)
+    ("000080", "Navy"),  # rgb(0, 0, 128)
+    ("FF00FF", "Fuchsia"),  # rgb(255, 0, 255)
+    ("800080", "Purple"),  # rgb(128, 0, 128)
 )
-defaultColour = 0
+defaultColour = 5
 
 
 class Goal(models.Model):
@@ -58,50 +58,50 @@ class Categoria(models.Model):
     """
 
     id = models.AutoField(primary_key=True)
-    _name = models.CharField(max_length=15)
-    _owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    _colour = models.CharField(max_length=10, choices=defaultColourList, default=defaultColourList[defaultColour])
+    name = models.CharField(null=False, max_length=15)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    colour = models.CharField(max_length=10, choices=defaultColourList, default=defaultColourList[defaultColour])
 
-    def __init__(self, name, user, colour=defaultColourList[defaultColour]):
-        super(Categoria, self).__init__(name, user, colour)
-        self._name = name
-        self._owner = user
-        self._colour = colour
-
-    def __str__(self):  # __unicode__ on Python 2
-        return self._name
-
-    @property
-    def colour(self):
-        """
-        Return the hexadecimal colour of this object
-        """
-        return self._colour[1]
-
-    @colour.setter
-    def colour(self, value):
-        """
-        set the tuple colour for this object
-        :return
-        """
-        if value in defaultColourList:
-            self._colour = value
-        else:
-            # TODO raise an error if colour is not permited
-            pass
-    @property
-    def colourName(self):
-        """
-        Return the name colour of this object
-        """
-        return self._colour[0]
-
-    @property
-    def name(self):
-        """
-        Return the name of this object
-        """
-        return self._name
-
-    # default categories
-        # TODO definir y crear los modelos de categorias predeterminados.
+    # def __init__(self):
+    #     super(Categoria, self).__init__(name, user, colour)
+    #     self._name = name
+    #     self._owner = user
+    #     self._colour = colour
+    #
+    # def __str__(self):  # __unicode__ on Python 2
+    #     return self._name
+    #
+    # @property
+    # def colour(self):
+    #     """
+    #     Return the hexadecimal colour of this object
+    #     """
+    #     return self._colour[1]
+    #
+    # @colour.setter
+    # def colour(self, value):
+    #     """
+    #     set the tuple colour for this object
+    #     :return
+    #     """
+    #     if value in defaultColourList:
+    #         self._colour = value
+    #     else:
+    #         # TODO raise an error if colour is not permited
+    #         pass
+    # @property
+    # def colourName(self):
+    #     """
+    #     Return the name colour of this object
+    #     """
+    #     return self._colour[0]
+    #
+    # @property
+    # def name(self):
+    #     """
+    #     Return the name of this object
+    #     """
+    #     return self._name
+    #
+    # # default categories
+    #     # TODO definir y crear los modelos de categorias predeterminados.
