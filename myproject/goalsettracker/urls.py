@@ -17,5 +17,4 @@ urlpatterns = [
     url(r'^newcategory/', NewCategory.as_view(), name='newcategory'),
     url(r'^miscategorias/', views.miscategorias, name='miscategorias'),
 
-    
 ]

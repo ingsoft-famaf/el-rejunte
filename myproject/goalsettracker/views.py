@@ -136,15 +136,19 @@ def allgoaldetail(request):
 
 def goaldetail(request, goal_id):
     goal_detail = get_object_or_404(Goal, pk= goal_id)
-    #goal_detail = Goal.objects.filter(pk = goal_id)[:1]
-    all_subgoal= Subgoal.objects.all()
-    subgoal_detail = all_subgoal.filter(maingoal = goal_detail)
-    template = loader.get_template('goals/goaldetail.html')
-    context = {
-        'goal_detail': goal_detail,
-        'subgoal_detail': subgoal_detail,
-    }
-    return HttpResponse(template.render(context, request))
+    if goal_detail.owner != request.user:
+        response = HttpResponse("You do not have permission to view this.")
+        response.status_code = 403
+        return response
+    else:
+        all_subgoal= Subgoal.objects.all()
+        subgoal_detail = all_subgoal.filter(maingoal = goal_detail)
+        template = loader.get_template('goals/goaldetail.html')
+        context = {
+            'goal_detail': goal_detail,
+            'subgoal_detail': subgoal_detail,
+         }
+        return HttpResponse(template.render(context, request))
 
 def subgoalupdate(subgoal_id):
     subgoal = get_object_or_404(Subgoal, pk= goal_id)

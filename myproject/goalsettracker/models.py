@@ -32,14 +32,15 @@ class Goal(models.Model):
     """
 
     name = models.CharField(null=False, max_length=100, blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     creationdate = models.DateTimeField(null=False)
     finishdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
     state = models.CharField(null=False, max_length=10, blank=True)
     #date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
     #time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
 
-
+    def __str__(self):
+        return self.name
 
 
 class Subgoal(models.Model):
@@ -49,6 +50,9 @@ class Subgoal(models.Model):
     name = models.CharField(max_length=25)
     maingoal = models.ForeignKey(Goal, on_delete=models.CASCADE)
     state = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
 
 
 class Categoria(models.Model):
