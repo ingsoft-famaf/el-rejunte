@@ -14,8 +14,7 @@ urlpatterns = [
     url(r'^goal/(?P<goal_id>[0-9]+)$', views.goaldetail, name='goaldetail'),
     url(r'^goal/(?P<goal_id>[0-9]+)/addsubgoal/$', views.addsubgoal, name='addsubgoal'),
     url(r'^allgoaldetail/', views.allgoaldetail, name='allgoaldetail'),
-    url(r'^newcategory/', NewCategory.as_view(), name='newcategory'),
+    url(r'^newcategory/', views.NewCategory, name='newcategory'),
     url(r'^miscategorias/', views.miscategorias, name='miscategorias'),
 
-    
 ]

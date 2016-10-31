@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.conf import settings
 
+
 # Create your models here.
 
 # Default oolours for categoria.
@@ -25,6 +26,17 @@ defaultColourList = (
 )
 defaultColour = 5
 
+class Categoria(models.Model):
+    """
+    categoria en la cual se puede encontrar una meta
+    """
+
+    name = models.CharField(null=False, max_length=15)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    colour = models.CharField(max_length=10, choices=defaultColourList, default=defaultColourList[defaultColour])
+
+    def __str__(self):
+        return self.name
 
 class Goal(models.Model):
     """
@@ -32,14 +44,16 @@ class Goal(models.Model):
     """
 
     name = models.CharField(null=False, max_length=100, blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     creationdate = models.DateTimeField(null=False)
     finishdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
     state = models.CharField(null=False, max_length=10, blank=True)
+    category = models.ForeignKey(Categoria, on_delete=models.CASCADE,null=True)
     #date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
     #time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
 
-
+    def __str__(self):
+        return self.name
 
 
 class Subgoal(models.Model):
@@ -50,15 +64,11 @@ class Subgoal(models.Model):
     maingoal = models.ForeignKey(Goal, on_delete=models.CASCADE)
     state = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
 
-class Categoria(models.Model):
-    """
-    categoria en la cual se puede encontrar una meta
-    """
 
-    name = models.CharField(null=False, max_length=15)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    colour = models.CharField(max_length=10, choices=defaultColourList, default=defaultColourList[defaultColour])
+
 
     # def __init__(self):
     #     super(Categoria, self).__init__(name, user, colour)
