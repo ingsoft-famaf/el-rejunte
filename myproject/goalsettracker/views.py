@@ -166,10 +166,33 @@ def newcategory(request):
     user = User.objects.get(pk=pk)
 
 
-class NewCategory(CreateView):
-    template_name = 'categoria/nuevacategoria.html'
-    form_class = NewCategoryForm
-    success_url = '/home'
+@login_required
+def NewCategory(request):
+    
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = NewCategoryForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            user_id = request.user.id
+            user = get_object_or_404(User, pk= user_id)
+            category = form.save(commit=False)
+            category.owner = user
+            category.save()
+            return HttpResponseRedirect('/home')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NewCategoryForm()
+
+    return render(request, 'categoria/nuevacategoria.html', {'form': form})
+
+
+
+
+
+
+
 
 
 # def new_category(request):
@@ -184,10 +207,15 @@ class NewCategory(CreateView):
 #         form = NewCategoryForm("","",request.user)
 #     return render(request, 'categoria/nuevacategoria.html', {'form': form, 'owner': request.user})
 
-
+@login_required
 def miscategorias(request):
     user = request.user
     catlist = Categoria.objects.filter(owner=user)
+    if catlist:
+        if catlist[0].owner != user:
+            response = HttpResponse("You do not have permission to view this.")
+            response.status_code = 403
+            return response            
     template = loader.get_template('categoria/showcats.html')
     context = {'catlist': catlist,}
     return HttpResponse(template.render(context, request))

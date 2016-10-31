@@ -6,6 +6,9 @@ from django.shortcuts import get_object_or_404
 
 from .models import *
 
+from django import forms
+from django.contrib.admin import widgets  
+
 
 # # If you don't do this you cannot use Bootstrap CSS
 # class LoginForm(AuthenticationForm):
@@ -53,17 +56,15 @@ class DeactivateUserForm(forms.ModelForm):
 class DateInput(forms.DateInput):
     input_type = 'date'
 
-
 class AddGoalForm(forms.ModelForm):
     class Meta:
         model = Goal
-        fields = ('name','finishdate')
-       
+        fields = ('name', 'finishdate', 'category')
     def __init__(self, *args, **kwargs):
         super(AddGoalForm, self).__init__(*args, **kwargs)
         self.fields['name'].help_text = 'Ingresar meta'
-        self.fields['finishdate'].help_text = 'yyyy-mm-dd hh:mm:ss'
-
+        self.fields['category'].help_text = 'Ingresa categoria'
+        self.fields['finishdate'].widget = widgets.AdminTimeWidget()
 
     def save(self, commit=True):
         goal = super(AddGoalForm, self).save(commit=False)
@@ -97,7 +98,7 @@ class AddSubgoalForm(forms.ModelForm):
 class NewCategoryForm(forms.ModelForm):
     class Meta:
         model = Categoria
-        fields = ('name', 'owner', 'colour')
+        fields = ('name',)
         # widgets = {
         #     '_colour': Choises(),
         # }
