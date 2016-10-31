@@ -97,11 +97,11 @@ def addgoal(request, goal_id=None):
 @login_required
 def delete_goal(request, goal_id):
 
+    goal = Goal.objects.get(pk = goal_id)
     if goal.owner != request.user:
         response = HttpResponse("You do not have permission to do this.")
         response.status_code = 403
         return response
-    goal = Goal.objects.get(pk = goal_id)
     goal.delete()
     return HttpResponseRedirect('/home')
 
