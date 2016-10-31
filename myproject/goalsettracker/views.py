@@ -72,29 +72,38 @@ def deactivate_user(request):
             # email_user(subject, message, from_email=None, **kwargs)
         return render(request, "deactivate_user.html", {"user_form": user_form, })
 
-
 @login_required
-def addgoal(request):
-    
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = AddGoalForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            user_id = request.user.id
-            user = get_object_or_404(User, pk= user_id)
-            goal = form.save(commit=False)
-            goal.owner = user
-            goal.state = 'inprogress'
-            goal.save()
-            return HttpResponseRedirect('/home')
+def addgoal(request, goal_id=None):
 
-    # if a GET (or any other method) we'll create a blank form
+    if goal_id:
+        goal = get_object_or_404(Goal, pk= goal_id)
+        goal.last_modification = now()
+        if goal.owner != request.user:
+            response = HttpResponse("You do not have permission to do this.")
+            response.status_code = 403
+            return response
     else:
-        form = AddGoalForm()
+        goal = Goal()
+        goal.owner = request.user
+        goal.state = 'inprogress'
+
+    form = AddGoalForm(request.POST or None, instance = goal)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/home')
 
     return render(request, 'goals/addgoal.html', {'form': form})
 
+@login_required
+def delete_goal(request, goal_id):
+
+    if goal.owner != request.user:
+        response = HttpResponse("You do not have permission to do this.")
+        response.status_code = 403
+        return response
+    goal = Goal.objects.get(pk = goal_id)
+    goal.delete()
+    return HttpResponseRedirect('/home')
 
 @login_required
 def addsubgoal(request, goal_id):
