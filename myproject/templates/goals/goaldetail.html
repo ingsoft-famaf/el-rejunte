@@ -79,7 +79,12 @@
                </div>
                </div>
                <br>
+
 {% endif %}
+
+
+
+
 
 {% if goal_detail.state == 'fail' %}
 <div class="row">
@@ -90,6 +95,14 @@
                </div>
                <br>
 {% endif %}
+
+<div class="row">
+<div class="col-md-4 col-md-offset-4">
+                 <a class="btn btn-lg btn-success btn-block" href="{% url 'modify_goal' goal_detail.id %}" role="button">
+                    <i class="fb-login-button"></i> Modificar Meta </a>
+               </div>
+               </div>
+               <br>
 
 <div class="row">
 <div class="col-md-4 col-md-offset-4">
