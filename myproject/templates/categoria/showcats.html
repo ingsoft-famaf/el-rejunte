@@ -1,26 +1,33 @@
 {% extends 'base.html' %}
+
 {% block content %}
-	{% if catlist %}
-	    {% for cat in catlist %}
-	        	<div class="col-md-2 md-offset-2 ">
-  					<div class="panel panel-blue" style="background-color:#{{ cat.colour }}"">
-						<div class="panel-heading dark-overlay">{{ cat.name }}</div>
-						<div class="panel-footer">
-							<div class="input-group">
-								<button class="btn btn-primary btn-md" id="btn-todo">Borrar Categoria</button>
-							</div>
-						</div>
-					</div>
-				  </div>
-				</div>
-	    {% endfor %}
-	{% else %}
-	    <p>No tienes ninguna categoria creada, puedes añadir una <a href="../newcategory">aquí</a>.</p>
-	{% endif %}
-		<script src="../static/js/goaldetail/bootstrap.min.js"></script>
-	<script src="../static/js/goaldetail/chart.min.js"></script>
-	<script src="../static/js/goaldetail/chart-data.js"></script>
-	<script src="../static/js/goaldetail/easypiechart.js"></script>
-	<script src="../static/js/goaldetail/easypiechart-data.js"></script>
-	<script src="../static/js/goaldetail/bootstrap-datepicker.js"></script>
+    {% if catlist %}
+        {% for category in catlist %}
+            <div class="col-md-4 md-offset-4">
+                <div class="panel panel-warning">
+                    <div class="panel-heading dark-overlay">{{ category.name }}</div>
+                        </br>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4">
+                                <a class="btn btn-lg btn-success btn-block" href="{% url 'newcategory' category.id%}" role="button">
+                                    <i class="fb-login-button"></i> Editar
+                                </a>
+                            </div>
+                        </div>
+                        </br>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4">
+                                <a class="btn btn-lg btn-danger btn-block" href="{% url 'delete_category' category.id %}" role="button">
+                                    <i class="fb-login-button"></i> Borrar
+                                </a>
+                            </div>
+                        </div>
+                        </br>
+                    </div>
+               </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
 {% endblock content %}
+

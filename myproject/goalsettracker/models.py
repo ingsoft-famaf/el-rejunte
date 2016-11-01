@@ -34,6 +34,7 @@ class Categoria(models.Model):
     name = models.CharField(null=False, max_length=15)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     colour = models.CharField(max_length=10, choices=defaultColourList, default=defaultColourList[defaultColour])
+    last_modification = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.name
