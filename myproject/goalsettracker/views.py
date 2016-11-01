@@ -185,6 +185,11 @@ def completesubgoal(request, goal_id, subgoal_id):
     subgoal.save()
     return HttpResponseRedirect('/goal/'+ goal_id)
 
+def deletesubgoal(request, goal_id, subgoal_id):
+    subgoal = get_object_or_404(Subgoal, pk= subgoal_id)
+    subgoal.delete()
+    return HttpResponseRedirect('/goal/'+ goal_id)
+
 def subgoalupdate(subgoal_id):
     subgoal = get_object_or_404(Subgoal, pk= goal_id)
     subgoal.state = True
