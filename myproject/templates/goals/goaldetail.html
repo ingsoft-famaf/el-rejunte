@@ -38,7 +38,7 @@
 							<li class="todo-list-item">
 								<div class="checkbox">
 									{% if subgoal.state == False %}
-									<input type="checkbox" id="checkbox" />
+									<a href="{% url 'completesubgoal' goal_detail.id subgoal.id %}"><input type="checkbox" id="checkbox" class="checkbox"/></a>
 									{% endif %}
 									{% if subgoal.state == True %}
 									<span class="flag"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag"></use></svg></a>
@@ -124,15 +124,16 @@
                </div>
                </div>
 
-
-<script>
-    $('#checkbox1').change(function() {
-   	  if($(this).is(":checked")) {
-        subgoal_detail.state = True
-      return;
-    }
-   //'unchecked' event code
-});
+<script type="text/javascript">
+	$(function(){
+  		$("input[type='checkbox']").change(function(){
+  		var item=$(this);
+  		var sub = $(this).val(); 
+  		if(item.is(":checked")){
+    		window.location.href= item.data("target")
+  		}    
+ 		});
+	});
 </script>
         
 	<script src="../static/js/goaldetail/bootstrap.min.js"></script>

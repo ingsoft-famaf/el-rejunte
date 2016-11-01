@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import loader
 from django.views.generic import CreateView
+from django.utils.timezone import now
 
 from .forms import *
 from .models import Goal, Subgoal, Categoria
@@ -154,7 +155,6 @@ def allgoaldetail(request):
     return HttpResponse(template.render(context, request))
 
 
-
 def goaldetail(request, goal_id):
     goal_detail = get_object_or_404(Goal, pk= goal_id)
     if goal_detail.owner != request.user:
@@ -170,6 +170,20 @@ def goaldetail(request, goal_id):
             'subgoal_detail': subgoal_detail,
          }
         return HttpResponse(template.render(context, request))
+"""
+def goalupdate(goal_id):
+    now = now()
+    goal = get_object_or_404(Goal, pk= goal_id)
+    if ((goal.state == 'inprogress') and (goal.finishdate < now)){
+        goal.state = 'fail'
+    }
+"""
+
+def completesubgoal(request, goal_id, subgoal_id):
+    subgoal = get_object_or_404(Subgoal, pk= subgoal_id)
+    subgoal.state = True
+    subgoal.save()
+    return HttpResponseRedirect('/goal/'+ goal_id)
 
 def subgoalupdate(subgoal_id):
     subgoal = get_object_or_404(Subgoal, pk= goal_id)
