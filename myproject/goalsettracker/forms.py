@@ -56,6 +56,26 @@ class DeactivateUserForm(forms.ModelForm):
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+class NewCategoryForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ('name',)
+        # widgets = {
+        #     '_colour': Choises(),
+        # }
+
+    def __init__(self, *args, **kwargs):
+        super(NewCategoryForm, self).__init__(*args, **kwargs)
+        self.fields['name'].help_text = 'ingresar nombre de meta'
+            #self.fields['colour'].help_text = 'Selecciona el color'
+
+    def save(self, commit=True):
+        cat = super(NewCategoryForm, self).save(commit=False)
+        cat.name = self.cleaned_data["name"]
+        if commit:
+            cat.save()
+        return cat
+
 class AddGoalForm(forms.ModelForm):
     class Meta:
         model = Goal
@@ -95,26 +115,6 @@ class AddSubgoalForm(forms.ModelForm):
         return subgoal
 
 
-class NewCategoryForm(forms.ModelForm):
-    class Meta:
-        model = Categoria
-        fields = ('name',)
-        # widgets = {
-        #     '_colour': Choises(),
-        # }
-
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        super(NewCategoryForm, self).__init__(*args, **kwargs)
-        # self.fields['name'].help_text = 'ingresar nombre de meta'
-        # self.fields['colour'].help_text = 'Selecciona el color'
-
-    def save(self, commit=True):
-        cat = super(NewCategoryForm, self).save(commit=False)
-        cat.name = self.cleaned_data["name"]
-        if commit:
-            cat.save()
-        return cat
 # class NewCategoryForm(forms.ModelForm):
 #     class Meta:
 #         model = Categoria

@@ -15,8 +15,11 @@ urlpatterns = [
     url(r'^goal/(?P<goal_id>[0-9]+)/addsubgoal/$', views.addsubgoal, name='addsubgoal'),
     url(r'^goal/(?P<goal_id>[0-9]+)/modify_goal/$', views.addgoal, name='modify_goal'),
     url(r'^goal/(?P<goal_id>[0-9]+)/delete_goal/$', views.delete_goal, name='delete_goal'),
+    url(r'^miscategorias/(?P<category_id>[0-9]+)/delete_category/$', views.delete_category, name='delete_category'),
     url(r'^allgoaldetail/', views.allgoaldetail, name='allgoaldetail'),
-    url(r'^newcategory/', views.NewCategory, name='newcategory'),
+    url(r'^newcategory/', views.new_category, name='newcategory'),
+    url(r'^miscategorias/(?P<category_id>[0-9]+)/edit_category', views.new_category, name='newcategory'),
     url(r'^miscategorias/', views.miscategorias, name='miscategorias'),
+    #url(r'^miscategorias/(?P<category_id>[0-9]+)/delete', views.delete_category, name='delete_category'),
 
 ]

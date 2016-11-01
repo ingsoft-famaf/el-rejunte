@@ -106,6 +106,18 @@ def delete_goal(request, goal_id):
     return HttpResponseRedirect('/home')
 
 @login_required
+def delete_category(request, category_id):
+
+    category = Categoria.objects.get(pk = category_id)
+    if category.owner != request.user:
+        response = HttpResponse("You do not have permission to do this.")
+        response.status_code = 403
+        return response
+    category.delete()
+    return HttpResponseRedirect('/miscategorias')
+
+
+@login_required
 def addsubgoal(request, goal_id):
 
     if request.method == 'POST':
@@ -176,28 +188,26 @@ def newcategory(request):
 
 
 @login_required
-def NewCategory(request):
-    
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = NewCategoryForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            user_id = request.user.id
-            user = get_object_or_404(User, pk= user_id)
-            category = form.save(commit=False)
-            category.owner = user
-            category.save()
-            return HttpResponseRedirect('/home')
+def new_category(request, category_id=None):
 
-    # if a GET (or any other method) we'll create a blank form
+
+    if category_id:
+        category = get_object_or_404(Categoria, pk= category_id)
+        category.last_modification = now()
+        if category.owner != request.user:
+            response = HttpResponse("You do not have permission to do this.")
+            response.status_code = 403
+            return response
     else:
-        form = NewCategoryForm()
+        category = Categoria()
+        category.owner = request.user
+
+    form = NewCategoryForm(request.POST or None, instance = category)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/miscategorias')
 
     return render(request, 'categoria/nuevacategoria.html', {'form': form})
-
-
-
 
 
 
