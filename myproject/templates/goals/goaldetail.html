@@ -63,8 +63,8 @@
 						</div>-->
 
 						<div class="container-fluid">
-						<span class="label label-default pull-left">Creada el {{ goal_detail.creationdate }}</span>
-						<span class="label label-danger pull-right">Finaliza el {{ goal_detail.finishdate }}</span>
+						<span class="label label-default pull-left">Creada: {{ goal_detail.creationdate }}</span>
+						<span class="label label-danger pull-right">Finaliza: {{ goal_detail.finishdate }}</span>
                         </br>
                         <span class="label label-success pull-right">Categoria: {{ goal_detail.category.name }}</span>
 						</div>
@@ -126,13 +126,15 @@
 
 
 <script>
-$(document).ready(function() {
-    $(".my_form input[type=checkbox]").change(function() {
+    $('#checkbox1').change(function() {
+   	  if($(this).is(":checked")) {
         subgoal_detail.state = True
-    });
+      return;
+    }
+   //'unchecked' event code
 });
 </script>
-
+        
 	<script src="../static/js/goaldetail/bootstrap.min.js"></script>
 	<script src="../static/js/goaldetail/chart.min.js"></script>
 	<script src="../static/js/goaldetail/chart-data.js"></script>
