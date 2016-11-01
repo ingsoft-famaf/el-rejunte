@@ -38,7 +38,7 @@
 							<li class="todo-list-item">
 								<div class="checkbox">
 									{% if subgoal.state == False %}
-									<input type="checkbox" id="checkbox" />
+									<a href="{% url 'completesubgoal' goal_detail.id subgoal.id %}"><input type="checkbox" id="checkbox" class="checkbox"/></a>
 									{% endif %}
 									{% if subgoal.state == True %}
 									<span class="flag"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag"></use></svg></a>
@@ -48,7 +48,7 @@
 								<div class="pull-right action-buttons">
 									<a href="#"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg></a>
 									
-									<a href="#" class="trash"><svg class="glyph stroked trash"><use xlink:href="#stroked-trash"></use></svg></a>
+									<a href="{% url 'deletesubgoal' goal_detail.id subgoal.id %}" class="trash"><svg class="glyph stroked trash"><use xlink:href="#stroked-trash"></use></svg></a>
 								</div>
 							</li>
 							{% endfor %}
@@ -63,8 +63,8 @@
 						</div>-->
 
 						<div class="container-fluid">
-						<span class="label label-default pull-left">Creada el {{ goal_detail.creationdate }}</span>
-						<span class="label label-danger pull-right">Finaliza el {{ goal_detail.finishdate }}</span>
+						<span class="label label-default pull-left">Creada: {{ goal_detail.creationdate }}</span>
+						<span class="label label-danger pull-right">Finaliza: {{ goal_detail.finishdate }}</span>
                         </br>
                         <span class="label label-success pull-right">Categoria: {{ goal_detail.category.name }}</span>
 						</div>
@@ -73,7 +73,6 @@
   </div>
 </div>
 
-{% if goal_detail.state == 'inprogress' %}
 <div class="row">
 <div class="col-md-4 col-md-offset-4">
                  <a class="btn btn-lg btn-primary btn-block" href="{% url 'addsubgoal' goal_detail.id %}" role="button">
@@ -82,16 +81,10 @@
                </div>
                <br>
 
-{% endif %}
-
-
-
-
-
 {% if goal_detail.state == 'fail' %}
 <div class="row">
 <div class="col-md-4 col-md-offset-4">
-                 <a class="btn btn-lg btn-warning btn-block" href="#" role="button">
+                 <a class="btn btn-lg btn-warning btn-block" href="{% url 'addmoretime' goal_detail.id %}" role="button">
                     <i class="fb-login-button"></i> Agregar mas tiempo </a>
                </div>
                </div>
@@ -124,15 +117,18 @@
                </div>
                </div>
 
-
-<script>
-$(document).ready(function() {
-    $(".my_form input[type=checkbox]").change(function() {
-        subgoal_detail.state = True
-    });
-});
+<script type="text/javascript">
+	$(function(){
+  		$("input[type='checkbox']").change(function(){
+  		var item=$(this);
+  		var sub = $(this).val(); 
+  		if(item.is(":checked")){
+    		window.location.href= item.data("target")
+  		}    
+ 		});
+	});
 </script>
-
+        
 	<script src="../static/js/goaldetail/bootstrap.min.js"></script>
 	<script src="../static/js/goaldetail/chart.min.js"></script>
 	<script src="../static/js/goaldetail/chart-data.js"></script>
