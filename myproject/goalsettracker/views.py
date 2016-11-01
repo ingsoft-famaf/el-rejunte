@@ -1,3 +1,5 @@
+from django.core.mail import EmailMessage
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -7,6 +9,8 @@ from django.views.generic import CreateView
 
 from .forms import *
 from .models import Goal, Subgoal, Categoria
+
+from django.utils import timezone
 
 
 # Create your views here.
@@ -29,14 +33,23 @@ class Register(CreateView):
 
 @login_required
 def home(request):
-    order = 'id'
-    
+
+
     user = request.user
-    print user
-    
-    all_goals = Goal.objects.order_by(order)
+
+    all_goals = Goal.objects.order_by('-creationdate')
     user_goals = all_goals.filter(owner = user)
-    
+
+    for goal in user_goals:
+        if goal.was_over():
+            subject = 'GST - El tiempo de una meta expirado.'
+            goal_str = ' ' + str(goal.name) + ' '
+            message = 'La meta'+ goal_str + 'ha expirado.\n'
+            message += 'http://127.0.0.1:8000/goal/9.\n'
+            to = [goal.owner.email]
+            EmailMessage(subject, message, to=to).send()
+
+
     template = loader.get_template('home.html')
     context = {
         'user': request.user,

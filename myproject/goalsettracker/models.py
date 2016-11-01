@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 
 # Create your models here.
@@ -55,6 +56,12 @@ class Goal(models.Model):
 
     def __str__(self):
         return self.name
+
+    def was_published_recently(self):
+        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+    def was_over(self):
+        return self.finishdate < timezone.now()
 
 
 class Subgoal(models.Model):
