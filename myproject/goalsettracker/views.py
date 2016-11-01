@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from django.template import loader
 from django.views.generic import CreateView
 from django.utils.timezone import now
+from django.core.mail import send_mail
 
 from .forms import *
 from .models import Goal, Subgoal, Categoria
@@ -26,10 +27,19 @@ class Register(CreateView):
     template_name = 'registration/register.html'
     form_class = UserRegisterForm
     success_url = '/login/'
-
-
+"""
+send_mail(
+    'Subject here',
+    'Here is the message.',
+    'from@example.com',
+    ['to@example.com'],
+    fail_silently=False,
+)
+"""
 @login_required
 def home(request):
+
+    
     order = 'id'
     
     user = request.user
@@ -139,7 +149,7 @@ def addsubgoal(request, goal_id):
 
     return render(request, 'goals/addsubgoal.html', {'form': form})
 
-
+@login_required
 def allgoaldetail(request):
     order = 'id'
     user = request.user
@@ -154,8 +164,9 @@ def allgoaldetail(request):
     }
     return HttpResponse(template.render(context, request))
 
-
+@login_required
 def goaldetail(request, goal_id):
+    goalupdate(request, goal_id)
     goal_detail = get_object_or_404(Goal, pk= goal_id)
     if goal_detail.owner != request.user:
         response = HttpResponse("You do not have permission to view this.")
@@ -170,31 +181,58 @@ def goaldetail(request, goal_id):
             'subgoal_detail': subgoal_detail,
          }
         return HttpResponse(template.render(context, request))
-"""
-def goalupdate(goal_id):
-    now = now()
-    goal = get_object_or_404(Goal, pk= goal_id)
-    if ((goal.state == 'inprogress') and (goal.finishdate < now)){
-        goal.state = 'fail'
-    }
-"""
 
+@login_required
+def goalupdate(request, goal_id):
+    goal = get_object_or_404(Goal, pk= goal_id)
+    all_subgoal= Subgoal.objects.all()
+    subgoals = all_subgoal.filter(maingoal = goal)
+    complete = True
+    
+    if goal.state == 'inprogress' and goal.finishdate < now():
+        goal.state = 'fail'
+        goal.save()
+       
+    if goal.state == 'inprogress' or goal.state == 'done':
+        for subs in subgoals:
+            if subs.state == False:
+                complete = False
+        if complete == True:
+            goal.state = 'done'
+            goal.save()
+            
+        if complete == False:
+            goal.state = 'inprogress'
+            goal.save()
+
+@login_required
+def allgoalupdate():
+    all_goals = Subgoal.objects.all()
+    for goals in all_goals:
+        goalupdate(goals.id)
+
+@login_required
+def addmoretime(request, goal_id):
+    return HttpResponseRedirect('/home')
+
+@login_required
 def completesubgoal(request, goal_id, subgoal_id):
     subgoal = get_object_or_404(Subgoal, pk= subgoal_id)
     subgoal.state = True
     subgoal.save()
     return HttpResponseRedirect('/goal/'+ goal_id)
 
+@login_required
 def deletesubgoal(request, goal_id, subgoal_id):
     subgoal = get_object_or_404(Subgoal, pk= subgoal_id)
     subgoal.delete()
     return HttpResponseRedirect('/goal/'+ goal_id)
 
+@login_required
 def subgoalupdate(subgoal_id):
     subgoal = get_object_or_404(Subgoal, pk= goal_id)
     subgoal.state = True
     subgoal.save
-
 
 @login_required
 def newcategory(request):
