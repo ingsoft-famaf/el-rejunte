@@ -45,7 +45,7 @@ def home(request):
             subject = 'GST - El tiempo de una meta expirado.'
             goal_str = ' ' + str(goal.name) + ' '
             message = 'La meta'+ goal_str + 'ha expirado.\n'
-            message += 'http://127.0.0.1:8000/goal/9.\n'
+            message += 'http://127.0.0.1:8000/goal/' + str(goal.id) +'\n'
             to = [goal.owner.email]
             EmailMessage(subject, message, to=to).send()
 
