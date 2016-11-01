@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.template import loader
 from django.views.generic import CreateView
 from django.utils.timezone import now
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 
 from .forms import *
 from .models import Goal, Subgoal, Categoria
@@ -27,15 +27,14 @@ class Register(CreateView):
     template_name = 'registration/register.html'
     form_class = UserRegisterForm
     success_url = '/login/'
-"""
-send_mail(
-    'Subject here',
-    'Here is the message.',
-    'from@example.com',
-    ['to@example.com'],
-    fail_silently=False,
-)
-"""
+
+def failmail(request, goal_id):
+    goal = get_object_or_404(Goal, pk= goal_id)
+    subject = 'GST - El tiempo de la meta ha expirado.'
+    message = 'La meta ' + goal.name + ' ha expirado. Ponete las pilas'
+    to = [goal.owner.email]
+    EmailMessage(subject, message, to=to).send()
+
 @login_required
 def home(request):
 
@@ -192,6 +191,7 @@ def goalupdate(request, goal_id):
     if goal.state == 'inprogress' and goal.finishdate < now():
         goal.state = 'fail'
         goal.save()
+        failmail(request, goal_id)
        
     if goal.state == 'inprogress' or goal.state == 'done':
         for subs in subgoals:
