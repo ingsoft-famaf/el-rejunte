@@ -32,7 +32,7 @@ class Categoria(models.Model):
     """
 
     name = models.CharField(null=False, max_length=15)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User)
     colour = models.CharField(max_length=10, choices=defaultColourList, default=defaultColourList[defaultColour])
     last_modification = models.DateTimeField(null=True)
 
@@ -51,7 +51,7 @@ class Goal(models.Model):
     finishdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
     state = models.CharField(null=False, max_length=10, blank=True)
     last_modification = models.DateTimeField(null=True)
-    category = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey(Categoria, null=True)
 
     # date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
     # time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
