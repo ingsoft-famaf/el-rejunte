@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^login/register$', Register.as_view(), name='register'),
     url(r'^register/', Register.as_view(), name='register'),
     url(r'^deactivate_user$', views.deactivate_user, name='deactivate_user'),
-    url(r'^addgoal/', views.addgoal , name='addgoal'),
+    url(r'^addgoal/', views.addgoal, name='addgoal'),
     url(r'^goal/(?P<goal_id>[0-9]+)$', views.goaldetail, name='goaldetail'),
     url(r'^goal/(?P<goal_id>[0-9]+)/addsubgoal/$', views.addsubgoal, name='addsubgoal'),
     url(r'^goal/(?P<goal_id>[0-9]+)/addmoretime/$', views.addmoretime, name='addmoretime'),
@@ -23,6 +23,6 @@ urlpatterns = [
     url(r'^newcategory/', views.new_category, name='newcategory'),
     url(r'^miscategorias/(?P<category_id>[0-9]+)/edit_category', views.new_category, name='newcategory'),
     url(r'^miscategorias/', views.miscategorias, name='miscategorias'),
-    #url(r'^miscategorias/(?P<category_id>[0-9]+)/delete', views.delete_category, name='delete_category'),
+    # url(r'^miscategorias/(?P<category_id>[0-9]+)/delete', views.delete_category, name='delete_category'),
 
 ]
