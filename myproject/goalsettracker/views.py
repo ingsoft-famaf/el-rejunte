@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.template import loader
 from django.views.generic import CreateView
 
@@ -226,9 +226,9 @@ def deletesubgoal(request, goal_id, subgoal_id):
 
 @login_required
 def subgoalupdate(subgoal_id):
-    subgoal = get_object_or_404(Subgoal, pk=goal_id)
+    subgoal = get_object_or_404(Subgoal, pk=subgoal_id)
     subgoal.state = True
-    subgoal.save
+    subgoal.save()
 
 
 @login_required
