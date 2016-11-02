@@ -1,11 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render
+from django.core.mail import EmailMessage
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import loader
 from django.views.generic import CreateView
-from django.utils.timezone import now
-from django.core.mail import EmailMessage
 
 from .forms import *
 from .models import Goal, Subgoal, Categoria
@@ -28,25 +27,24 @@ class Register(CreateView):
     form_class = UserRegisterForm
     success_url = '/login/'
 
+
 def failmail(request, goal_id):
-    goal = get_object_or_404(Goal, pk= goal_id)
+    goal = get_object_or_404(Goal, pk=goal_id)
     subject = 'GST - El tiempo de la meta ha expirado.'
     message = 'La meta ' + goal.name + ' ha expirado. Ponete las pilas'
     to = [goal.owner.email]
     EmailMessage(subject, message, to=to).send()
 
+
 @login_required
 def home(request):
-
-    
     order = 'id'
-    
+
     user = request.user
-    print user
-    
+
     all_goals = Goal.objects.order_by(order)
-    user_goals = all_goals.filter(owner = user)
-    
+    user_goals = all_goals.filter(owner=user)
+
     template = loader.get_template('home.html')
     context = {
         'user': request.user,
@@ -55,38 +53,30 @@ def home(request):
     return HttpResponse(template.render(context, request))
 
 
-
 @login_required
 def deactivate_user(request):
-    # IMPORTANT!
-    # is_active:
-    # Boolean.Designates whether this user account should be considered active.We recommend that you set this flag to
-    # False instead of deleting accounts; that way,if your applications have any foreign keys to users, the foreign keys
-    # won't break.
-    # This doesn't necessarily control whether or not the user can log in. Authentication backends aren't required to
-    # check for the is_active flag but the default backend (ModelBackend) and the RemoteUserBackend do. You can use
-    # AllowAllUsersModelBackend or AllowAllUsersRemoteUserBackend if you want to allow inactive users to login. In this
-    # case, you'll also want to customize the AuthenticationForm used by the login() view as it rejects inactive users.
-    # Be aware that the permission-checking methods such as has_perm() and the authentication in the Django admin all
-    # return False for inactive users.
-    # https://docs.djangoproject.com/es/1.10/ref/contrib/auth/#django.contrib.auth.models.User.is_active
     pk = request.user.id
     user = User.objects.get(pk=pk)
+    form = DeactivateUserForm(request.POST or None, instance=user)
     if request.user.is_authenticated() and request.user.id == user.id:
-        # if request.method == "POST":
-        user_form = DeactivateUserForm(request.POST, instance=user)
-        if user_form.is_valid():
-            user.is_active = False
-            user.save()
-            # es necesario mandar un mail?
-            # email_user(subject, message, from_email=None, **kwargs)
-        return render(request, "deactivate_user.html", {"user_form": user_form, })
+        if request.method == "POST":
+            if form.is_valid():
+                if form.clean_is_active():
+                    user = form.save(commit=False)
+                    user.is_active = False
+                    user.save()
+                    return HttpResponseRedirect(reverse_lazy('logout'))
+                else:
+                    return HttpResponseRedirect('/home')
+        return render(request, "deactivate_user.html", {"form": form})
+    else:
+        return HttpResponseRedirect("/home")
+
 
 @login_required
 def addgoal(request, goal_id=None):
-
     if goal_id:
-        goal = get_object_or_404(Goal, pk= goal_id)
+        goal = get_object_or_404(Goal, pk=goal_id)
         goal.last_modification = now()
         if goal.owner != request.user:
             response = HttpResponse("You do not have permission to do this.")
@@ -97,17 +87,17 @@ def addgoal(request, goal_id=None):
         goal.owner = request.user
         goal.state = 'inprogress'
 
-    form = AddGoalForm(request.POST or None, instance = goal)
+    form = AddGoalForm(request.POST or None, instance=goal)
     if request.method == 'POST' and form.is_valid():
         form.save()
         return HttpResponseRedirect('/home')
 
     return render(request, 'goals/addgoal.html', {'form': form})
 
+
 @login_required
 def delete_goal(request, goal_id):
-
-    goal = Goal.objects.get(pk = goal_id)
+    goal = Goal.objects.get(pk=goal_id)
     if goal.owner != request.user:
         response = HttpResponse("You do not have permission to do this.")
         response.status_code = 403
@@ -115,10 +105,10 @@ def delete_goal(request, goal_id):
     goal.delete()
     return HttpResponseRedirect('/home')
 
+
 @login_required
 def delete_category(request, category_id):
-
-    category = Categoria.objects.get(pk = category_id)
+    category = Categoria.objects.get(pk=category_id)
     if category.owner != request.user:
         response = HttpResponse("You do not have permission to do this.")
         response.status_code = 403
@@ -129,18 +119,17 @@ def delete_category(request, category_id):
 
 @login_required
 def addsubgoal(request, goal_id):
-
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = AddSubgoalForm(request.POST, goal_id)
         # check whether it's valid:
         if form.is_valid():
-            goal= get_object_or_404(Goal, pk= goal_id)
+            goal = get_object_or_404(Goal, pk=goal_id)
             sub = form.save(commit=False)
             sub.maingoal = goal
             sub.state = False
             sub.save()
-            return HttpResponseRedirect('/goal/'+ goal_id)
+            return HttpResponseRedirect('/goal/' + goal_id)
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -148,13 +137,13 @@ def addsubgoal(request, goal_id):
 
     return render(request, 'goals/addsubgoal.html', {'form': form})
 
+
 @login_required
 def allgoaldetail(request):
     order = 'id'
     user = request.user
-    print user
     all_goals = Goal.objects.order_by(order)
-    user_goals = all_goals.filter(owner = user)
+    user_goals = all_goals.filter(owner=user)
     subgoal_detail = Subgoal.objects.all()
     template = loader.get_template('goals/allgoaldetail.html')
     context = {
@@ -163,36 +152,38 @@ def allgoaldetail(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 @login_required
 def goaldetail(request, goal_id):
     goalupdate(request, goal_id)
-    goal_detail = get_object_or_404(Goal, pk= goal_id)
+    goal_detail = get_object_or_404(Goal, pk=goal_id)
     if goal_detail.owner != request.user:
         response = HttpResponse("You do not have permission to view this.")
         response.status_code = 403
         return response
     else:
-        all_subgoal= Subgoal.objects.all()
-        subgoal_detail = all_subgoal.filter(maingoal = goal_detail)
+        all_subgoal = Subgoal.objects.all()
+        subgoal_detail = all_subgoal.filter(maingoal=goal_detail)
         template = loader.get_template('goals/goaldetail.html')
         context = {
             'goal_detail': goal_detail,
             'subgoal_detail': subgoal_detail,
-         }
+        }
         return HttpResponse(template.render(context, request))
+
 
 @login_required
 def goalupdate(request, goal_id):
-    goal = get_object_or_404(Goal, pk= goal_id)
-    all_subgoal= Subgoal.objects.all()
-    subgoals = all_subgoal.filter(maingoal = goal)
+    goal = get_object_or_404(Goal, pk=goal_id)
+    all_subgoal = Subgoal.objects.all()
+    subgoals = all_subgoal.filter(maingoal=goal)
     complete = True
-    
+
     if goal.state == 'inprogress' and goal.finishdate < now():
         goal.state = 'fail'
         goal.save()
         failmail(request, goal_id)
-       
+
     if goal.state == 'inprogress' or goal.state == 'done':
         for subs in subgoals:
             if subs.state == False:
@@ -200,10 +191,11 @@ def goalupdate(request, goal_id):
         if complete == True:
             goal.state = 'done'
             goal.save()
-            
+
         if complete == False:
             goal.state = 'inprogress'
             goal.save()
+
 
 @login_required
 def allgoalupdate():
@@ -211,28 +203,33 @@ def allgoalupdate():
     for goals in all_goals:
         goalupdate(goals.id)
 
+
 @login_required
 def addmoretime(request, goal_id):
     return HttpResponseRedirect('/home')
 
+
 @login_required
 def completesubgoal(request, goal_id, subgoal_id):
-    subgoal = get_object_or_404(Subgoal, pk= subgoal_id)
+    subgoal = get_object_or_404(Subgoal, pk=subgoal_id)
     subgoal.state = True
     subgoal.save()
-    return HttpResponseRedirect('/goal/'+ goal_id)
+    return HttpResponseRedirect('/goal/' + goal_id)
+
 
 @login_required
 def deletesubgoal(request, goal_id, subgoal_id):
-    subgoal = get_object_or_404(Subgoal, pk= subgoal_id)
+    subgoal = get_object_or_404(Subgoal, pk=subgoal_id)
     subgoal.delete()
-    return HttpResponseRedirect('/goal/'+ goal_id)
+    return HttpResponseRedirect('/goal/' + goal_id)
+
 
 @login_required
 def subgoalupdate(subgoal_id):
-    subgoal = get_object_or_404(Subgoal, pk= goal_id)
+    subgoal = get_object_or_404(Subgoal, pk=goal_id)
     subgoal.state = True
     subgoal.save
+
 
 @login_required
 def newcategory(request):
@@ -246,10 +243,8 @@ def newcategory(request):
 
 @login_required
 def new_category(request, category_id=None):
-
-
     if category_id:
-        category = get_object_or_404(Categoria, pk= category_id)
+        category = get_object_or_404(Categoria, pk=category_id)
         category.last_modification = now()
         if category.owner != request.user:
             response = HttpResponse("You do not have permission to do this.")
@@ -259,16 +254,12 @@ def new_category(request, category_id=None):
         category = Categoria()
         category.owner = request.user
 
-    form = NewCategoryForm(request.POST or None, instance = category)
+    form = NewCategoryForm(request.POST or None, instance=category)
     if request.method == 'POST' and form.is_valid():
         form.save()
         return HttpResponseRedirect('/miscategorias')
 
     return render(request, 'categoria/nuevacategoria.html', {'form': form})
-
-
-
-
 
 
 # def new_category(request):
@@ -291,7 +282,7 @@ def miscategorias(request):
         if catlist[0].owner != user:
             response = HttpResponse("You do not have permission to view this.")
             response.status_code = 403
-            return response            
+            return response
     template = loader.get_template('categoria/showcats.html')
-    context = {'catlist': catlist,}
+    context = {'catlist': catlist, }
     return HttpResponse(template.render(context, request))

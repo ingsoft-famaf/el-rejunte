@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^accounts/login/$', views.login, {'template_name': 'login.html'}, name='login'),
-    url(r'^logout/$', views.logout, {'next_page': '/login'}),
+    url(r'^logout/$', views.logout, {'next_page': '/login'}, name='logout'),
     url(r'^user/password/reset/$', password_reset, {'post_reset_redirect': '/user/password/reset/done/'}),
     url(r'^user/password/reset/done/$', password_reset_done),
     url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_confirm,
