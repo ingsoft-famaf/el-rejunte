@@ -1,13 +1,9 @@
 from django import forms
-from django.contrib.admin.widgets import AdminDateWidget
+from django.contrib.admin import widgets
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.timezone import now
-from django.shortcuts import get_object_or_404
 
 from .models import *
-
-from django import forms
-from django.contrib.admin import widgets  
 
 
 # # If you don't do this you cannot use Bootstrap CSS
@@ -56,6 +52,7 @@ class DeactivateUserForm(forms.ModelForm):
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+
 class NewCategoryForm(forms.ModelForm):
     class Meta:
         model = Categoria
@@ -67,7 +64,7 @@ class NewCategoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(NewCategoryForm, self).__init__(*args, **kwargs)
         self.fields['name'].help_text = 'ingresar nombre de meta'
-            #self.fields['colour'].help_text = 'Selecciona el color'
+        # self.fields['colour'].help_text = 'Selecciona el color'
 
     def save(self, commit=True):
         cat = super(NewCategoryForm, self).save(commit=False)
@@ -76,10 +73,12 @@ class NewCategoryForm(forms.ModelForm):
             cat.save()
         return cat
 
+
 class AddGoalForm(forms.ModelForm):
     class Meta:
         model = Goal
         fields = ('name', 'finishdate', 'category')
+
     def __init__(self, *args, **kwargs):
         super(AddGoalForm, self).__init__(*args, **kwargs)
         self.fields['name'].help_text = 'Ingresar meta'
@@ -113,7 +112,6 @@ class AddSubgoalForm(forms.ModelForm):
         if commit:
             subgoal.save()
         return subgoal
-
 
 # class NewCategoryForm(forms.ModelForm):
 #     class Meta:

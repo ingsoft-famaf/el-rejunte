@@ -6,8 +6,8 @@
 {% block content %}
     <h2>Delete your account</h2>
     <hr>
-    <form action="." method="POST" class="padding">{% csrf_token %}
-        {{ user_form.as_p }}
-        <button class="btn btn-primary" type="submit" name="action">Confirm</button>
+    <form action="deactivate_user" method="POST" class="padding">{% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Confirm</button>
     </form>
 {% endblock content %}
