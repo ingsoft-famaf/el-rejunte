@@ -109,21 +109,23 @@ def delete_goal(request, goal_id):
 @login_required
 def delete_category(request, category_id):
     category = Categoria.objects.get(pk=category_id)
-    user = User.objects.get(pk=request.user.id)
-    goals_in_cat = Goal.objects.filter(owner=user, category=category.id)
-    try:
-        uncategorized = Categoria.objects.get(name="Uncategorized")
-    except:
-        uncategorized = Categoria.objects.create(name="Uncategorized", owner=user, )
-
-    for goal in goals_in_cat:
-        goal.category = uncategorized
     if category.owner != request.user:
         response = HttpResponse("You do not have permission to do this.")
         response.status_code = 403
-        return response
-    category.delete()
-    return HttpResponseRedirect('/miscategorias')
+    else:
+        user = User.objects.get(pk=request.user.id)
+        goals_in_cat = Goal.objects.filter(owner=user, category=category.id)
+        try:
+            uncategorized = Categoria.objects.get(name="Uncategorized")
+        except:
+            uncategorized = Categoria.objects.create(name="Uncategorized", owner=user, )
+        for goal in goals_in_cat:
+            goal.category = uncategorized
+            goal.save()
+        if category != uncategorized:
+            category.delete()
+        response = HttpResponseRedirect('/miscategorias')
+    return response
 
 
 @login_required
