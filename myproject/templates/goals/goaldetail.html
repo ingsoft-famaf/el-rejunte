@@ -3,92 +3,104 @@
 
 
 {% block style %}
-
-
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">
+{#    <link href="../static/css/bootstrap.min.css" rel="stylesheet">#}
+    {#    <link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">#}
     <link href="../static/css/goaldetail/styles.css" rel="stylesheet">
     <!--Icons-->
     <script src="../static/js/goaldetail/lumino.glyphs.js"></script>
 {% endblock %}
 
-{% block back %}
-    <link href="../static/css/back.css" rel="stylesheet">
-{% endblock back %}
+{#{% block back %}#}
+{#    <link href="../static/css/back.css" rel="stylesheet">#}
+{#{% endblock back %}#}
 
-</head>
-<body>
 {% block content %}
 
     <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-    {% if goal_detail.state == 'inprogress' %}
-        <div class="panel panel-blue">
-    {% endif %}
-{% if goal_detail.state == 'done' %}
-    <div class="panel panel-success">
-{% endif %}
-{% if goal_detail.state == 'fail' %}
-    <div class="panel panel-red">
-{% endif %}
-<div class="panel-heading dark-overlay">
-    <svg class="glyph stroked clipboard-with-paper">
-        <use xlink:href="#stroked-clipboard-with-paper"></use>
-    </svg>
-    {{ goal_detail.name }}</div>
-<div class="panel-body">
-    <ul class="todo-list">
-        {% for subgoal in subgoal_detail %}
-            <li class="todo-list-item">
-                <div class="checkbox">
-                    {% if subgoal.state == False %}
-                        <a href="{% url 'completesubgoal' goal_detail.id subgoal.id %}"><input type="checkbox"
-                                                                                               id="checkbox"
-                                                                                               class="checkbox"/></a>
-                    {% endif %}
-                    {% if subgoal.state == True %}
-                        <span class="flag">
-                        <svg class="glyph stroked flag"><use xlink:href="#stroked-flag"></use></svg></a>
-                    {% endif %}
-                    <label for="checkbox">{{ subgoal.name }}</label>
+        <div class="col-md-4 col-md-offset-4">
+            {% if goal_detail.state == 'inprogress' %}
+                <div {#class="panel panel-blue"#} style="background: blue">
                 </div>
-                <div class="pull-right action-buttons">
-                    <a href="#">
-                        <svg class="glyph stroked pencil">
-                            <use xlink:href="#stroked-pencil"></use>
-                        </svg>
-                    </a>
-
-                    <a href="{% url 'deletesubgoal' goal_detail.id subgoal.id %}" class="trash">
-                        <svg class="glyph stroked trash">
-                            <use xlink:href="#stroked-trash"></use>
-                        </svg>
-                    </a>
+                <div class="panel-heading dark-overlay" style="background: blue">
+                    <svg class="glyph stroked clipboard-with-paper">
+                        <use xlink:href="#stroked-clipboard-with-paper"></use>
+                    </svg>
+                    {{ goal_detail.name }}
                 </div>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
-<div class="panel-footer">
-    <!--<div class="input-group">
-        <input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" />
-        <span class="input-group-btn">
-            <button class="btn btn-primary btn-md" id="btn-todo">Add</button>
-        </span>
-    </div>-->
-
-    <div class="container-fluid">
-        <span class="label label-default pull-left">Creada: {{ goal_detail.creationdate }}</span>
-        <span class="label label-danger pull-right">Finaliza: {{ goal_detail.finishdate }}</span>
-        </br>
-        <span class="label label-success pull-right"
-              style="color:#{{ goal_detail.category.colour }}">Categoria: {{ goal_detail.category.name }}</span>
+            {% endif %}
+            {% if goal_detail.state == 'done' %}
+                <div {#class="panel panel-success"#}style="background: green">
+                </div>
+                <div class="panel-heading dark-overlay" style="background: green">
+                    <svg class="glyph stroked clipboard-with-paper">
+                        <use xlink:href="#stroked-clipboard-with-paper"></use>
+                    </svg>
+                    {{ goal_detail.name }}
+                </div>
+            {% endif %}
+            {% if goal_detail.state == 'fail' %}
+                <div {#class="panel panel-red"#}style="background: red">
+                </div>
+                <div class="panel-heading dark-overlay" style="background: red">
+                    <svg class="glyph stroked clipboard-with-paper">
+                        <use xlink:href="#stroked-clipboard-with-paper"></use>
+                    </svg>
+                    {{ goal_detail.name }}
+                </div>
+            {% endif %}
+            <div class="panel-body">
+                <ul class="todo-list">
+                    {% for subgoal in subgoal_detail %}
+                        <li class="todo-list-item">
+                            <div class="checkbox">
+                                {% if subgoal.state == False %}
+                                    <a href="{% url 'completesubgoal' goal_detail.id subgoal.id %}"><input
+                                            type="checkbox" id="checkbox" class="checkbox"/></a>
+                                {% endif %}
+                                {% if subgoal.state == True %}
+                                    <span class="flag"></span>
+                                    <svg class="glyph stroked flag">
+                                        <use xlink:href="#stroked-flag"></use>
+                                    </svg>
+                                {% endif %}
+                                <label for="checkbox">{{ subgoal.name }}</label>
+                            </div>
+                            <div class="pull-right action-buttons">
+                                <a href="#">
+                                    <svg class="glyph stroked pencil">
+                                        <use xlink:href="#stroked-pencil"></use>
+                                    </svg>
+                                </a>
+                                <a href="{% url 'deletesubgoal' goal_detail.id subgoal.id %}" class="trash">
+                                    <svg class="glyph stroked trash">
+                                        <use xlink:href="#stroked-trash"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="panel-footer">
+                {% comment %}
+                    {#<div class="input-group">#}
+                    {#    <input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" />#}
+                    {#    <span class="input-group-btn">#}
+                    {#        <button class="btn btn-primary btn-md" id="btn-todo">Add</button>#}
+                    {#    </span>#}
+                    {#</div>#}
+                {% endcomment %}
+                <div class="container-fluid">
+                    <span class="label label-default pull-left">Creada: {{ goal_detail.creationdate }}</span>
+                    <span class="label label-danger pull-right">Finaliza: {{ goal_detail.finishdate }}</span>
+                    <span class="label label-success pull-right"
+                          style="color:#{{ goal_detail.category.colour }}">Categoria: {{ goal_detail.category.name }}
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-</div>
-</div>
-</div>
-
+    <br>
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <a class="btn btn-lg btn-primary btn-block" href="{% url 'addsubgoal' goal_detail.id %}" role="button">
@@ -96,8 +108,6 @@
         </div>
     </div>
     <br>
-
-
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <a class="btn btn-lg btn-success btn-block" href="{% url 'modify_goal' goal_detail.id %}" role="button">
@@ -105,7 +115,6 @@
         </div>
     </div>
     <br>
-
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <a class="btn btn-lg btn-danger btn-block" href="{% url 'delete_goal' goal_detail.id %}" role="button">
@@ -113,17 +122,12 @@
         </div>
     </div>
     <br>
-
-
-
-
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <a class="btn btn-lg btn-warning btn-block" href="{% url 'home' %}" role="button">
                 <i class="fb-login-button"></i> Volver </a>
         </div>
     </div>
-
     <script type="text/javascript">
         $(function () {
             $("input[type='checkbox']").change(function () {
@@ -135,7 +139,6 @@
             });
         });
     </script>
-
     <script src="../static/js/goaldetail/bootstrap.min.js"></script>
     <script src="../static/js/goaldetail/chart.min.js"></script>
     <script src="../static/js/goaldetail/chart-data.js"></script>
@@ -144,6 +147,3 @@
     <script src="../static/js/goaldetail/bootstrap-datepicker.js"></script>
 
 {% endblock %}
-</body>
-
-</html>
