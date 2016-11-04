@@ -10,9 +10,8 @@
     {#        <link href="../static/css/back.css" rel="stylesheet">#}
 {% endblock back %}
 {% block content %}
-    <script>
 
-    </script>
+{#ordenar las metas#}
     <div align="right">
         <div style="width: 20%">
             <div align="center"><p><b>Ordenar</b></p></div>
@@ -28,6 +27,8 @@
             </form>
         </div>
     </div>
+
+{#mostrar las metas#}
     <div>
         {% for goal in user_goals %}
             {% if goal.state == 'inprogress' %}
