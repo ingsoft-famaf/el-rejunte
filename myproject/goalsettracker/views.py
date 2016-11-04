@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.template import loader
 from django.views.generic import CreateView
 
@@ -112,9 +112,20 @@ def delete_category(request, category_id):
     if category.owner != request.user:
         response = HttpResponse("You do not have permission to do this.")
         response.status_code = 403
-        return response
-    category.delete()
-    return HttpResponseRedirect('/miscategorias')
+    else:
+        user = User.objects.get(pk=request.user.id)
+        goals_in_cat = Goal.objects.filter(owner=user, category=category.id)
+        try:
+            uncategorized = Categoria.objects.get(name="Uncategorized")
+        except:
+            uncategorized = Categoria.objects.create(name="Uncategorized", owner=user, )
+        for goal in goals_in_cat:
+            goal.category = uncategorized
+            goal.save()
+        if category != uncategorized:
+            category.delete()
+        response = HttpResponseRedirect('/miscategorias')
+    return response
 
 
 @login_required
@@ -226,9 +237,9 @@ def deletesubgoal(request, goal_id, subgoal_id):
 
 @login_required
 def subgoalupdate(subgoal_id):
-    subgoal = get_object_or_404(Subgoal, pk=goal_id)
+    subgoal = get_object_or_404(Subgoal, pk=subgoal_id)
     subgoal.state = True
-    subgoal.save
+    subgoal.save()
 
 
 @login_required
@@ -261,18 +272,6 @@ def new_category(request, category_id=None):
 
     return render(request, 'categoria/nuevacategoria.html', {'form': form})
 
-
-# def new_category(request):
-#
-#     if request.method == 'POST':
-#         form = NewCategoryForm(request.user, request.POST)
-#         if form.is_valid():
-#             form.save()
-#             request.user.message_set.create(message="Categoria creada con exito")
-#             return HttpResponse('/home')
-#     else:
-#         form = NewCategoryForm("","",request.user)
-#     return render(request, 'categoria/nuevacategoria.html', {'form': form, 'owner': request.user})
 
 @login_required
 def miscategorias(request):

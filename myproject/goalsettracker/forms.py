@@ -56,15 +56,15 @@ class DateInput(forms.DateInput):
 class NewCategoryForm(forms.ModelForm):
     class Meta:
         model = Categoria
-        fields = ('name',)
+        fields = ('name', 'colour',)
         # widgets = {
-        #     '_colour': Choises(),
+        #     'colour': Choises(),
         # }
 
     def __init__(self, *args, **kwargs):
         super(NewCategoryForm, self).__init__(*args, **kwargs)
         self.fields['name'].help_text = 'ingresar nombre de meta'
-        # self.fields['colour'].help_text = 'Selecciona el color'
+        self.fields['colour'].help_text = 'Selecciona el color'
 
     def save(self, commit=True):
         cat = super(NewCategoryForm, self).save(commit=False)

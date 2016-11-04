@@ -17,9 +17,9 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
     {% block style %}
-    {% endblock %}
+    {% endblock style %}
     <link rel="stylesheet" type="text/css" href="/static/css/back.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/mycss.css">
+{#    <link rel="stylesheet" type="text/css" href="/static/css/mycss.css">#}
     <title>{% block title %}{% endblock %}</title>
     {% block back %}
     {% endblock back%}
@@ -27,7 +27,7 @@
 
 <body>
     {% if user.is_authenticated %}
-        <nav class="navbar navbar-inverse {#navbar-fixed-top#}">
+        <nav class="navbar navbar-inverse">
             <div class="container">
                 <button type="button" class="navbar-toggle"
                         data-toggle="collapse"
@@ -42,7 +42,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class=""><a href="#">Profile</a></li>
-                        <li><a href="#">Metas</a></li>
+                        <li><a href="/home">Metas</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{ user.username|capfirst }}
                                 <b class="caret"> </b></a>

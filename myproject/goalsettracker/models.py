@@ -1,7 +1,6 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.conf import settings
-
 
 # Create your models here.
 
@@ -26,18 +25,20 @@ defaultColourList = (
 )
 defaultColour = 5
 
+
 class Categoria(models.Model):
     """
     categoria en la cual se puede encontrar una meta
     """
 
     name = models.CharField(null=False, max_length=15)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User)
     colour = models.CharField(max_length=10, choices=defaultColourList, default=defaultColourList[defaultColour])
     last_modification = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.name
+
 
 class Goal(models.Model):
     """
@@ -50,9 +51,10 @@ class Goal(models.Model):
     finishdate = models.DateTimeField(null=False, help_text="<em>yyyy-mm-dd hh:mm</em>.", blank=True)
     state = models.CharField(null=False, max_length=10, blank=True)
     last_modification = models.DateTimeField(null=True)
-    category = models.ForeignKey(Categoria, on_delete=models.CASCADE,null=True)
-    #date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
-    #time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
+    category = models.ForeignKey(Categoria, null=True)
+
+    # date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
+    # time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
 
     def __str__(self):
         return self.name
@@ -72,46 +74,46 @@ class Subgoal(models.Model):
 
 
 
-    # def __init__(self):
-    #     super(Categoria, self).__init__(name, user, colour)
-    #     self._name = name
-    #     self._owner = user
-    #     self._colour = colour
-    #
-    # def __str__(self):  # __unicode__ on Python 2
-    #     return self._name
-    #
-    # @property
-    # def colour(self):
-    #     """
-    #     Return the hexadecimal colour of this object
-    #     """
-    #     return self._colour[1]
-    #
-    # @colour.setter
-    # def colour(self, value):
-    #     """
-    #     set the tuple colour for this object
-    #     :return
-    #     """
-    #     if value in defaultColourList:
-    #         self._colour = value
-    #     else:
-    #         # TODO raise an error if colour is not permited
-    #         pass
-    # @property
-    # def colourName(self):
-    #     """
-    #     Return the name colour of this object
-    #     """
-    #     return self._colour[0]
-    #
-    # @property
-    # def name(self):
-    #     """
-    #     Return the name of this object
-    #     """
-    #     return self._name
-    #
-    # # default categories
-    #     # TODO definir y crear los modelos de categorias predeterminados.
+        # def __init__(self):
+        #     super(Categoria, self).__init__(name, user, colour)
+        #     self._name = name
+        #     self._owner = user
+        #     self._colour = colour
+        #
+        # def __str__(self):  # __unicode__ on Python 2
+        #     return self._name
+        #
+        # @property
+        # def colour(self):
+        #     """
+        #     Return the hexadecimal colour of this object
+        #     """
+        #     return self._colour[1]
+        #
+        # @colour.setter
+        # def colour(self, value):
+        #     """
+        #     set the tuple colour for this object
+        #     :return
+        #     """
+        #     if value in defaultColourList:
+        #         self._colour = value
+        #     else:
+        #         # TODO raise an error if colour is not permited
+        #         pass
+        # @property
+        # def colourName(self):
+        #     """
+        #     Return the name colour of this object
+        #     """
+        #     return self._colour[0]
+        #
+        # @property
+        # def name(self):
+        #     """
+        #     Return the name of this object
+        #     """
+        #     return self._name
+        #
+        # # default categories
+        #     # TODO definir y crear los modelos de categorias predeterminados.
