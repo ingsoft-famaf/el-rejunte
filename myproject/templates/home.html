@@ -10,13 +10,25 @@
 {#        <link href="../static/css/back.css" rel="stylesheet">#}
 {% endblock back %}
 {% block content %}
+<div align="right">
+    <form id="orderby" >
+        <select form="orderby">
+            <option value="name">Nombre</option>
+            <option value="creaciondate">Fecha de creacion</option>
+            <option value="finishdate">Fecha de finalización</option>
+            <option value="state">Estado</option>
+            <option value="category">Categoria</option>
+        </select>
+        <input type="submit" value="Ordenar" >
+    </form>
+</div>
 <div>
     {% for goal in user_goals %}
         {% if goal.state == 'inprogress' %}
             <div class="col-md-4 md-offset-4">
                 <a href="{% url 'goaldetail' goal.id %}">
                     <div class="panel panel-warning" >
-                        <div class="panel-heading dark-overlay" style="background: blue">
+                        <div class="panel-heading dark-overlay" style="background: blue;margin-top: 30px;">
                             <svg class="glyph stroked clipboard-with-paper">
                                 <use xlink:href="#stroked-clipboard-with-paper"></use>
                             </svg>
@@ -30,7 +42,7 @@
             <div class="col-md-4 md-offset-4">
                 <a href="{% url 'goaldetail' goal.id %}">
                     <div class="panel panel-success">
-                        <div class="panel-heading dark-overlay" style="background: green">
+                        <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
                             <svg class="glyph stroked clipboard-with-paper">
                                 <use xlink:href="#stroked-clipboard-with-paper"></use>
                             </svg>
@@ -44,7 +56,7 @@
             <div class="col-md-4 md-offset-4">
                 <a href="{% url 'goaldetail' goal.id %}">
                     <div class="panel panel-red">
-                        <div class="panel-heading dark-overlay" style="background: red">
+                        <div class="panel-heading dark-overlay" style="background: red;margin-top: 30px;">
                             <svg class="glyph stroked clipboard-with-paper">
                                 <use xlink:href="#stroked-clipboard-with-paper"></use>
                             </svg>
