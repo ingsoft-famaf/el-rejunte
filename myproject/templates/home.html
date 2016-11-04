@@ -1,72 +1,78 @@
 {% extends "base.html" %}
 
 {% block style %}
-        <link href="../static/css/goaldetail/styles.css" rel="stylesheet">
-{#        <link href="../static/css/bootstrap.min.css" rel="stylesheet">#}
-{#        <link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">#}
-        <script src="../static/js/goaldetail/lumino.glyphs.js"></script>
+    <link href="../static/css/goaldetail/styles.css" rel="stylesheet">
+    {#        <link href="../static/css/bootstrap.min.css" rel="stylesheet">#}
+    {#        <link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">#}
+    <script src="../static/js/goaldetail/lumino.glyphs.js"></script>
 {% endblock style %}
 {% block back %}
-{#        <link href="../static/css/back.css" rel="stylesheet">#}
+    {#        <link href="../static/css/back.css" rel="stylesheet">#}
 {% endblock back %}
 {% block content %}
-<div align="right">
-    <form id="orderby" >
-        <select form="orderby">
-            <option value="name">Nombre</option>
-            <option value="creaciondate">Fecha de creacion</option>
-            <option value="finishdate">Fecha de finalización</option>
-            <option value="state">Estado</option>
-            <option value="category">Categoria</option>
-        </select>
-        <input type="submit" value="Ordenar" >
-    </form>
-</div>
-<div>
-    {% for goal in user_goals %}
-        {% if goal.state == 'inprogress' %}
-            <div class="col-md-4 md-offset-4">
-                <a href="{% url 'goaldetail' goal.id %}">
-                    <div class="panel panel-warning" >
-                        <div class="panel-heading dark-overlay" style="background: blue;margin-top: 30px;">
-                            <svg class="glyph stroked clipboard-with-paper">
-                                <use xlink:href="#stroked-clipboard-with-paper"></use>
-                            </svg>
-                            {{ goal.name }}
+    <script>
+
+    </script>
+    <div align="right">
+        <div style="width: 20%">
+            <div align="center"><p><b>Ordenar</b></p></div>
+            <form id="order_by">
+                <select form="order_by"
+                        onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                    <option value="/home/order_by=name">Nombre</option>
+                    <option value="/home/order_by=creationdate">Fecha de creacion</option>
+                    <option value="/home/order_by=finishdate">Fecha de finalización</option>
+                    <option value="/home/order_by=state">Estado</option>
+                    <option value="/home/order_by=category">Categoria</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div>
+        {% for goal in user_goals %}
+            {% if goal.state == 'inprogress' %}
+                <div class="col-md-4 md-offset-4">
+                    <a href="{% url 'goaldetail' goal.id %}">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading dark-overlay" style="background: blue;margin-top: 30px;">
+                                <svg class="glyph stroked clipboard-with-paper">
+                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
+                                </svg>
+                                {{ goal.name }}
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-        {% endif %}
-        {% if goal.state == 'done' %}
-            <div class="col-md-4 md-offset-4">
-                <a href="{% url 'goaldetail' goal.id %}">
-                    <div class="panel panel-success">
-                        <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
-                            <svg class="glyph stroked clipboard-with-paper">
-                                <use xlink:href="#stroked-clipboard-with-paper"></use>
-                            </svg>
-                            {{ goal.name }}
+                    </a>
+                </div>
+            {% endif %}
+            {% if goal.state == 'done' %}
+                <div class="col-md-4 md-offset-4">
+                    <a href="{% url 'goaldetail' goal.id %}">
+                        <div class="panel panel-success">
+                            <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
+                                <svg class="glyph stroked clipboard-with-paper">
+                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
+                                </svg>
+                                {{ goal.name }}
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-        {% endif %}
-        {% if goal.state == 'fail' %}
-            <div class="col-md-4 md-offset-4">
-                <a href="{% url 'goaldetail' goal.id %}">
-                    <div class="panel panel-red">
-                        <div class="panel-heading dark-overlay" style="background: red;margin-top: 30px;">
-                            <svg class="glyph stroked clipboard-with-paper">
-                                <use xlink:href="#stroked-clipboard-with-paper"></use>
-                            </svg>
-                        {{ goal.name }}
-                    </div>
-                    </div>
-                </a>
-            </div>
-        {% endif %}
-    {% endfor %}
-</div>
+                    </a>
+                </div>
+            {% endif %}
+            {% if goal.state == 'fail' %}
+                <div class="col-md-4 md-offset-4">
+                    <a href="{% url 'goaldetail' goal.id %}">
+                        <div class="panel panel-red">
+                            <div class="panel-heading dark-overlay" style="background: red;margin-top: 30px;">
+                                <svg class="glyph stroked clipboard-with-paper">
+                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
+                                </svg>
+                                {{ goal.name }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock content %}
 
