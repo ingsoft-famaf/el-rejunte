@@ -11,23 +11,33 @@
 {% endblock back %}
 {% block content %}
 
-{#ordenar las metas#}
-    <div align="right">
-        <div style="width: 20%">
-            <div align="center"><p><b>Ordenar</b></p></div>
-            <form id="order_by">
-                <select form="order_by"
-                        onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                    <option value="/home/order_by=name">Nombre</option>
-                    <option value="/home/order_by=creationdate">Fecha de creacion</option>
-                    <option value="/home/order_by=finishdate">Fecha de finalización</option>
-                    <option value="/home/order_by=state">Estado</option>
-                    <option value="/home/order_by=category">Categoria</option>
-                </select>
-            </form>
+{#ordenar y filtrar las metas#}
+    {#ordenar#}
+    <div align="right" >
+        <div style="display: inline-block">
+            <div style="width: 100%">
+                <form id="order_by">
+                    <div align="left"><p><b>Ordenar</b></p></div>
+                    <select form="order_by" onchange="location.href = this.value"{#"this.form.submit()"#}>
+                        <option value="/home/order_by=name">Nombre</option>
+                        <option value="/home/order_by=creationdate">Fecha de creacion</option>
+                        <option value="/home/order_by=finishdate">Fecha de finalización</option>
+                        <option value="/home/order_by=state">Estado</option>
+                        <option value="/home/order_by=category">Categoria</option>
+                    </select>
+                    {# filtrar #}
+                    {#<option value="/home/order_by=name">Nombre</option>#}
+                    {#    <option value="/home/order_by=creationdate">Fecha de creacion</option>#}
+                    {#    <option value="/home/order_by=finishdate">Fecha de finalización</option>#}
+                    {#    <option value="/home/order_by=state">Estado</option>#}
+                    {#    <option value="/home/order_by=category">Categoria</option>#}
+                    {#</select>#}
+                    {#<button#}
+
+                </form>
+            </div>
         </div>
     </div>
-
 {#mostrar las metas#}
     <div>
         {% for goal in user_goals %}
