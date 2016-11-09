@@ -45,6 +45,7 @@ def home(request, order_by='id'):
     context = {
         'user': request.user,
         'user_goals': user_goals,
+        'selected': order_by,
     }
     return HttpResponse(template.render(context, request))
 

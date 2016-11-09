@@ -12,78 +12,88 @@
 {% block content %}
 
 {#ordenar y filtrar las metas#}
-    {#ordenar#}
-    <div align="right" >
-        <div style="display: inline-block">
-            <div style="width: 100%">
-                <form id="order_by">
-                    <div align="left"><p><b>Ordenar</b></p></div>
-                    <select form="order_by" onchange="location.href = this.value"{#"this.form.submit()"#}>
-                        <option value="/home/order_by=name">Nombre</option>
-                        <option value="/home/order_by=creationdate">Fecha de creacion</option>
-                        <option value="/home/order_by=finishdate">Fecha de finalización</option>
-                        <option value="/home/order_by=state">Estado</option>
-                        <option value="/home/order_by=category">Categoria</option>
-                    </select>
-                    {# filtrar #}
-                    {#<option value="/home/order_by=name">Nombre</option>#}
-                    {#    <option value="/home/order_by=creationdate">Fecha de creacion</option>#}
-                    {#    <option value="/home/order_by=finishdate">Fecha de finalización</option>#}
-                    {#    <option value="/home/order_by=state">Estado</option>#}
-                    {#    <option value="/home/order_by=category">Categoria</option>#}
-                    {#</select>#}
-                    {#<button#}
+{#ordenar#}
+<div align="right">
+    <div style="display: inline-block">
+        <div style="width: 100%">
+            <form id="order_by">
+                <div align="left"><p><b>Ordenar</b></p></div>
+                <select form="order_by" onchange="location.href = this.value">
+                    <option value="/home/order_by=name" {% if selected == "name" %}selected{% endif %}>
+                        Nombre
+                    </option>
+                    <option value="/home/order_by=creationdate" {% if selected == "creationdate" %}selected{% endif %}>
+                        Fecha de creacion
+                    </option>
+                    <option value="/home/order_by=finishdate" {% if selected == "finishdate" %}selected{% endif %}>
+                        Fecha de finalización
+                    </option>
+                    <option value="/home/order_by=state" {% if selected == "state" %}selected{% endif %}>
+                        Estado
+                    </option>
+                    <option value="/home/order_by=category" {% if selected == "category" %}selected{% endif %}>
+                        Categoria
+                    </option>
+                </select>
+                {# filtrar #}
+                {#<option value="/home/order_by=name">Nombre</option>#}
+                {#    <option value="/home/order_by=creationdate">Fecha de creacion</option>#}
+                {#    <option value="/home/order_by=finishdate">Fecha de finalización</option>#}
+                {#    <option value="/home/order_by=state">Estado</option>#}
+                {#    <option value="/home/order_by=category">Categoria</option>#}
+                {#</select>#}
+                {#<button#}
 
-                </form>
-            </div>
+            </form>
         </div>
     </div>
+</div>
 {#mostrar las metas#}
-    <div>
-        {% for goal in user_goals %}
-            {% if goal.state == 'inprogress' %}
-                <div class="col-md-4 md-offset-4">
-                    <a href="{% url 'goaldetail' goal.id %}">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading dark-overlay" style="background: blue;margin-top: 30px;">
-                                <svg class="glyph stroked clipboard-with-paper">
-                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
-                                </svg>
-                                {{ goal.name }}
-                            </div>
+<div>
+    {% for goal in user_goals %}
+        {% if goal.state == 'inprogress' %}
+            <div class="col-md-4 md-offset-4">
+                <a href="{% url 'goaldetail' goal.id %}">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading dark-overlay" style="background: blue;margin-top: 30px;">
+                            <svg class="glyph stroked clipboard-with-paper">
+                                <use xlink:href="#stroked-clipboard-with-paper"></use>
+                            </svg>
+                            {{ goal.name }}
                         </div>
-                    </a>
-                </div>
-            {% endif %}
-            {% if goal.state == 'done' %}
-                <div class="col-md-4 md-offset-4">
-                    <a href="{% url 'goaldetail' goal.id %}">
-                        <div class="panel panel-success">
-                            <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
-                                <svg class="glyph stroked clipboard-with-paper">
-                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
-                                </svg>
-                                {{ goal.name }}
-                            </div>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+        {% if goal.state == 'done' %}
+            <div class="col-md-4 md-offset-4">
+                <a href="{% url 'goaldetail' goal.id %}">
+                    <div class="panel panel-success">
+                        <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
+                            <svg class="glyph stroked clipboard-with-paper">
+                                <use xlink:href="#stroked-clipboard-with-paper"></use>
+                            </svg>
+                            {{ goal.name }}
                         </div>
-                    </a>
-                </div>
-            {% endif %}
-            {% if goal.state == 'fail' %}
-                <div class="col-md-4 md-offset-4">
-                    <a href="{% url 'goaldetail' goal.id %}">
-                        <div class="panel panel-red">
-                            <div class="panel-heading dark-overlay" style="background: red;margin-top: 30px;">
-                                <svg class="glyph stroked clipboard-with-paper">
-                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
-                                </svg>
-                                {{ goal.name }}
-                            </div>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+        {% if goal.state == 'fail' %}
+            <div class="col-md-4 md-offset-4">
+                <a href="{% url 'goaldetail' goal.id %}">
+                    <div class="panel panel-red">
+                        <div class="panel-heading dark-overlay" style="background: red;margin-top: 30px;">
+                            <svg class="glyph stroked clipboard-with-paper">
+                                <use xlink:href="#stroked-clipboard-with-paper"></use>
+                            </svg>
+                            {{ goal.name }}
                         </div>
-                    </a>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
 {% endblock content %}
 
