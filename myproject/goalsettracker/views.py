@@ -37,18 +37,15 @@ def failmail(request, goal_id):
 
 
 @login_required
-def home(request):
-    order = 'id'
-
+def home(request, order_by='id'):
     user = request.user
-
-    all_goals = Goal.objects.order_by(order)
+    all_goals = Goal.objects.order_by(str(order_by))
     user_goals = all_goals.filter(owner=user)
-
     template = loader.get_template('home.html')
     context = {
         'user': request.user,
         'user_goals': user_goals,
+        'selected': order_by,
     }
     return HttpResponse(template.render(context, request))
 
