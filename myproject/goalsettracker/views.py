@@ -188,7 +188,15 @@ def goalupdate(request, goal_id):
     goal = get_object_or_404(Goal, pk=goal_id)
     all_subgoal = Subgoal.objects.all()
     subgoals = all_subgoal.filter(maingoal=goal)
-    complete = True
+    cant = subgoals.count()
+    if cant == 0:
+        complete = False
+    if cant > 0:
+        complete = True
+    
+    if goal.state == 'done' and cant == 0:
+        print cant
+        return
 
     if goal.state == 'inprogress' and goal.finishdate < now():
         goal.state = 'fail'
@@ -240,6 +248,22 @@ def subgoalupdate(subgoal_id):
     subgoal = get_object_or_404(Subgoal, pk=subgoal_id)
     subgoal.state = True
     subgoal.save()
+
+@login_required
+def completegoal(request, goal_id):
+    goal = get_object_or_404(Goal, pk=goal_id)
+    all_subgoal = Subgoal.objects.all()
+    subgoals = all_subgoal.filter(maingoal=goal)
+    goal.state = 'done'
+    goal.save()
+    print goal.state
+    for subs in subgoals:
+        subs.state = True
+        subs.save()
+
+    return HttpResponseRedirect('/goal/' + goal_id)
+
+
 
 
 @login_required

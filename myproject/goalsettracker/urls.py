@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^deactivate_user$', views.deactivate_user, name='deactivate_user'),
     url(r'^addgoal/', views.addgoal, name='addgoal'),
     url(r'^goal/(?P<goal_id>[0-9]+)$', views.goaldetail, name='goaldetail'),
+    url(r'^goal/(?P<goal_id>[0-9]+)/completegoal/$', views.completegoal, name='completegoal'),
     url(r'^goal/(?P<goal_id>[0-9]+)/addsubgoal/$', views.addsubgoal, name='addsubgoal'),
     url(r'^goal/(?P<goal_id>[0-9]+)/addmoretime/$', views.addmoretime, name='addmoretime'),
     url(r'^goal/(?P<goal_id>[0-9]+)/modify_goal/$', views.addgoal, name='modify_goal'),

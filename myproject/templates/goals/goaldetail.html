@@ -101,6 +101,15 @@
         </div>
     </div>
     <br>
+    {% if goal_detail.state == 'inprogress' %}
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <a class="btn btn-lg btn-success btn-block" href="{% url 'completegoal' goal_detail.id %}" role="button">
+                <i class="fb-login-button"></i> Completar meta </a>
+        </div>
+    </div>
+    <br>
+    {% endif %}
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <a class="btn btn-lg btn-primary btn-block" href="{% url 'addsubgoal' goal_detail.id %}" role="button">
@@ -110,7 +119,7 @@
     <br>
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <a class="btn btn-lg btn-success btn-block" href="{% url 'modify_goal' goal_detail.id %}" role="button">
+            <a class="btn btn-lg btn-block" href="{% url 'modify_goal' goal_detail.id %}" role="button" style="background: #996633">
                 <i class="fb-login-button"></i> Modificar Meta </a>
         </div>
     </div>
