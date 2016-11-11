@@ -125,8 +125,8 @@ class GoalFilterForm(forms.Form):
 
     nombre = forms.CharField(required=False, label='Nombre')
     estado = forms.ChoiceField(required=False, label='Estado', choices=estadoChoices)
-    fechainicio = forms.DateField(required=False, label='Inicio', widget=widgets.AdminTimeWidget())
-    fechafin = forms.DateField(required=False, label='Fin', widget=widgets.AdminTimeWidget())
+    fechainicio = forms.DateField(required=False, label='Inicio', widget=forms.TextInput(attrs={'class': 'datepicker'}))
+    fechafin = forms.DateField(required=False, label='Fin', widget=forms.TextInput(attrs={'class': 'datepicker'}))
     categoria = forms.ModelChoiceField(required=False, label='Categoria', queryset=None)
 
     def __init__(self, owner, *args, **kwargs):

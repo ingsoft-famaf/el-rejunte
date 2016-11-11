@@ -3,80 +3,86 @@
     <link href="../static/css/goaldetail/styles.css" rel="stylesheet">
     <script src="../static/js/goaldetail/lumino.glyphs.js"></script>
 {% endblock style %}
+
+{% block script %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    var $j = jQuery.noConflict();
+    $j( function() {
+        $j( '.datepicker' ).datepicker();
+    } );
+    </script>
+
+{% endblock script %}
+
 {% block content %}
 
-<div class="row col-md-4">
-    <form method="post" action="">
-        {% csrf_token %}
-        {{ form.as_ul }}
-        <br>
-        <button class = "col-md-3 btn btn-success" type="submit" value=".">Filtrar</button>
+    <div class="row col-md-4">
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ form.as_ul }}
+            <br>
+            <button class="col-md-3 btn btn-success" type="submit" value=".">Filtrar</button>
 
 
-    </form>
-</div>
-<div>
-    {% for goal in user_goals %}
-        {% if goal.state == 'inprogress' %}
-            <div class="col-md-4 md-offset-4">
-                <a href="{% url 'goaldetail' goal.id %}">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading dark-overlay" style="background: blue;margin-top: 30px;">
-                            <svg class="glyph stroked clipboard-with-paper">
-                                <use xlink:href="#stroked-clipboard-with-paper"></use>
-                            </svg>
-                            {{ goal.name }}
-                            <span class="label label-success pull-right"
-                                style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
+        </form>
+    </div>
+    <div>
+        {% for goal in user_goals %}
+            {% if goal.state == 'inprogress' %}
+                <div class="col-md-4 md-offset-4">
+                    <a href="{% url 'goaldetail' goal.id %}">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading dark-overlay" style="background: blue;margin-top: 30px;">
+                                <svg class="glyph stroked clipboard-with-paper">
+                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
+                                </svg>
+                                {{ goal.name }}
+                                <span class="label label-success pull-right"
+                                      style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
                             </span>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-        {% endif %}
-        {% if goal.state == 'done' %}
-            <div class="col-md-4 md-offset-4">
-                <a href="{% url 'goaldetail' goal.id %}">
-                    <div class="panel panel-success">
-                        <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
-                            <svg class="glyph stroked clipboard-with-paper">
-                                <use xlink:href="#stroked-clipboard-with-paper"></use>
-                            </svg>
-                            {{ goal.name }}
-                            <span class="label label-success pull-right"
-                                style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
+                    </a>
+                </div>
+            {% endif %}
+            {% if goal.state == 'done' %}
+                <div class="col-md-4 md-offset-4">
+                    <a href="{% url 'goaldetail' goal.id %}">
+                        <div class="panel panel-success">
+                            <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
+                                <svg class="glyph stroked clipboard-with-paper">
+                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
+                                </svg>
+                                {{ goal.name }}
+                                <span class="label label-success pull-right"
+                                      style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
                             </span>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-        {% endif %}
-        {% if goal.state == 'fail' %}
-            <div class="col-md-4 md-offset-4">
-                <a href="{% url 'goaldetail' goal.id %}">
-                    <div class="panel panel-red">
-                        <div class="panel-heading dark-overlay" style="background: red;margin-top: 30px;">
-                            <svg class="glyph stroked clipboard-with-paper">
-                                <use xlink:href="#stroked-clipboard-with-paper"></use>
-                            </svg>
-                            {{ goal.name }}
-                            <span class="label label-success pull-right"
-                                style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
+                    </a>
+                </div>
+            {% endif %}
+            {% if goal.state == 'fail' %}
+                <div class="col-md-4 md-offset-4">
+                    <a href="{% url 'goaldetail' goal.id %}">
+                        <div class="panel panel-red">
+                            <div class="panel-heading dark-overlay" style="background: red;margin-top: 30px;">
+                                <svg class="glyph stroked clipboard-with-paper">
+                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
+                                </svg>
+                                {{ goal.name }}
+                                <span class="label label-success pull-right"
+                                      style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
                             </span>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-        {% endif %}
-    {% endfor %}
-</div>
-
-    <script type="text/javascript" src="/admin/jsi18n/"></script>
-	<script type="text/javascript" src="/static/admin/js/core.js"></script>
-	<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js">        </script>
-	<script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
-	<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
-	<script type="text/javascript" src="/static/admin/js/actions.min.js"></script>
-	<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
-	<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+                    </a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}
