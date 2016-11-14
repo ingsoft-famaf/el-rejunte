@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.contrib.auth.models import User
+
 from django.db import models
+
+
 
 # Create your models here.
 
@@ -52,6 +55,7 @@ class Goal(models.Model):
     state = models.CharField(null=False, max_length=10, blank=True)
     last_modification = models.DateTimeField(null=True)
     category = models.ForeignKey(Categoria, null=True)
+    
 
     # date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
     # time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
@@ -70,6 +74,18 @@ class Subgoal(models.Model):
 
     def __str__(self):
         return self.name
+
+class Comment(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+    maingoal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return str(self.owner.username)
+
+    def __str__(self):
+        return str(self.owner.username)
 
 
 

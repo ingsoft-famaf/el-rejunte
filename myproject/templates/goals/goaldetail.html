@@ -137,6 +137,27 @@
                 <i class="fb-login-button"></i> Volver </a>
         </div>
     </div>
+
+
+    <br>
+    {%if comments %}
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div>
+                <p class='lead'> Comments</p>
+                {% for comment in comments %}
+                    <div class=''>
+                        {{ comment.content}}
+                        <br>
+                        {{ comment.timestamp|timesince }} ago
+                        </hr>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <script type="text/javascript">
         $(function () {
             $("input[type='checkbox']").change(function () {
