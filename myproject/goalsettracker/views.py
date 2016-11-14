@@ -170,6 +170,17 @@ def goaldetail(request, goal_id):
         response.status_code = 403
         return response
     else:
+        initial_data = {
+            "goal_detail": goal_detail
+        }
+
+        comment_form = CommentForm(request.POST or None, initial= initial_data)
+        if comment_form.is_valid():
+            new_comment = Comment()
+            new_comment.maingoal = goal_detail
+            content_data = comment_form.cleaned_data.get("content")
+            new_comment.content = content_data
+            new_comment.save()
         all_subgoal = Subgoal.objects.all()
         subgoal_detail = all_subgoal.filter(maingoal=goal_detail)
         template = loader.get_template('goals/goaldetail.html')
@@ -178,6 +189,7 @@ def goaldetail(request, goal_id):
             'goal_detail': goal_detail,
             'subgoal_detail': subgoal_detail,
             'comments': comments,
+            'comment_form': comment_form,
         }
         return HttpResponse(template.render(context, request))
 

@@ -116,6 +116,10 @@ class AddSubgoalForm(forms.ModelForm):
             subgoal.save()
         return subgoal
 
+class CommentForm(forms.Form):
+    goal_detail = forms.CharField(widget=forms.HiddenInput)
+    content = forms.CharField(label='',widget=forms.Textarea)
+
 # class NewCategoryForm(forms.ModelForm):
 #     class Meta:
 #         model = Categoria
