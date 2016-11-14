@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if catlist %}
+        {% for category in catlist %}
+            {% if category.name != "Uncategorized" %}
+                <div class="col-md-2 md-offset-2">
+                    <div class="panel panel-warning">
+                            <div class="panel-heading dark-overlay"
+                                 style="color:#{{ category.colour }}">{{ category.name }}</div>
+                        <div class="row">
+                            <a class="btn btn-sm btn-success col-md-offset-2" href="{% url 'newcategory' category.id %}"
+                               role="button"><i class="fb-login-button"></i> Editar</a>
+                            <a class="btn btn-sm btn-danger" href="{% url 'delete_category' category.id %}"
+                               role="button"><i class="fb-login-button"></i> Borrar</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock content %}
+

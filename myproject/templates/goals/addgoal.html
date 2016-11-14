@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ form.as_ul }}
+            <button class="col-md-4 btn btn-success">Hecho</button>
+            <button class="col-md-4 btn btn-primary" type="button" onclick="window.location.href='/home'">Home
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Goal Set Tracker{% endblock %}
+
+
+{% block content %}
+    <h2>Delete your account</h2>
+    <hr>
+    <form action="deactivate_user" method="POST" class="padding">{% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Confirm</button>
+    </form>
+{% endblock content %}
