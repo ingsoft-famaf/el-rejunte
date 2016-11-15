@@ -113,6 +113,29 @@ class AddSubgoalForm(forms.ModelForm):
             subgoal.save()
         return subgoal
 
+
+class GoalFilterForm(forms.Form):
+    estadoChoices = (
+        ('', 'Todas'),
+        ('inprogress', 'En Progreso'),
+        ('done', 'Terminadas'),
+        ('fail', 'Falladas'),
+    )
+    # categoryList = ()
+
+    nombre = forms.CharField(required=False, label='Nombre')
+    estado = forms.ChoiceField(required=False, label='Estado', choices=estadoChoices)
+    fechainicio = forms.DateField(required=False, label='Inicio', widget=forms.TextInput(attrs={'class': 'datepicker'}))
+    fechafin = forms.DateField(required=False, label='Fin', widget=forms.TextInput(attrs={'class': 'datepicker'}))
+    categoria = forms.ModelChoiceField(required=False, label='Categoria', queryset=None)
+
+    def __init__(self, owner, *args, **kwargs):
+        super(GoalFilterForm, self).__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(owner=owner)
+
+
+
+
 # class NewCategoryForm(forms.ModelForm):
 #     class Meta:
 #         model = Categoria

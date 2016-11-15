@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% block script %}
+    {% endblock script %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,6 +25,7 @@
     <title>{% block title %}{% endblock %}</title>
     {% block back %}
     {% endblock back%}
+
 </head>
 
 <body>
@@ -49,6 +52,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="/home">Home</a></li>
                                 <li><a href="/addgoal">Crear Meta</a></li>
+                                <li><a href="/goalfilter">Buscar Metas</a></li>
                                 <li class="divider"></li>
                                 <li><a href="/miscategorias">Mis Categorias</a></li>
                                 <li><a href="/newcategory">Crear Categoria</a></li>
