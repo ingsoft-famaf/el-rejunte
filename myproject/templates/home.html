@@ -13,6 +13,7 @@
 
 {#ordenar y filtrar las metas#}
 {#ordenar#}
+{% if user_goals %}
 <div align="right">
     <div style="display: inline-block">
         <div style="width: 100%">
@@ -48,6 +49,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 {#mostrar las metas#}
 <div>
     {% for goal in user_goals %}

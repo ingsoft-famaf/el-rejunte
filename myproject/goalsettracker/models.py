@@ -72,9 +72,6 @@ class Subgoal(models.Model):
     def __str__(self):
         return self.name
 
-
-
-
         # def __init__(self):
         #     super(Categoria, self).__init__(name, user, colour)
         #     self._name = name

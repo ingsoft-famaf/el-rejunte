@@ -84,11 +84,14 @@ class AddGoalForm(forms.ModelForm):
         self.fields['name'].help_text = 'Ingresar meta'
         self.fields['category'].help_text = 'Ingresa categoria'
         self.fields['finishdate'].widget = widgets.AdminTimeWidget()
+        for key in self.fields:
+            self.fields[key].required = True 
 
     def save(self, commit=True):
         goal = super(AddGoalForm, self).save(commit=False)
         goal.name = self.cleaned_data["name"]
         goal.creationdate = now()
+        goal.finishdate = widgets.AdminTimeWidget()
         goal.finishdate = self.cleaned_data["finishdate"]
         goal.state = "inprogress"
         if commit:
