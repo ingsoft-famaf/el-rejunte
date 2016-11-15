@@ -77,7 +77,7 @@ class NewCategoryForm(forms.ModelForm):
 class AddGoalForm(forms.ModelForm):
     class Meta:
         model = Goal
-        fields = ('name', 'finishdate', 'category')
+        fields = ('name', 'finishdate', 'category', 'file')
 
     def __init__(self, *args, **kwargs):
         super(AddGoalForm, self).__init__(*args, **kwargs)

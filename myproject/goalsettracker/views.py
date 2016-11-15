@@ -84,7 +84,7 @@ def addgoal(request, goal_id=None):
         goal.owner = request.user
         goal.state = 'inprogress'
 
-    form = AddGoalForm(request.POST or None, instance=goal)
+    form = AddGoalForm(request.POST or None, request.FILES or None, instance=goal)
     if request.method == 'POST' and form.is_valid():
         form.save()
         return HttpResponseRedirect('/home')

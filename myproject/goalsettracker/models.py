@@ -52,6 +52,7 @@ class Goal(models.Model):
     state = models.CharField(null=False, max_length=10, blank=True)
     last_modification = models.DateTimeField(null=True)
     category = models.ForeignKey(Categoria, null=True)
+    file = models.FileField(blank=True)
 
     # date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
     # time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
