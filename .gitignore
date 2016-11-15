@@ -92,5 +92,6 @@ ENV/
 .idea*
 
 #django database
-*db.sqlite3
-.idea/workspace.xml
+*.sqlite3
+myproject/goalsettracker/migrations/*.py
+myproject/media/
