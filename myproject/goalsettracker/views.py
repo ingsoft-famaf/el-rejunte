@@ -84,12 +84,52 @@ def addgoal(request, goal_id=None):
         goal.owner = request.user
         goal.state = 'inprogress'
 
-    form = AddGoalForm(request.POST or None, instance=goal)
+    form = AddGoalForm(request.POST or None, request.FILES or None, instance=goal)
     if request.method == 'POST' and form.is_valid():
         form.save()
         return HttpResponseRedirect('/home')
 
     return render(request, 'goals/addgoal.html', {'form': form})
+
+@login_required
+def goalfilter(request):
+    user = request.user
+    if request.method == 'GET':
+        # catList = Categoria.objects.filter(owner=user)
+        form = GoalFilterForm(owner=user)
+        user_goals = Goal.objects.filter(owner=user)
+        context = {'form': form, 'user_goals': user_goals}
+        response = render(request, 'goals/goalfilter.html', context)
+    elif request.method == 'POST':
+        form = GoalFilterForm(user, request.POST)
+        if form.is_valid():
+            user_goals = Goal.objects.filter(owner=user)
+            # nombre estado fechainicio fechafin categoria
+            item = form.cleaned_data['nombre']
+            if item:
+                user_goals = user_goals.filter(name=item)
+
+            item = form.cleaned_data['estado']
+            if item:
+                user_goals = user_goals.filter(state=item)
+
+            item = form.cleaned_data['fechainicio']
+            if item:
+                user_goals = user_goals.filter(creationdate__gte=item)
+
+            item = form.cleaned_data['fechafin']
+            if item:
+                user_goals = user_goals.filter(finishdate__lte=item)
+
+            item = form.cleaned_data['categoria']
+            if item:
+                user_goals = user_goals.filter(category=item)
+
+            context = {'form': form, 'user_goals': user_goals}
+            response = render(request, 'goals/goalfilter.html', context)
+        else:
+            response = HttpResponse("Formulario invalido2")
+    return response
 
 
 @login_required

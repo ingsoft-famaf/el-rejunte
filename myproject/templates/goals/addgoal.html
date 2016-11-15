@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row">
     <div class="col-md-6">
-        <form method="post" action="">
+        <form method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_ul }}
             <button class="col-md-4 btn btn-success">Hecho</button>

@@ -96,6 +96,13 @@
                     <span class="label label-success pull-right"
                           style="color:#{{ goal_detail.category.colour }}">Categoria: {{ goal_detail.category.name }}
                     </span>
+                    {% if goal_detail.file %}
+                        <br>
+                        <span class="label label-success pull-left">Adjunto: {{ goal_detail.file.name|truncatechars:40 }}
+                            ({{goal_detail.file.size|filesizeformat}})
+                        </span>
+                    {% endif %}
+
                 </div>
             </div>
         </div>

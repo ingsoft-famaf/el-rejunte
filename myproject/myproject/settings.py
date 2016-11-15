@@ -136,3 +136,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #     EMAIL_HOST_PASSWORD = ''
 #     EMAIL_USE_TLS = False
 #     DEFAULT_FROM_EMAIL = 'goalsettracker@no-reply.com'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
