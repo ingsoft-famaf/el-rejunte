@@ -7,7 +7,7 @@ from django.template import loader
 from django.views.generic import CreateView
 
 from .forms import *
-from .models import Goal, Subgoal, Categoria, Comment
+from .models import Goal, Subgoal, Categoria
 
 
 # Create your views here.
@@ -170,26 +170,12 @@ def goaldetail(request, goal_id):
         response.status_code = 403
         return response
     else:
-        initial_data = {
-            "goal_detail": goal_detail
-        }
-
-        comment_form = CommentForm(request.POST or None, initial= initial_data)
-        if comment_form.is_valid():
-            new_comment = Comment()
-            new_comment.maingoal = goal_detail
-            content_data = comment_form.cleaned_data.get("content")
-            new_comment.content = content_data
-            new_comment.save()
         all_subgoal = Subgoal.objects.all()
         subgoal_detail = all_subgoal.filter(maingoal=goal_detail)
         template = loader.get_template('goals/goaldetail.html')
-        comments = Comment.objects.filter(maingoal=goal_detail)
         context = {
             'goal_detail': goal_detail,
             'subgoal_detail': subgoal_detail,
-            'comments': comments,
-            'comment_form': comment_form,
         }
         return HttpResponse(template.render(context, request))
 

@@ -143,24 +143,7 @@
 
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <div>
-                <p class='lead'> Commentarios</p>
-                <form method="POST" > {% csrf_token %}
-                    {{ comment_form}}
-                    <input type='submit' value='Comentar' class='btn btn-default'>
-                    <hr/>
-                </form>
-
-                {% for comment in comments %}
-                    <div class=''>
-                        {{ comment.content}}
-                        <br>
-                        <footer>{{ comment.timestamp|timesince }} </footer>
-                        <hr/>
-                    </div>
-                {% endfor %}
-            </div>
-        <div class="fb-comments" data-href={{ request.build_absolute_uri }} data-numposts="5"></div>
+            <div class="fb-comments" data-href={{ request.build_absolute_uri }} data-numposts="5"></div>
         </div>
     </div>
 

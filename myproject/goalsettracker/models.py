@@ -75,21 +75,6 @@ class Subgoal(models.Model):
     def __str__(self):
         return self.name
 
-class Comment(models.Model):
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
-    maingoal = models.ForeignKey(Goal, on_delete=models.CASCADE)
-    content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __unicode__(self):
-        return str(self.owner.username)
-
-    def __str__(self):
-        return str(self.owner.username)
-
-
-
-
         # def __init__(self):
         #     super(Categoria, self).__init__(name, user, colour)
         #     self._name = name
