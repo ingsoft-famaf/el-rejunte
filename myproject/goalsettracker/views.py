@@ -7,7 +7,7 @@ from django.template import loader
 from django.views.generic import CreateView
 
 from .forms import *
-from .models import Goal, Subgoal, Categoria
+from .models import Goal, Subgoal, Categoria, Comment
 
 
 # Create your views here.
@@ -90,6 +90,41 @@ def addgoal(request, goal_id=None):
         return HttpResponseRedirect('/home')
 
     return render(request, 'goals/addgoal.html', {'form': form})
+
+
+@login_required
+def goaldetail(request, goal_id):
+    goalupdate(request, goal_id)
+    goal_detail = get_object_or_404(Goal, pk=goal_id)
+    if goal_detail.owner != request.user:
+        response = HttpResponse("You do not have permission to view this.")
+        response.status_code = 403
+        return response
+    else:
+
+        comment_form = AddCommentForm(request.POST or None)
+        if comment_form.is_valid() and request.method == 'POST':
+            content_data=comment_form.cleaned_data.get("content")
+            new_comment = Comment.objects.get_or_create(
+                            maingoal = goal_detail,
+                            content = content_data
+                        )
+
+
+        subgoal_detail = Subgoal.objects.filter(maingoal=goal_detail)
+        comments_detail = Comment.objects.filter(maingoal=goal_detail).order_by('-timestamp')
+        template = loader.get_template('goals/goaldetail.html')
+        context = {
+            'goal_detail': goal_detail,
+            'subgoal_detail': subgoal_detail,
+            'comments_detail': comments_detail,
+            'comment_form':comment_form,
+        }
+        return HttpResponse(template.render(context, request))
+
+
+
+
 
 @login_required
 def goalfilter(request):
@@ -199,25 +234,6 @@ def allgoaldetail(request):
         'subgoal_detail': subgoal_detail,
     }
     return HttpResponse(template.render(context, request))
-
-
-@login_required
-def goaldetail(request, goal_id):
-    goalupdate(request, goal_id)
-    goal_detail = get_object_or_404(Goal, pk=goal_id)
-    if goal_detail.owner != request.user:
-        response = HttpResponse("You do not have permission to view this.")
-        response.status_code = 403
-        return response
-    else:
-        all_subgoal = Subgoal.objects.all()
-        subgoal_detail = all_subgoal.filter(maingoal=goal_detail)
-        template = loader.get_template('goals/goaldetail.html')
-        context = {
-            'goal_detail': goal_detail,
-            'subgoal_detail': subgoal_detail,
-        }
-        return HttpResponse(template.render(context, request))
 
 
 @login_required

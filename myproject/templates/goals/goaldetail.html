@@ -144,9 +144,29 @@
                 <i class="fb-login-button"></i> Volver </a>
         </div>
     </div>
-
-
     <br>
+
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <p class='lead'><h2>Comentarios</h2></p>
+            <form method="POST" action=""> {% csrf_token %}
+                {{comment_form}}
+                <input type='submit' value='Comentar' class='btn btn-default'>
+            </form>
+            <hr/>
+
+            {%for comment in comments_detail %}
+                <div class=''>
+                    <b>{{ comment.content }}</b>
+                    <br/>
+                    <small>{{ comment.timestamp|timesince}}</small>
+                    <hr/>
+                <div>
+            {% endfor%}
+        </div>
+    </div>
+
+
 
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
