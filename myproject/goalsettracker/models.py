@@ -45,6 +45,12 @@ class Goal(models.Model):
     Meta Principal
     """
 
+    PRIORITY_CHOISES = (
+        ('H', "High"),
+        ('N', 'Normal'),
+        ('L', 'Low'),
+    )
+
     name = models.CharField(null=False, max_length=100, blank=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     creationdate = models.DateTimeField(null=False)
@@ -53,6 +59,7 @@ class Goal(models.Model):
     last_modification = models.DateTimeField(null=True)
     category = models.ForeignKey(Categoria, null=True)
     file = models.FileField(blank=True)
+    priority = models.CharField(max_length=1, choices=PRIORITY_CHOISES, default=2)
 
     # date = models.DateField(null=True, help_text="<em>yyyy-mm-dd</em>.")
     # time = models.TimeField(null=True, help_text="<em>hh:mm</em>.")
