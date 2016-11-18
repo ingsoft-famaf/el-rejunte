@@ -85,7 +85,8 @@ class AddGoalForm(forms.ModelForm):
         self.fields['category'].help_text = 'Ingresa categoria'
         self.fields['finishdate'].widget = widgets.AdminTimeWidget()
         for key in self.fields:
-            self.fields[key].required = True 
+            self.fields[key].required = True
+        self.fields['file'].required = False
 
     def save(self, commit=True):
         goal = super(AddGoalForm, self).save(commit=False)
