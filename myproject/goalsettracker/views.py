@@ -166,13 +166,19 @@ def goalfilter(request):
 
 @login_required
 def delete_goal(request, goal_id):
-    goal = Goal.objects.get(pk=goal_id)
+    goal = get_object_or_404(Goal, pk=goal_id)
     if goal.owner != request.user:
         response = HttpResponse("You do not have permission to do this.")
         response.status_code = 403
         return response
-    goal.delete()
-    return HttpResponseRedirect('/home')
+    if request.method == "POST":
+        goal.delete()
+        return HttpResponseRedirect('/home')
+    context = {
+        "goal": goal
+    }
+
+    return render(request, "goals/delete_confirm_goal.html", context)
 
 @login_required
 def delete_confirm_comment(request, goal_id, comment_id):
