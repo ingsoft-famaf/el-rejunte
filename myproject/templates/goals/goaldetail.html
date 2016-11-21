@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block style %}
-{#    <link href="../static/css/bootstrap.min.css" rel="stylesheet">#}
+    {#    <link href="../static/css/bootstrap.min.css" rel="stylesheet">#}
     {#    <link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">#}
     <link href="../static/css/goaldetail/styles.css" rel="stylesheet">
     <!--Icons-->
@@ -12,108 +12,117 @@
 {#    <link href="../static/css/back.css" rel="stylesheet">#}
 {#{% endblock back %}#}
 
-
 {% block content %}
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            {% if goal_detail.state == 'inprogress' %}
-                <div {#class="panel panel-blue"#} style="background: blue">
-                </div>
-                <div class="panel-heading dark-overlay" style="background: blue">
-                    <svg class="glyph stroked clipboard-with-paper">
-                        <use xlink:href="#stroked-clipboard-with-paper"></use>
-                    </svg>
-                    {{ goal_detail.name }}
-                </div>
-            {% endif %}
-            {% if goal_detail.state == 'done' %}
-                <div {#class="panel panel-success"#}style="background: green">
-                </div>
-                <div class="panel-heading dark-overlay" style="background: green">
-                    <svg class="glyph stroked clipboard-with-paper">
-                        <use xlink:href="#stroked-clipboard-with-paper"></use>
-                    </svg>
-                    {{ goal_detail.name }}
-                </div>
-            {% endif %}
-            {% if goal_detail.state == 'fail' %}
-                <div {#class="panel panel-red"#}style="background: red">
-                </div>
-                <div class="panel-heading dark-overlay" style="background: red">
-                    <svg class="glyph stroked clipboard-with-paper">
-                        <use xlink:href="#stroked-clipboard-with-paper"></use>
-                    </svg>
-                    {{ goal_detail.name }}
-                </div>
-            {% endif %}
-            <div class="panel-body">
-                <ul class="todo-list">
-                    {% for subgoal in subgoal_detail %}
-                        <li class="todo-list-item">
-                            <div class="checkbox">
-                                {% if subgoal.state == False %}
-                                    <a href="{% url 'completesubgoal' goal_detail.id subgoal.id %}"><input
-                                            type="checkbox" id="checkbox" class="checkbox"/></a>
-                                {% endif %}
-                                {% if subgoal.state == True %}
-                                    <span class="flag"></span>
-                                    <svg class="glyph stroked flag">
-                                        <use xlink:href="#stroked-flag"></use>
-                                    </svg>
-                                {% endif %}
-                                <label for="checkbox">{{ subgoal.name }}</label>
-                            </div>
-                            <div class="pull-right action-buttons">
-                                <a href="#">
-                                    <svg class="glyph stroked pencil">
-                                        <use xlink:href="#stroked-pencil"></use>
-                                    </svg>
-                                </a>
-                                <a href="{% url 'deletesubgoal' goal_detail.id subgoal.id %}" class="trash">
-                                    <svg class="glyph stroked trash">
-                                        <use xlink:href="#stroked-trash"></use>
-                                    </svg>
-                                </a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="panel-footer">
-                {% comment %}
-                    {#<div class="input-group">#}
-                    {#    <input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" />#}
-                    {#    <span class="input-group-btn">#}
-                    {#        <button class="btn btn-primary btn-md" id="btn-todo">Add</button>#}
-                    {#    </span>#}
-                    {#</div>#}
-                {% endcomment %}
-                <div class="container-fluid">
-                    <span class="label label-default pull-left">Creada: {{ goal_detail.creationdate }}</span>
-                    <span class="label label-danger pull-right">Finaliza: {{ goal_detail.finishdate }}</span>
-                    <span class="label label-success pull-right"
-                          style="color:#{{ goal_detail.category.colour }}">Categoria: {{ goal_detail.category.name }}
-                    </span>
-                    {% if goal_detail.file %}
-                        <br>
-                        <span class="label label-success pull-left">Adjunto: {{ goal_detail.file.name|truncatechars:40 }}
-                            ({{goal_detail.file.size|filesizeformat}})
-                        </span>
-                    {% endif %}
 
-                </div>
+    <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        {% if goal_detail.state == 'inprogress' %}
+            <div {#class="panel panel-blue"#} style="background: blue">
+
+            {# end priority icon #}
+            <div class="panel-heading dark-overlay" style="background: blue">
+                {# priority icon #}
+                {% if goal_detail.priority == 'H' %}<span title="Priority: High" class="glyphicon glyphicon-asterisk"
+                                                          style="color: red; background-color: black;float:right"></span>{% endif %}
+                {% if goal_detail.priority == 'N' %}<span title="Priority: Normal" class="glyphicon glyphicon-asterisk"
+                                                          style="color: yellow; background-color: black;float:right"></span>{% endif %}
+                {% if goal_detail.priority == 'L' %}<span title="Priority: Low" class="glyphicon glyphicon-asterisk"
+                                                          style="color: green; background-color: black;float:right"></span>{% endif %}
+                <svg class="glyph stroked clipboard-with-paper">
+                    <use xlink:href="#stroked-clipboard-with-paper"></use>
+                </svg>
+                {{ goal_detail.name }}
             </div>
+        {% endif %}
+        {% if goal_detail.state == 'done' %}
+            <div {#class="panel panel-success"#}style="background: green">
+            </div>
+            <div class="panel-heading dark-overlay" style="background: green">
+                <svg class="glyph stroked clipboard-with-paper">
+                    <use xlink:href="#stroked-clipboard-with-paper"></use>
+                </svg>
+                {{ goal_detail.name }}
+            </div>
+        {% endif %}
+        {% if goal_detail.state == 'fail' %}
+            <div {#class="panel panel-red"#}style="background: red">
+            </div>
+            <div class="panel-heading dark-overlay" style="background: red">
+                <svg class="glyph stroked clipboard-with-paper">
+                    <use xlink:href="#stroked-clipboard-with-paper"></use>
+                </svg>
+                {{ goal_detail.name }}
+            </div>
+        {% endif %}
+        <div class="panel-body">
+            <ul class="todo-list">
+                {% for subgoal in subgoal_detail %}
+                    <li class="todo-list-item">
+                        <div class="checkbox">
+                            {% if subgoal.state == False %}
+                                <a href="{% url 'completesubgoal' goal_detail.id subgoal.id %}"><input
+                                        type="checkbox" id="checkbox" class="checkbox"/></a>
+                            {% endif %}
+                            {% if subgoal.state == True %}
+                                <span class="flag"></span>
+                                <svg class="glyph stroked flag">
+                                    <use xlink:href="#stroked-flag"></use>
+                                </svg>
+                            {% endif %}
+                            <label for="checkbox">{{ subgoal.name }}</label>
+                        </div>
+                        <div class="pull-right action-buttons">
+                            <a href="#">
+                                <svg class="glyph stroked pencil">
+                                    <use xlink:href="#stroked-pencil"></use>
+                                </svg>
+                            </a>
+                            <a href="{% url 'deletesubgoal' goal_detail.id subgoal.id %}" class="trash">
+                                <svg class="glyph stroked trash">
+                                    <use xlink:href="#stroked-trash"></use>
+                                </svg>
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="panel-footer">
+            {% comment %}
+                {#<div class="input-group">#}
+                {#    <input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" />#}
+                {#    <span class="input-group-btn">#}
+                {#        <button class="btn btn-primary btn-md" id="btn-todo">Add</button>#}
+                {#    </span>#}
+                {#</div>#}
+            {% endcomment %}
+            <div class="container-fluid">
+                <span class="label label-default pull-left">Creada: {{ goal_detail.creationdate }}</span>
+                <span class="label label-danger pull-right">Finaliza: {{ goal_detail.finishdate }}</span>
+                <span class="label label-success pull-right"
+                      style="color:#{{ goal_detail.category.colour }}">Categoria: {{ goal_detail.category.name }}
+                    </span>
+                {% if goal_detail.file %}
+                    <br>
+                    <span class="label label-success pull-left">Adjunto: {{ goal_detail.file.name|truncatechars:40 }}
+                            ({{ goal_detail.file.size|filesizeformat }})
+                        </span>
+                {% endif %}
+
+            </div>
+        </div>
         </div>
     </div>
     <br>
     {% if goal_detail.state == 'inprogress' %}
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <a class="btn btn-lg btn-success btn-block" href="{% url 'completegoal' goal_detail.id %}" role="button">
-                <i class="fb-login-button"></i> Completar meta </a>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <a class="btn btn-lg btn-success btn-block" href="{% url 'completegoal' goal_detail.id %}"
+                   role="button">
+                    <i class="fb-login-button"></i> Completar meta </a>
+            </div>
         </div>
-    </div>
-    <br>
+        <br>
     {% endif %}
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -124,7 +133,8 @@
     <br>
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <a class="btn btn-lg btn-block" href="{% url 'modify_goal' goal_detail.id %}" role="button" style="background: #996633">
+            <a class="btn btn-lg btn-block" href="{% url 'modify_goal' goal_detail.id %}" role="button"
+               style="background: #996633">
                 <i class="fb-login-button"></i> Modificar Meta </a>
         </div>
     </div>

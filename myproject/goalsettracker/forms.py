@@ -77,7 +77,7 @@ class NewCategoryForm(forms.ModelForm):
 class AddGoalForm(forms.ModelForm):
     class Meta:
         model = Goal
-        fields = ('name', 'finishdate', 'category', 'file')
+        fields = ('name', 'finishdate', 'category', 'priority', 'file')
 
     def __init__(self, *args, **kwargs):
         super(AddGoalForm, self).__init__(*args, **kwargs)
@@ -85,8 +85,8 @@ class AddGoalForm(forms.ModelForm):
         self.fields['category'].help_text = 'Ingresa categoria'
         self.fields['finishdate'].widget = widgets.AdminTimeWidget()
         for key in self.fields:
-            if (key!='file'):
-                self.fields[key].required = True 
+            self.fields[key].required = True
+        self.fields['file'].required = False
 
     def save(self, commit=True):
         goal = super(AddGoalForm, self).save(commit=False)
@@ -95,6 +95,7 @@ class AddGoalForm(forms.ModelForm):
         goal.finishdate = widgets.AdminTimeWidget()
         goal.finishdate = self.cleaned_data["finishdate"]
         goal.state = "inprogress"
+        goal.priority = self.cleaned_data["priority"]
         if commit:
             goal.save()
         return goal
