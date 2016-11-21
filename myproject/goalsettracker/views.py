@@ -7,7 +7,7 @@ from django.template import loader
 from django.views.generic import CreateView
 
 from .forms import *
-from .models import Goal, Subgoal, Categoria
+from .models import Goal, Subgoal, Categoria, Comment
 
 
 # Create your views here.
@@ -91,6 +91,38 @@ def addgoal(request, goal_id=None):
 
     return render(request, 'goals/addgoal.html', {'form': form})
 
+
+@login_required
+def goaldetail(request, goal_id):
+    goalupdate(request, goal_id)
+    goal_detail = get_object_or_404(Goal, pk=goal_id)
+    if goal_detail.owner != request.user:
+        response = HttpResponse("You do not have permission to view this.")
+        response.status_code = 403
+        return response
+    else:
+
+        comment_form = AddCommentForm(request.POST or None)
+        if comment_form.is_valid() and request.method == 'POST':
+            content_data=comment_form.cleaned_data.get("content")
+            new_comment = Comment.objects.get_or_create(
+                            maingoal = goal_detail,
+                            content = content_data
+                        )
+
+
+        subgoal_detail = Subgoal.objects.filter(maingoal=goal_detail)
+        comments_detail = Comment.objects.filter(maingoal=goal_detail).order_by('-timestamp')
+        template = loader.get_template('goals/goaldetail.html')
+        context = {
+            'goal_detail': goal_detail,
+            'subgoal_detail': subgoal_detail,
+            'comments_detail': comments_detail,
+            'comment_form':comment_form,
+        }
+        return HttpResponse(template.render(context, request))
+
+    
 @login_required
 def goalfilter(request):
     user = request.user
@@ -134,14 +166,36 @@ def goalfilter(request):
 
 @login_required
 def delete_goal(request, goal_id):
-    goal = Goal.objects.get(pk=goal_id)
+    goal = get_object_or_404(Goal, pk=goal_id)
     if goal.owner != request.user:
         response = HttpResponse("You do not have permission to do this.")
         response.status_code = 403
         return response
-    goal.delete()
-    return HttpResponseRedirect('/home')
+    if request.method == "POST":
+        goal.delete()
+        return HttpResponseRedirect('/home')
+    context = {
+        "goal": goal
+    }
 
+    return render(request, "goals/delete_confirm_goal.html", context)
+
+@login_required
+def delete_confirm_comment(request, goal_id, comment_id):
+    goal = get_object_or_404(Goal,pk=goal_id)
+    if goal.owner != request.user:
+        response = HttpResponse("You do not have permission to do this.")
+        response.status_code = 403
+        return response
+    comment = get_object_or_404(Comment,pk=comment_id)
+    if request.method == "POST":
+        comment.delete()
+        return HttpResponseRedirect('/goal/' + goal_id)
+    context = {
+        "comment": comment,
+        "goal": goal
+    }
+    return render(request, "goals/delete_confirm_comment.html", context)
 
 @login_required
 def delete_category(request, category_id):
@@ -199,25 +253,6 @@ def allgoaldetail(request):
         'subgoal_detail': subgoal_detail,
     }
     return HttpResponse(template.render(context, request))
-
-
-@login_required
-def goaldetail(request, goal_id):
-    goalupdate(request, goal_id)
-    goal_detail = get_object_or_404(Goal, pk=goal_id)
-    if goal_detail.owner != request.user:
-        response = HttpResponse("You do not have permission to view this.")
-        response.status_code = 403
-        return response
-    else:
-        all_subgoal = Subgoal.objects.all()
-        subgoal_detail = all_subgoal.filter(maingoal=goal_detail)
-        template = loader.get_template('goals/goaldetail.html')
-        context = {
-            'goal_detail': goal_detail,
-            'subgoal_detail': subgoal_detail,
-        }
-        return HttpResponse(template.render(context, request))
 
 
 @login_required

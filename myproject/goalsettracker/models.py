@@ -67,6 +67,17 @@ class Goal(models.Model):
     def __str__(self):
         return self.name
 
+class Comment(models.Model):
+    maingoal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    content = models.TextField(max_length=80, default='')
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return str(self.maingoal.owner.username)
+
+    def __str__(self):
+        return str(self.maingoal.owner.username)
+
 
 class Subgoal(models.Model):
     """
