@@ -85,7 +85,8 @@ class AddGoalForm(forms.ModelForm):
         self.fields['category'].help_text = 'Ingresa categoria'
         self.fields['finishdate'].widget = widgets.AdminTimeWidget()
         for key in self.fields:
-            self.fields[key].required = True 
+            if (key!='file'):
+                self.fields[key].required = True 
 
     def save(self, commit=True):
         goal = super(AddGoalForm, self).save(commit=False)
@@ -116,6 +117,20 @@ class AddSubgoalForm(forms.ModelForm):
             subgoal.save()
         return subgoal
 
+class AddCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('content',)
+
+    def __init__(self, *args, **kwargs):
+        super(AddCommentForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        comment = super(AddCommentForm, self).save(commit=False)
+        comment.content = self.cleaned_data["content"]
+        if commit:
+            comment.save()
+        return comment
 
 class GoalFilterForm(forms.Form):
     estadoChoices = (
