@@ -122,10 +122,7 @@ def goaldetail(request, goal_id):
         }
         return HttpResponse(template.render(context, request))
 
-
-
-
-
+    
 @login_required
 def goalfilter(request):
     user = request.user
@@ -177,6 +174,22 @@ def delete_goal(request, goal_id):
     goal.delete()
     return HttpResponseRedirect('/home')
 
+@login_required
+def delete_confirm_comment(request, goal_id, comment_id):
+    goal = get_object_or_404(Goal,pk=goal_id)
+    if goal.owner != request.user:
+        response = HttpResponse("You do not have permission to do this.")
+        response.status_code = 403
+        return response
+    comment = get_object_or_404(Comment,pk=comment_id)
+    if request.method == "POST":
+        comment.delete()
+        return HttpResponseRedirect('/goal/' + goal_id)
+    context = {
+        "comment": comment,
+        "goal": goal
+    }
+    return render(request, "goals/delete_confirm_comment.html", context)
 
 @login_required
 def delete_category(request, category_id):

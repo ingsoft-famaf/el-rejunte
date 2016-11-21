@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-
-
 {% block style %}
 {#    <link href="../static/css/bootstrap.min.css" rel="stylesheet">#}
     {#    <link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">#}
@@ -14,8 +12,8 @@
 {#    <link href="../static/css/back.css" rel="stylesheet">#}
 {#{% endblock back %}#}
 
-{% block content %}
 
+{% block content %}
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             {% if goal_detail.state == 'inprogress' %}
@@ -158,9 +156,16 @@
             {%for comment in comments_detail %}
                 <div class=''>
                     <b>{{ comment.content }}</b>
+
+
                     <br/>
                     <small>{{ comment.timestamp|timesince}}</small>
-                    <hr/>
+                    <br/>
+            <a href="{% url 'delete_comment' goal_detail.id comment.id %}" class= 'btn btn-default'>Borrar</a>
+
+                    <br/>
+
+                    <small><hr/></small>
                 <div>
             {% endfor%}
         </div>
