@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+{% block style %}
+{#    <link href="../static/css/bootstrap.min.css" rel="stylesheet">#}
+    {#    <link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">#}
+    <link href="../static/css/goaldetail/styles.css" rel="stylesheet">
+    <!--Icons-->
+    <script src="../static/js/goaldetail/lumino.glyphs.js"></script>
+{% endblock %}
+
+{#{% block back %}#}
+{#    <link href="../static/css/back.css" rel="stylesheet">#}
+{#{% endblock back %}#}
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h1> Perfil de  {{ user.username }} </h1>
+                {% if user.first_name %}
+                <p><b>Nombre:</b> {{ user.first_name}} </p>
+                {% endif %}
+                {% if user.last_name %}
+                <p><b>Apellido:</b> {{ user.last_name}} </p>
+                {% endif %}                
+                {% if user.email %}
+                <p><b>E-mail:</b> {{ user.email}} </p>
+                {% endif %}
+
+            <a href="/home" class= 'btn btn-default'>Volver</a>
+    </div>
+    </div>
+
+    
+
+    <script type="text/javascript">
+        $(function () {
+            $("input[type='checkbox']").change(function () {
+                var item = $(this);
+                var sub = $(this).val();
+                if (item.is(":checked")) {
+                    window.location.href = item.data("target")
+                }
+            });
+        });
+    </script>
+    <script src="../static/js/goaldetail/bootstrap.min.js"></script>
+    <script src="../static/js/goaldetail/chart.min.js"></script>
+    <script src="../static/js/goaldetail/chart-data.js"></script>
+    <script src="../static/js/goaldetail/easypiechart.js"></script>
+    <script src="../static/js/goaldetail/easypiechart-data.js"></script>
+    <script src="../static/js/goaldetail/bootstrap-datepicker.js"></script>
+
+{% endblock %}

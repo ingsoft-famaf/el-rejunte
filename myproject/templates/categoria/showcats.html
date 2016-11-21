@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+                <div class="col-md-2 md-offset-2">
     {% if catlist %}
         {% for category in catlist %}
             {% if category.name != "Uncategorized" %}
-                <div class="col-md-2 md-offset-2">
                     <div class="panel panel-warning">
                             <div class="panel-heading dark-overlay"
                                  style="color:#{{ category.colour }}">{{ category.name }}</div>
@@ -15,9 +15,11 @@
                                role="button"><i class="fb-login-button"></i> Borrar</a>
                         </div>
                     </div>
-                </div>
             {% endif %}
         {% endfor %}
+    {% else %}
+        No tienes categorías disponibles, puedes crear una haciendo click <a href="/newcategory">acá.</a>
     {% endif %}
+                </div>
 {% endblock content %}
 
