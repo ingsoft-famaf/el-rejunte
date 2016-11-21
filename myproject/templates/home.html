@@ -65,6 +65,13 @@
                             <span class="label label-success pull-right"
                                 style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
                             </span>
+                            {# priority icon #}
+                            {% if goal.priority == 'H' %}<span title="Priority: High" class="glyphicon glyphicon-asterisk"
+                                                                      style="color: red; background-color: black;float:right"></span>{% endif %}
+                            {% if goal.priority == 'N' %}<span title="Priority: Normal" class="glyphicon glyphicon-asterisk"
+                                                                      style="color: yellow; background-color: black;float:right"></span>{% endif %}
+                            {% if goal.priority == 'L' %}<span title="Priority: Low" class="glyphicon glyphicon-asterisk"
+                                                                      style="color: green; background-color: black;float:right"></span>{% endif %}
                         </div>
                     </div>
                 </a>
