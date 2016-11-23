@@ -381,3 +381,10 @@ def miscategorias(request):
     template = loader.get_template('categoria/showcats.html')
     context = {'catlist': catlist, }
     return HttpResponse(template.render(context, request))
+
+@login_required
+def profile(request):
+    user = request.user
+    context = {'user':user}
+    return render(request, "profile.html", context)
+
