@@ -89,12 +89,6 @@ class Subgoal(models.Model):
     def __str__(self):
         return self.name
 
-class MyUser(models.Model):
-    owner = models.OneToOneField(User)
-    profile_photo = models.ImageField()
-
-    def __str__(self):
-        return self.owner.username
 
         # def __init__(self):
         #     super(Categoria, self).__init__(name, user, colour)
