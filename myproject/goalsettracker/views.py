@@ -29,6 +29,18 @@ class Register(CreateView):
     success_url = '/login/'
 
 
+def sendnotif(request):
+    all_goals = Goal.objects.order_by(str(order_by))
+    inprogres_goals = all_goals.filter(state='inprogress')
+    for ipg in inprogres_goals:
+            notifemail(request, ipg.id)
+
+def notifemail(request, goal_id):
+    goal = get_object_or_404(Goal, pk=goal_id)
+    subject = 'GST - Recuerda de cumplir tu meta'
+    message = 'Te envimos este mail para que no te olvides de cumplir tu meta ' + goal.name + '. La misma finaliza el ' + goal.finishdate
+    to = [goal.owner.email]
+    EmailMessage(subject, message, to=to).send()
 
 def donemail(request, goal_id):
     goal = get_object_or_404(Goal, pk=goal_id)
@@ -48,6 +60,7 @@ def failmail(request, goal_id):
 
 @login_required
 def home(request, order_by='id'):
+    notificationer(request)
     user = request.user
     all_goals = Goal.objects.order_by(str(order_by))
     user_goals = all_goals.filter(owner=user)
@@ -353,6 +366,21 @@ def goalupdate(request, goal_id):
                 goal.save()
                 donemail(request, goal_id)
 
+
+@login_required
+def notificationer(request):
+    horas = 7
+    minutos = 48
+    segundos = 10
+    ahora = now()
+    h = 0
+    hours = (now().strftime('%H'))
+    minutes = (now().strftime('%M'))
+    seconds = (now().strftime('%S'))
+    print hours, minutes, seconds
+
+    if (hours == horas - 3) and (minutes == minutos) and (seconds == segundos):
+        sendnotif(request)
 
 
 
