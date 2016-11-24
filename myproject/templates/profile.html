@@ -28,6 +28,9 @@
                 {% if user.email %}
                 <p><b>E-mail:</b> {{ user.email}} </p>
                 {% endif %}
+                <a href="/edit_profile" role="button">
+                    Editar informacion </a>
+                <br><br>
                 {% if myuser %}
                 <img src="{{ myuser.profile_photo.url }}" style="width:304px;height:228px;" />
 

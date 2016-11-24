@@ -92,6 +92,17 @@ def addgoal(request, goal_id=None):
     return render(request, 'goals/addgoal.html', {'form': form})
 
 @login_required
+def edit_profile(request):
+    form = EditProfileForm(request.POST or None, instance=request.user)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/profile')
+
+    return render(request, 'edit_profile.html', {'form': form})
+
+
+
+@login_required
 def add_profile_photo(request, myuser_id=None):
     if myuser_id:
         myuser = get_object_or_404(MyUser, pk=myuser_id)

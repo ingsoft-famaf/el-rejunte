@@ -34,5 +34,6 @@ urlpatterns = [
     url(r'^profile/', views.profile),
     # url(r'^miscategorias/(?P<category_id>[0-9]+)/delete', views.delete_category, name='delete_category'),
     url(r'^add_photo/$', views.add_profile_photo, name='add_profile_photo'),
+    url(r'^edit_profile/$', views.edit_profile, name='edit_profile'),
 
 ]
