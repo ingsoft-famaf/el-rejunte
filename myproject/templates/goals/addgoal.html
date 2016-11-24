@@ -15,6 +15,7 @@
 {% endblock script %}
 
 {% block content %}
+{% if cats %}
 <div class="row">
     <div class="row col-md-3">
     
@@ -39,5 +40,11 @@
     </div>
     </div>
 </div>
+{% else %}
+
+Primero tienes que crear una categoria. Haciendo click <a href ="/newcategory" style='color:gray;font:italic'>acá.</a>
+
+
+{% endif %}
 {% endblock %}
 
