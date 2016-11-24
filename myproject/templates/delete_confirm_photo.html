@@ -16,39 +16,13 @@
 
 {% block content %}
 
-    <div class="row">
+<div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            <h1> Perfil de  {{ user.username }} </h1>
-                {% if user.first_name %}
-                <p><b>Nombre:</b> {{ user.first_name}} </p>
-                {% endif %}
-                {% if user.last_name %}
-                <p><b>Apellido:</b> {{ user.last_name}} </p>
-                {% endif %}                
-                {% if user.email %}
-                <p><b>E-mail:</b> {{ user.email}} </p>
-                {% endif %}
-                {% if myuser %}
-                <img src="{{ myuser.profile_photo.url }}" style="width:304px;height:228px;" />
-
-                <br>
-
-                <a href="{% url 'modify_photo' myuser.id %}" role="button">
-                    <i class="fb-login-button"></i>Cambiar foto</a>
-
-                <br>
-                <a href="{% url 'delete_photo' myuser.id %}" role="button">
-                    <i class="fb-login-button"></i>Eliminar foto </a>
-
-
-
-                {% else %}
-                <br>
-                Aun no tienes foto de perfil, carga una 
-                    <a href="/add_photo">acá.</a>
-                {% endif %}
-<br><br>
-            <a href="/home" class= 'btn btn-default'>Volver</a>
+<h1> Eliminar meta </h1>
+            <form method="POST" action="."> {% csrf_token %}
+                <p> ¿Deseas eliminar tu foto de perfil? </p>
+            <input type='submit' value='Si' class='btn btn-warning'>
+            <a href="/profile" class= 'btn btn-default'>No</a>
     </div>
     </div>
 
