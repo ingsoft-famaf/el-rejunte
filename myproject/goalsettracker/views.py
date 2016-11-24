@@ -108,13 +108,20 @@ def addgoal(request, goal_id=None):
         goal = Goal()
         goal.owner = request.user
         goal.state = 'inprogress'
+        
+       
+    cats = Categoria.objects.all()
+    cats = cats.filter(owner= request.user)
 
     form = AddGoalForm(request.POST or None, request.FILES or None, instance=goal)
+    context = {'form': form,
+                'cats': cats,
+                }
     if request.method == 'POST' and form.is_valid():
         form.save()
         return HttpResponseRedirect('/home')
 
-    return render(request, 'goals/addgoal.html', {'form': form})
+    return render(request, 'goals/addgoal.html', context)
 
 @login_required
 def edit_profile(request):
