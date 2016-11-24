@@ -116,6 +116,22 @@ class MyUserForm(forms.ModelForm):
             myuser.save()
         return myuser
 
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name',)
+
+    def __init__(self, *args, **kwars):
+        super(EditProfileForm, self).__init__(*args, **kwars)
+
+    def save(self, commit=True):
+        user = super(EditProfileForm, self).save(commit=False)
+        user.first_name = self.cleaned_data["first_name"]
+        user.last_name = self.cleaned_data["last_name"]
+        if commit:
+            user.save()
+        return user
+
 class AddSubgoalForm(forms.ModelForm):
     class Meta:
         model = Subgoal
