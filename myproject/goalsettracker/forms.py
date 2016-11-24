@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.admin import widgets
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.timezone import now
+from django.core.files.images import get_image_dimensions
 
 from .models import *
 
@@ -100,6 +101,20 @@ class AddGoalForm(forms.ModelForm):
             goal.save()
         return goal
 
+class MyUserForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ('profile_photo',)
+
+    def __init__(self, *args, **kwars):
+        super(MyUserForm, self).__init__(*args, **kwars)
+
+    def save(self, commit=True):
+        myuser = super(MyUserForm, self).save(commit=False)
+        myuser.profile_photo = self.cleaned_data["profile_photo"]
+        if commit:
+            myuser.save()
+        return myuser
 
 class AddSubgoalForm(forms.ModelForm):
     class Meta:
