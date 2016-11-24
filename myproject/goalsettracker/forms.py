@@ -170,8 +170,6 @@ class GoalFilterForm(forms.Form):
         self.fields['categoria'].queryset = Categoria.objects.filter(owner=owner)
 
 
-
-
 # class NewCategoryForm(forms.ModelForm):
 #     class Meta:
 #         model = Categoria
