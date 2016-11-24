@@ -3,6 +3,7 @@ from django.conf.urls import url
 from . import views
 from .views import *
 
+
 # We are adding a URL called /home
 urlpatterns = [
     url(r'^$', views.index, name='index'),

@@ -17,6 +17,7 @@ def index(request):
     return render(request, "index.html")
 
 
+
 class Register(CreateView):
     """
     Vista de registro de usuario para uso de django. Posee la funcionalidad

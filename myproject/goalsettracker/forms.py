@@ -7,6 +7,7 @@ from django.core.files.images import get_image_dimensions
 from .models import *
 
 
+
 # # If you don't do this you cannot use Bootstrap CSS
 # class LoginForm(AuthenticationForm):
 #     username = forms.CharField(label="Username", max_length=30,
