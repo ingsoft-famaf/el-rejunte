@@ -34,4 +34,4 @@ urlpatterns = [
     url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_confirm,
         {'post_reset_redirect': '/user/password/done/'}, name='password_reset_confirm'),
     url(r'^user/password/done/$', password_reset_complete),
-]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

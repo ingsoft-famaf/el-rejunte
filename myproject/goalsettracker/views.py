@@ -91,38 +91,9 @@ def addgoal(request, goal_id=None):
 
     return render(request, 'goals/addgoal.html', {'form': form})
 
-@login_required
-def add_profile_photo(request, myuser_id=None):
-    if myuser_id:
-        myuser = get_object_or_404(MyUser, pk=myuser_id)
-        if myuser.owner != request.user:
-            response = HttpResponse("You do not have permission to do this.")
-            response.status_code = 403
-            return response
-    else:
-        myuser = MyUser()
-        myuser.owner = request.user
-    form = MyUserForm(request.POST or None, request.FILES or None, instance=myuser)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return HttpResponseRedirect('/profile')
-    return render(request, 'addphoto.html', {'form': form})
 
 
-@login_required
-def delete_confirm_photo(request, myuser_id):
-    myuser = get_object_or_404(MyUser, pk=myuser_id)
-    if myuser.owner != request.user:
-        response = HttpResponse("You do not have permission to do this.")
-        response.status_code = 403
-        return response
-    if request.method == "POST":
-        myuser.delete()
-        return HttpResponseRedirect('/profile')
-    context = {
-        "myuser": myuser,
-    }
-    return render(request, "delete_confirm_photo.html", context)
+
 
 
 
