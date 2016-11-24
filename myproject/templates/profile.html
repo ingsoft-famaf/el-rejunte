@@ -31,25 +31,7 @@
                 <a href="/edit_profile" role="button">
                     Editar informacion </a>
                 <br><br>
-                {% if myuser %}
-                <img src="{{ myuser.profile_photo.url }}" style="width:304px;height:228px;" />
 
-                <br>
-
-                <a href="{% url 'modify_photo' myuser.id %}" role="button">
-                    <i class="fb-login-button"></i>Cambiar foto</a>
-
-                <br>
-                <a href="{% url 'delete_photo' myuser.id %}" role="button">
-                    <i class="fb-login-button"></i>Eliminar foto </a>
-
-
-
-                {% else %}
-                <br>
-                Aun no tienes foto de perfil, carga una 
-                    <a href="/add_photo">acá.</a>
-                {% endif %}
 <br><br>
             <a href="/home" class= 'btn btn-default'>Volver</a>
     </div>
