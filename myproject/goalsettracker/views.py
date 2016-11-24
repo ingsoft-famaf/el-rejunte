@@ -112,6 +112,7 @@ def add_profile_photo(request, user_id=None):
 @login_required
 def goaldetail(request, goal_id):
     goalupdate(request, goal_id)
+    progress_bar = progressbar(request, goal_id)
     goal_detail = get_object_or_404(Goal, pk=goal_id)
     if goal_detail.owner != request.user:
         response = HttpResponse("You do not have permission to view this.")
@@ -136,6 +137,7 @@ def goaldetail(request, goal_id):
             'subgoal_detail': subgoal_detail,
             'comments_detail': comments_detail,
             'comment_form':comment_form,
+            'progress_bar':progress_bar,
         }
         return HttpResponse(template.render(context, request))
 
@@ -353,6 +355,28 @@ def completegoal(request, goal_id):
 
     return HttpResponseRedirect('/goal/' + goal_id)
 
+
+@login_required
+def progressbar(request, goal_id):
+    goal = get_object_or_404(Goal, pk=goal_id)
+    all_subgoal = Subgoal.objects.all()
+    subgoals = all_subgoal.filter(maingoal=goal)
+    cant = subgoals.count()
+    comp = 0;
+    if cant == 0:
+        if goal.state == 'done':
+            prog = 100
+        else:
+            prog = 0
+    else:
+        for subs in subgoals:
+            if (subs.state == True):
+                comp = comp+1
+        prog = (comp * 100)/cant
+
+    return prog
+
+    
 
 
 
