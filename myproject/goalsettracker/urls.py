@@ -12,12 +12,12 @@ urlpatterns = [
     url(r'^register/', Register.as_view(), name='register'),
     url(r'^deactivate_user$', views.deactivate_user, name='deactivate_user'),
     url(r'^addgoal/', views.addgoal, name='addgoal'),
+    url(r'^goal/(?P<goal_id>[0-9]+)/modify_goal/$', views.addgoal, name='modify_goal'),
     url(r'^goalfilter/', views.goalfilter, name='goalfilter'),
     url(r'^goal/(?P<goal_id>[0-9]+)$', views.goaldetail, name='goaldetail'),
     url(r"^goal/(?P<goal_id>[0-9]+)/completegoal/$", views.completegoal, name='completegoal'),
     url(r'^goal/(?P<goal_id>[0-9]+)/addsubgoal/$', views.addsubgoal, name='addsubgoal'),
     url(r'^goal/(?P<goal_id>[0-9]+)/addmoretime/$', views.addmoretime, name='addmoretime'),
-    url(r'^goal/(?P<goal_id>[0-9]+)/modify_goal/$', views.addgoal, name='modify_goal'),
     url(r'^goal/(?P<goal_id>[0-9]+)/delete_goal/$', views.delete_goal, name='delete_goal'),
 
     url(r"^goal/(?P<goal_id>[0-9]+)/(?P<comment_id>[0-9]+)/delete_comment/$", views.delete_confirm_comment, name='delete_comment'),
@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^miscategorias/', views.miscategorias, name='miscategorias'),
     url(r'^profile/', views.profile),
     # url(r'^miscategorias/(?P<category_id>[0-9]+)/delete', views.delete_category, name='delete_category'),
+    url(r'^add_photo/$', views.add_profile_photo, name='add_profile_photo'),
 
 ]

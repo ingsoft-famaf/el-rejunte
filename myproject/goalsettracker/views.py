@@ -92,6 +92,23 @@ def addgoal(request, goal_id=None):
     return render(request, 'goals/addgoal.html', {'form': form})
 
 
+def add_profile_photo(request, user_id=None):
+    if user_id:
+        myuser = get_object_or_404(MyUser, id=user_id)
+        if myuser.owner != request.user:
+            response = HttpResponse("You do not have permission to do this.")
+            response.status_code = 403
+            return response
+    else:
+        myuser = MyUser()
+        myuser.owner = request.user
+    form = MyUserForm(request.POST or None, request.FILES or None, instance=myuser)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/profile')
+    return render(request, 'addphoto.html', {'form': form})
+
+
 @login_required
 def goaldetail(request, goal_id):
     goalupdate(request, goal_id)
@@ -179,6 +196,7 @@ def delete_goal(request, goal_id):
     }
 
     return render(request, "goals/delete_confirm_goal.html", context)
+
 
 @login_required
 def delete_confirm_comment(request, goal_id, comment_id):
@@ -385,6 +403,8 @@ def miscategorias(request):
 @login_required
 def profile(request):
     user = request.user
-    context = {'user':user}
+    myuser = MyUser.objects.filter(owner=user)
+    context = {'user':user,
+               'myuser': myuser,
+              }
     return render(request, "profile.html", context)
-

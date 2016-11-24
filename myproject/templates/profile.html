@@ -28,7 +28,18 @@
                 {% if user.email %}
                 <p><b>E-mail:</b> {{ user.email}} </p>
                 {% endif %}
+                {% if myuser %}
+                {% for n in myuser %}
+                 <img src="{{ n.profile_photo.url }}" style="width:304px;height:228px;" />
+                {% endfor %}
+                <br>
 
+                {% else %}
+                <br>
+                Aun no tienes foto de perfil, carga una 
+                    <a href="/add_photo">acá.</a>
+                {% endif %}
+<br>
             <a href="/home" class= 'btn btn-default'>Volver</a>
     </div>
     </div>
