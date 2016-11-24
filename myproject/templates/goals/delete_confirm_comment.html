@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+
+{% block style %}
+{#    <link href="../static/css/bootstrap.min.css" rel="stylesheet">#}
+    {#    <link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">#}
+    <link href="../static/css/goaldetail/styles.css" rel="stylesheet">
+    <!--Icons-->
+    <script src="../static/js/goaldetail/lumino.glyphs.js"></script>
+{% endblock %}
+
+{#{% block back %}#}
+{#    <link href="../static/css/back.css" rel="stylesheet">#}
+{#{% endblock back %}#}
+
+
+{% block content %}
+
+<div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+<h1> Eliminar comentario </h1>
+            <form method="POST" action="."> {% csrf_token %}
+                <p> ¿Desea eliminar el comentario: "{{ comment.content}}"? </p>
+            <input type='submit' value='Si' class='btn btn-warning'>
+            <a href="{% url 'goaldetail' goal.id %}" class= 'btn btn-default'>No</a>
+    </div>
+    </div>
+
+    
+
+    <script type="text/javascript">
+        $(function () {
+            $("input[type='checkbox']").change(function () {
+                var item = $(this);
+                var sub = $(this).val();
+                if (item.is(":checked")) {
+                    window.location.href = item.data("target")
+                }
+            });
+        });
+    </script>
+    <script src="../static/js/goaldetail/bootstrap.min.js"></script>
+    <script src="../static/js/goaldetail/chart.min.js"></script>
+    <script src="../static/js/goaldetail/chart-data.js"></script>
+    <script src="../static/js/goaldetail/easypiechart.js"></script>
+    <script src="../static/js/goaldetail/easypiechart-data.js"></script>
+    <script src="../static/js/goaldetail/bootstrap-datepicker.js"></script>
+
+{% endblock %}

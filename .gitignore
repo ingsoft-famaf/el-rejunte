@@ -87,3 +87,11 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+#pycharm cofig files
+.idea*
+
+#django database
+*.sqlite3
+myproject/goalsettracker/migrations/*.py
+myproject/media/

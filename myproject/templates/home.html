@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <link href="../static/css/goaldetail/styles.css" rel="stylesheet">
+    {#        <link href="../static/css/bootstrap.min.css" rel="stylesheet">#}
+    {#        <link href="../static/css/goaldetail/datepicker3.css" rel="stylesheet">#}
+    <script src="../static/js/goaldetail/lumino.glyphs.js"></script>
+{% endblock style %}
+{% block back %}
+    {#        <link href="../static/css/back.css" rel="stylesheet">#}
+{% endblock back %}
+{% block content %}
+
+{#ordenar y filtrar las metas#}
+{#ordenar#}
+{% if user_goals %}
+<div align="right">
+    <div style="display: inline-block">
+        <div style="width: 100%">
+            <form id="order_by">
+                <div align="left"><p><b>Ordenar</b></p></div>
+                <select form="order_by" onchange="location.href = this.value">
+                    <option value="/home/order_by=name" {% if selected == "name" %}selected{% endif %}>
+                        Nombre
+                    </option>
+                    <option value="/home/order_by=creationdate" {% if selected == "creationdate" %}selected{% endif %}>
+                        Fecha de creacion
+                    </option>
+                    <option value="/home/order_by=finishdate" {% if selected == "finishdate" %}selected{% endif %}>
+                        Fecha de finalización
+                    </option>
+                    <option value="/home/order_by=state" {% if selected == "state" %}selected{% endif %}>
+                        Estado
+                    </option>
+                    <option value="/home/order_by=category" {% if selected == "category" %}selected{% endif %}>
+                        Categoria
+                    </option>
+                </select>
+                {# filtrar #}
+                {#<option value="/home/order_by=name">Nombre</option>#}
+                {#    <option value="/home/order_by=creationdate">Fecha de creacion</option>#}
+                {#    <option value="/home/order_by=finishdate">Fecha de finalización</option>#}
+                {#    <option value="/home/order_by=state">Estado</option>#}
+                {#    <option value="/home/order_by=category">Categoria</option>#}
+                {#</select>#}
+                {#<button#}
+
+            </form>
+        </div>
+    </div>
+</div>
+{% else %}
+    <div class="col-md-2 md-offset-2">
+        No hay metas creadas.
+        <br>
+        Crea una nueva haciendo click 
+                    <a href="/addgoal">acá.</a>
+    </div>
+{% endif %}
+{#mostrar las metas#}
+<div>
+    {% for goal in user_goals %}
+        {% if goal.state == 'inprogress' %}
+            <div class="col-md-4 md-offset-4">
+                <a href="{% url 'goaldetail' goal.id %}">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading dark-overlay" style="background: blue;margin-top: 30px;">
+                            <svg class="glyph stroked clipboard-with-paper">
+                                <use xlink:href="#stroked-clipboard-with-paper"></use>
+                            </svg>
+                            {{ goal.name }}
+                            <span class="label label-success pull-right"
+                                style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
+                            </span>
+                            {# priority icon #}
+                            {% if goal.priority == 'H' %}<span title="Priority: High" class="glyphicon glyphicon-asterisk"
+                                                                      style="color: red; background-color: black;float:right"></span>{% endif %}
+                            {% if goal.priority == 'N' %}<span title="Priority: Normal" class="glyphicon glyphicon-asterisk"
+                                                                      style="color: yellow; background-color: black;float:right"></span>{% endif %}
+                            {% if goal.priority == 'L' %}<span title="Priority: Low" class="glyphicon glyphicon-asterisk"
+                                                                      style="color: green; background-color: black;float:right"></span>{% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+        {% if goal.state == 'done' %}
+            <div class="col-md-4 md-offset-4">
+                <a href="{% url 'goaldetail' goal.id %}">
+                    <div class="panel panel-success">
+                        <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
+                            <svg class="glyph stroked clipboard-with-paper">
+                                <use xlink:href="#stroked-clipboard-with-paper"></use>
+                            </svg>
+                            {{ goal.name }}
+                            <span class="label label-success pull-right"
+                                style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+        {% if goal.state == 'fail' %}
+            <div class="col-md-4 md-offset-4">
+                <a href="{% url 'goaldetail' goal.id %}">
+                    <div class="panel panel-red">
+                        <div class="panel-heading dark-overlay" style="background: red;margin-top: 30px;">
+                            <svg class="glyph stroked clipboard-with-paper">
+                                <use xlink:href="#stroked-clipboard-with-paper"></use>
+                            </svg>
+                            {{ goal.name }}
+                            <span class="label label-success pull-right"
+                                style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock content %}
+
