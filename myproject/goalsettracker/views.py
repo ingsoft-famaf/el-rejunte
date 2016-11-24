@@ -431,10 +431,8 @@ def miscategorias(request):
 @login_required
 def profile(request):
     user = request.user
-    myuser = MyUser.objects.filter(owner=user)
     if myuser:
         myuser = myuser[0]
     context = {'user':user,
-               'myuser': myuser,
               }
     return render(request, "profile.html", context)
