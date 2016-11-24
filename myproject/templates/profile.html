@@ -18,7 +18,12 @@
 
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
+        <div class="container-fluid">
+        <div class="login-panel panel panel-default">
+        <div class="panel-heading"
             <h1> Perfil de  {{ user.username }} </h1>
+        </div>
+        <div class="panel-body">
                 {% if user.first_name %}
                 <p><b>Nombre:</b> {{ user.first_name}} </p>
                 {% endif %}
@@ -28,26 +33,30 @@
                 {% if user.email %}
                 <p><b>E-mail:</b> {{ user.email}} </p>
                 {% endif %}
-                <a href="/edit_profile" role="button">
+        </div>
+        </div>
+        <div class="login-panel panel panel-success">
+        <div class="panel-body">
+                <a href="/edit_profile" role="button" style='color:gray;font:italic'>
                     Editar informacion </a>
-                <br><br>
+                <br>
                 {% if myuser %}
                 <img src="{{ myuser.profile_photo.url }}" style="width:304px;height:228px;" />
                 <br>
-                <a href="{% url 'modify_photo' myuser.id %}" role="button">
-                    <i class="fb-login-button"></i>Cambiar foto</a>
+                <a href="{% url 'modify_photo' myuser.id %}" role="button" style='color:gray;font:italic'>
+                    <i class='button'></i>Cambiar foto</a>
 
                 <br>
-                <a href="{% url 'delete_photo' myuser.id %}" role="button">
-                    <i class="fb-login-button"></i>Eliminar foto </a>
+                <a href="{% url 'delete_photo' myuser.id %}" role="button" style='color:gray;font:italic' >
+                    <i class='button'></i>Eliminar foto </a>
 
                 {% else %}
                 <br>
                 Aun no tienes foto de perfil, carga una 
-                    <a href="/add_photo">acá.</a>
+                    <a href ="/add_photo" style='color:gray;font:italic'>acá.</a>
                 {% endif %}
-<br><br>
-            <a href="/home" class= 'btn btn-default'>Volver</a>
+<br>
+            <a href="/home" class= 'btn btn-warning'>Volver</a>
     </div>
     </div>
 

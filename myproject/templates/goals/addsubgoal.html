@@ -4,14 +4,29 @@
 <body>
 {% block content %}
 
-<div class="row col-md-4">
-<form method="post" action="">
+<div class="row">
+    <div class="row col-md-3">
+    
+    <div class="container-fluid">
+    <div class="login-panel panel panel-default">
+    <div class="panel-body">
+        <form method="post" action="">
         {% csrf_token %}
-            {{ form.as_ul }}
-        <br>
-          <button class = "col-md-3 btn btn-success" type="submit" value="Register">Add</button>
-          <button class = "col-md-3 btn btn-primary" type="button" onclick="window.location.href='/home'">Home</button>
-</form>
+        {% for field in form %}
+            <fieldset class="control-group">
+            <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+            <div class="controls">
+            {{ field }}
+            <p class="help-text">{{ field.help_text }} </p>
+            </div>
+            </fieldset>
+        {% endfor %}
+       <button class = "col-md-4 btn btn-success" type="submit" value="Register">Add</button>
+       <button class = "col-md-4 btn btn-primary" type="button" onclick="window.location.href='/home'">Home</button>
+    </div>
+    </div>
+    </div>
+    </div>
 </div>
 
 
