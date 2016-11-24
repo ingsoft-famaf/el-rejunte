@@ -1,0 +1,100 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<title>Goal Set Tracker</title>
+<head>
+    {% block script %}
+    {% endblock script %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-social.css">
+    
+    <link href="/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    {% block style %}
+    {% endblock style %}
+    <link rel="stylesheet" type="text/css" href="/static/css/back.css">
+{#    <link rel="stylesheet" type="text/css" href="/static/css/mycss.css">#}
+    <title>{% block title %}{% endblock %}</title>
+    {% block back %}
+    {% endblock back%}
+
+</head>
+
+<body>
+    {% if user.is_authenticated %}
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse"
+                        data-target=".navbar-collapse"
+                >
+                    <span class="sr-only"> Toggle navigation</span>
+                    <span class="icon-bar"> </span>
+                    <span class="icon-bar"> </span>
+                    <span class="icon-bar"> </span>
+                </button>
+                <a class="navbar-brand" href="/home"> Goalsettracker</a>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class=""><a href="/profile">Profile</a></li>
+                        <li><a href="/home">Metas</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{ user.username|capfirst }}
+                                <b class="caret"> </b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/home">Home</a></li>
+                                <li><a href="/addgoal">Crear Meta</a></li>
+                                <li><a href="/goalfilter">Buscar Metas</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/miscategorias">Mis Categorias</a></li>
+                                <li><a href="/newcategory">Crear Categoria</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/user/password/reset/">Change Password</a></li>
+                                <li><a href="/deactivate_user"> Disable User</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.8";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    {% endif %}
+<div>
+{% block content %}
+{% endblock %}
+</div>
+
+<!-- Core Scripts - Include with every page -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+{% block javascript %}
+    <script>
+        {% if not user.is_authenticated %}
+            $("ul.nav.navbar-nav.navbar-right").css("display", "none");
+        {% endif %}
+    </script>
+{% endblock %}
+
+</body>
+</html>

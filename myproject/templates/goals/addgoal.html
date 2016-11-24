@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block script %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    var $j = jQuery.noConflict();
+    $j( function() {
+        $j( '.datepicker' ).datepicker();
+    } );
+    </script>
+
+{% endblock script %}
+
+{% block content %}
+<div class="row">
+    <div class="row col-md-3">
+    
+    <div class="container-fluid">
+    <div class="login-panel panel panel-default">
+    <div class="panel-body">
+        <form method="post" action="">
+        {% csrf_token %}
+        {% for field in form %}
+            <fieldset class="control-group">
+            <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+            <div class="controls">
+            {{ field }}
+            <p class="help-text">{{ field.help_text }} </p>
+            </div>
+            </fieldset>
+        {% endfor %}
+        <button class="col-md-4 btn btn-success">Hecho</button>
+        <button class="col-md-4 btn btn-primary" type="button" onclick="window.location.href='/home'">Home</button>
+    </div>
+    </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
+

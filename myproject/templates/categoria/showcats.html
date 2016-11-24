@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+                <div class="col-md-2 md-offset-2">
+    {% if catlist %}
+        {% for category in catlist %}
+            {% if category.name != "Uncategorized" %}
+                    <div class="panel panel-warning">
+                            <div class="panel-heading dark-overlay"
+                                 style="color:#{{ category.colour }}">{{ category.name }}</div>
+                        <div class="row">
+                            <a class="btn btn-sm btn-success col-md-offset-2" href="{% url 'newcategory' category.id %}"
+                               role="button"><i class="fb-login-button"></i> Editar</a>
+                            <a class="btn btn-sm btn-danger" href="{% url 'delete_category' category.id %}"
+                               role="button"><i class="fb-login-button"></i> Borrar</a>
+                        </div>
+                    </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        No tienes categorías disponibles, puedes crear una haciendo click <a href="/newcategory">acá.</a>
+    {% endif %}
+                </div>
+{% endblock content %}
+
