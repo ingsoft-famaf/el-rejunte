@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template import loader
 from django.views.generic import CreateView
+from datetime import datetime
 
 from .forms import *
 from .models import Goal, Subgoal, Categoria, Comment
@@ -26,6 +27,15 @@ class Register(CreateView):
     template_name = 'registration/register.html'
     form_class = UserRegisterForm
     success_url = '/login/'
+
+
+
+def donemail(request, goal_id):
+    goal = get_object_or_404(Goal, pk=goal_id)
+    subject = 'GST - Cumpliste una meta'
+    message = 'La meta ' + goal.name + ' ha sido cumplida. Felicitaciones'
+    to = [goal.owner.email]
+    EmailMessage(subject, message, to=to).send()
 
 
 def failmail(request, goal_id):
@@ -331,14 +341,19 @@ def goalupdate(request, goal_id):
     if goal.state == 'inprogress' or goal.state == 'done':
         for subs in subgoals:
             if subs.state == False:
-                complete = False
-        if complete == True:
-            goal.state = 'done'
-            goal.save()
+                complete = False         
 
         if complete == False:
             goal.state = 'inprogress'
             goal.save()
+
+        if goal.state == 'inprogress':
+            if complete == True:
+                goal.state = 'done'
+                goal.save()
+                donemail(request, goal_id)
+
+
 
 
 @login_required
@@ -381,6 +396,7 @@ def completegoal(request, goal_id):
     subgoals = all_subgoal.filter(maingoal=goal)
     goal.state = 'done'
     goal.save()
+    donemail(request, goal_id)
     print goal.state
     for subs in subgoals:
         subs.state = True

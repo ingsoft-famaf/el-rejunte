@@ -63,8 +63,8 @@
         {% if goal.state == 'inprogress' %}
             <div class="col-md-4 md-offset-4">
                 <a href="{% url 'goaldetail' goal.id %}">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading dark-overlay" style="background: blue;margin-top: 30px;">
+                    <div class="panel panel-warning-invert">
+                        <div class="panel-heading dark-overlay" style="background: #006bb3;margin-top: 30px;">
                             <svg class="glyph stroked clipboard-with-paper">
                                 <use xlink:href="#stroked-clipboard-with-paper"></use>
                             </svg>
@@ -73,12 +73,20 @@
                                 style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
                             </span>
                             {# priority icon #}
-                            {% if goal.priority == 'H' %}<span title="Priority: High" class="glyphicon glyphicon-asterisk"
-                                                                      style="color: red; background-color: black;float:right"></span>{% endif %}
-                            {% if goal.priority == 'N' %}<span title="Priority: Normal" class="glyphicon glyphicon-asterisk"
-                                                                      style="color: yellow; background-color: black;float:right"></span>{% endif %}
-                            {% if goal.priority == 'L' %}<span title="Priority: Low" class="glyphicon glyphicon-asterisk"
-                                                                      style="color: green; background-color: black;float:right"></span>{% endif %}
+                            {% if goal.priority == 'H' %}<span title="Priority: High" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: red;float:right"></span>
+                                                                      <span title="Priority: High" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: red;float:right"></span>
+                                                                      <span title="Priority: High" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: red;float:right"></span>
+                                                                      {% endif %}
+                            {% if goal.priority == 'N' %}<span title="Priority: Normal" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: yellow;float:right"></span>
+                                                                      <span title="Priority: Normal" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: yellow;float:right"></span>
+                                                                      {% endif %}
+                            {% if goal.priority == 'L' %}<span title="Priority: Low" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: green;float:right"></span>{% endif %}
                         </div>
                     </div>
                 </a>
@@ -87,7 +95,7 @@
         {% if goal.state == 'done' %}
             <div class="col-md-4 md-offset-4">
                 <a href="{% url 'goaldetail' goal.id %}">
-                    <div class="panel panel-success">
+                    <div class="panel panel-success-invert">
                         <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
                             <svg class="glyph stroked clipboard-with-paper">
                                 <use xlink:href="#stroked-clipboard-with-paper"></use>
