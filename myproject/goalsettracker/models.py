@@ -25,7 +25,6 @@ defaultColourList = (
 )
 defaultColour = 5
 
-
 class Categoria(models.Model):
     """
     categoria en la cual se puede encontrar una meta
@@ -96,6 +95,7 @@ class MyUser(models.Model):
 
     def __str__(self):
         return self.owner.username
+
 
         # def __init__(self):
         #     super(Categoria, self).__init__(name, user, colour)

@@ -101,20 +101,22 @@ class AddGoalForm(forms.ModelForm):
             goal.save()
         return goal
 
-class MyUserForm(forms.ModelForm):
+
+class EditProfileForm(forms.ModelForm):
     class Meta:
-        model = MyUser
-        fields = ('profile_photo',)
+        model = User
+        fields = ('first_name', 'last_name',)
 
     def __init__(self, *args, **kwars):
-        super(MyUserForm, self).__init__(*args, **kwars)
+        super(EditProfileForm, self).__init__(*args, **kwars)
 
     def save(self, commit=True):
-        myuser = super(MyUserForm, self).save(commit=False)
-        myuser.profile_photo = self.cleaned_data["profile_photo"]
+        user = super(EditProfileForm, self).save(commit=False)
+        user.first_name = self.cleaned_data["first_name"]
+        user.last_name = self.cleaned_data["last_name"]
         if commit:
-            myuser.save()
-        return myuser
+            user.save()
+        return user
 
 class AddSubgoalForm(forms.ModelForm):
     class Meta:
@@ -166,8 +168,6 @@ class GoalFilterForm(forms.Form):
     def __init__(self, owner, *args, **kwargs):
         super(GoalFilterForm, self).__init__(*args, **kwargs)
         self.fields['categoria'].queryset = Categoria.objects.filter(owner=owner)
-
-
 
 
 # class NewCategoryForm(forms.ModelForm):

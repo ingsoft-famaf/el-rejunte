@@ -91,10 +91,21 @@ def addgoal(request, goal_id=None):
 
     return render(request, 'goals/addgoal.html', {'form': form})
 
+@login_required
+def edit_profile(request):
+    form = EditProfileForm(request.POST or None, instance=request.user)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/profile')
 
-def add_profile_photo(request, user_id=None):
-    if user_id:
-        myuser = get_object_or_404(MyUser, id=user_id)
+    return render(request, 'edit_profile.html', {'form': form})
+
+
+
+@login_required
+def add_profile_photo(request, myuser_id=None):
+    if myuser_id:
+        myuser = get_object_or_404(MyUser, pk=myuser_id)
         if myuser.owner != request.user:
             response = HttpResponse("You do not have permission to do this.")
             response.status_code = 403
@@ -107,6 +118,26 @@ def add_profile_photo(request, user_id=None):
         form.save()
         return HttpResponseRedirect('/profile')
     return render(request, 'addphoto.html', {'form': form})
+
+
+@login_required
+def delete_confirm_photo(request, myuser_id):
+    myuser = get_object_or_404(MyUser, pk=myuser_id)
+    if myuser.owner != request.user:
+        response = HttpResponse("You do not have permission to do this.")
+        response.status_code = 403
+        return response
+    if request.method == "POST":
+        myuser.delete()
+        return HttpResponseRedirect('/profile')
+    context = {
+        "myuser": myuser,
+    }
+    return render(request, "delete_confirm_photo.html", context)
+
+
+
+
 
 
 @login_required
@@ -214,6 +245,7 @@ def delete_confirm_comment(request, goal_id, comment_id):
         "goal": goal
     }
     return render(request, "goals/delete_confirm_comment.html", context)
+
 
 @login_required
 def delete_category(request, category_id):
@@ -354,8 +386,6 @@ def completegoal(request, goal_id):
     return HttpResponseRedirect('/goal/' + goal_id)
 
 
-
-
 @login_required
 def newcategory(request):
     """
@@ -383,9 +413,7 @@ def new_category(request, category_id=None):
     if request.method == 'POST' and form.is_valid():
         form.save()
         return HttpResponseRedirect('/miscategorias')
-
     return render(request, 'categoria/nuevacategoria.html', {'form': form})
-
 
 @login_required
 def miscategorias(request):
@@ -404,6 +432,8 @@ def miscategorias(request):
 def profile(request):
     user = request.user
     myuser = MyUser.objects.filter(owner=user)
+    if myuser:
+        myuser = myuser[0]
     context = {'user':user,
                'myuser': myuser,
               }
