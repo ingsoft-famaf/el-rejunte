@@ -64,7 +64,7 @@ class NewCategoryForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(NewCategoryForm, self).__init__(*args, **kwargs)
-        self.fields['name'].help_text = 'ingresar nombre de meta'
+        self.fields['name'].help_text = 'Ingresar nombre de categoria'
         self.fields['colour'].help_text = 'Selecciona el color'
 
     def save(self, commit=True):
@@ -84,7 +84,8 @@ class AddGoalForm(forms.ModelForm):
         super(AddGoalForm, self).__init__(*args, **kwargs)
         self.fields['name'].help_text = 'Ingresar meta'
         self.fields['category'].help_text = 'Ingresa categoria'
-        self.fields['finishdate'].widget = widgets.AdminTimeWidget()
+        self.fields['finishdate'].widget = forms.TextInput(attrs={'class': 'datepicker'})
+        self.fields['finishdate'].help_text = 'Elija fecha limite'
         for key in self.fields:
             self.fields[key].required = True
         self.fields['file'].required = False

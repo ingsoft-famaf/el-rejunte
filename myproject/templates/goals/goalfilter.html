@@ -19,70 +19,99 @@
 {% endblock script %}
 
 {% block content %}
-
-    <div class="row col-md-4">
+<div class="row">
+    <div class="row col-md-3">
+    
+    <div class="container-fluid">
+    <div class="login-panel panel panel-default">
+    <div class="panel-body">
         <form method="post" action="">
-            {% csrf_token %}
-            {{ form.as_ul }}
-            <br>
-            <button class="col-md-3 btn btn-success" type="submit" value=".">Filtrar</button>
-
-
-        </form>
+        {% csrf_token %}
+        {% for field in form %}
+            <fieldset class="control-group">
+            <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+            <div class="controls">
+            {{ field }}
+            <p class="help-text">{{ field.help_text }} </p>
+            </div>
+            </fieldset>
+        {% endfor %}
+        <button class="col-xs-12 col-sm-12 btn btn-primary btn-sm" type="submit" value=".">Filtrar</button>
     </div>
-    <div>
+    </div>
+    </div>
+    </div>
+</div>
+
+<div class="row">
         {% for goal in user_goals %}
             {% if goal.state == 'inprogress' %}
                 <div class="col-md-4 md-offset-4">
-                    <a href="{% url 'goaldetail' goal.id %}">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading dark-overlay" style="background: blue;margin-top: 30px;">
-                                <svg class="glyph stroked clipboard-with-paper">
-                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
-                                </svg>
-                                {{ goal.name }}
-                                <span class="label label-success pull-right"
-                                      style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
+                <a href="{% url 'goaldetail' goal.id %}">
+                    <div class="panel panel-warning-invert">
+                        <div class="panel-heading dark-overlay" style="background: #006bb3;margin-top: 30px;">
+                            <svg class="glyph stroked clipboard-with-paper">
+                                <use xlink:href="#stroked-clipboard-with-paper"></use>
+                            </svg>
+                            {{ goal.name }}
+                            <span class="label label-success pull-right"
+                                style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
                             </span>
-                            </div>
+                            {# priority icon #}
+                            {% if goal.priority == 'H' %}<span title="Priority: High" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: red;float:right"></span>
+                                                                      <span title="Priority: High" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: red;float:right"></span>
+                                                                      <span title="Priority: High" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: red;float:right"></span>
+                                                                      {% endif %}
+                            {% if goal.priority == 'N' %}<span title="Priority: Normal" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: yellow;float:right"></span>
+                                                                      <span title="Priority: Normal" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: yellow;float:right"></span>
+                                                                      {% endif %}
+                            {% if goal.priority == 'L' %}<span title="Priority: Low" class="glyphicon glyphicon-dashboard"
+                                                                      style="color: green;float:right"></span>{% endif %}
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
+            </div>
             {% endif %}
             {% if goal.state == 'done' %}
-                <div class="col-md-4 md-offset-4">
-                    <a href="{% url 'goaldetail' goal.id %}">
-                        <div class="panel panel-success">
-                            <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
-                                <svg class="glyph stroked clipboard-with-paper">
-                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
-                                </svg>
-                                {{ goal.name }}
-                                <span class="label label-success pull-right"
-                                      style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
+             <div class="col-md-4 md-offset-4">
+                <a href="{% url 'goaldetail' goal.id %}">
+                    <div class="panel panel-success-invert">
+                        <div class="panel-heading dark-overlay" style="background: green;margin-top: 30px;">
+                            <svg class="glyph stroked clipboard-with-paper">
+                                <use xlink:href="#stroked-clipboard-with-paper"></use>
+                            </svg>
+                            {{ goal.name }}
+                            <span class="label label-success pull-right"
+                                style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
                             </span>
-                            </div>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
+            </div>
             {% endif %}
             {% if goal.state == 'fail' %}
-                <div class="col-md-4 md-offset-4">
-                    <a href="{% url 'goaldetail' goal.id %}">
-                        <div class="panel panel-red">
-                            <div class="panel-heading dark-overlay" style="background: red;margin-top: 30px;">
-                                <svg class="glyph stroked clipboard-with-paper">
-                                    <use xlink:href="#stroked-clipboard-with-paper"></use>
-                                </svg>
-                                {{ goal.name }}
-                                <span class="label label-success pull-right"
-                                      style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
+            <div class="col-md-4 md-offset-4">
+                <a href="{% url 'goaldetail' goal.id %}">
+                    <div class="panel panel-red">
+                        <div class="panel-heading dark-overlay" style="background: red;margin-top: 30px;">
+                            <svg class="glyph stroked clipboard-with-paper">
+                                <use xlink:href="#stroked-clipboard-with-paper"></use>
+                            </svg>
+                            {{ goal.name }}
+                            <span class="label label-success pull-right"
+                                style="color:#{{ goal.category.colour }}">{{ goal.category.name }}
                             </span>
-                            </div>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
+            </div>
             {% endif %}
         {% endfor %}
     </div>
+</div>
 {% endblock %}

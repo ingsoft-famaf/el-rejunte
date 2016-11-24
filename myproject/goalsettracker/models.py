@@ -6,7 +6,6 @@ from django.db import models
 
 # Default oolours for categoria.
 defaultColourList = (
-    ("FFFFFF", "White"),  # rgb(255, 255, 255)
     ("C0C0C0", "Silver"),  # rgb(192, 192, 192)
     ("808080", "Gray"),  # rgb(128, 128, 128)
     ("000000", "Black"),  # rgb(0, 0, 0)
