@@ -25,7 +25,6 @@ defaultColourList = (
 )
 defaultColour = 5
 
-
 class Categoria(models.Model):
     """
     categoria en la cual se puede encontrar una meta

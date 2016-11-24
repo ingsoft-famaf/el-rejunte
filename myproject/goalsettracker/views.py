@@ -100,8 +100,6 @@ def edit_profile(request):
 
     return render(request, 'edit_profile.html', {'form': form})
 
-
-
 @login_required
 def add_profile_photo(request, myuser_id=None):
     if myuser_id:
