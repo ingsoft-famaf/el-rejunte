@@ -92,7 +92,7 @@ class Subgoal(models.Model):
 
 class MyUser(models.Model):
     owner = models.OneToOneField(User)
-    profile_photo = models.ImageField()
+    profile_photo = models.CharField(max_length=26)
 
     def __str__(self):
         return self.owner.username
