@@ -16,6 +16,17 @@
 
     <div class="row">
     <div class="col-md-4 col-md-offset-4">
+        <div class="progress">
+        {% if progress_bar < 33 %}
+        <div class="progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow='{{ progress_bar }}' aria-valuemin="0" aria-valuemax="100" style="width:{{ progress_bar }}%">
+        {% elif progress_bar < 100 %}
+        <div class="progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow='{{ progress_bar }}' aria-valuemin="0" aria-valuemax="100" style="width:{{ progress_bar }}%">
+        {% elif progress_bar == 100 %}
+        <div class="progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow='{{ progress_bar }}' aria-valuemin="0" aria-valuemax="100" style="width:{{ progress_bar }}%">
+        {% endif %}
+            <center>{{ progress_bar }}% Completada
+        </div>
+        </div>
         {% if goal_detail.state == 'inprogress' %}
             <div {#class="panel panel-blue"#} style="background: blue">
 

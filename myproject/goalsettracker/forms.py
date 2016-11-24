@@ -169,6 +169,20 @@ class GoalFilterForm(forms.Form):
         super(GoalFilterForm, self).__init__(*args, **kwargs)
         self.fields['categoria'].queryset = Categoria.objects.filter(owner=owner)
 
+class MyUserForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ('profile_photo',)
+
+    def __init__(self, *args, **kwars):
+        super(MyUserForm, self).__init__(*args, **kwars)
+
+    def save(self, commit=True):
+        myuser = super(MyUserForm, self).save(commit=False)
+        myuser.profile_photo = self.cleaned_data["profile_photo"]
+        if commit:
+            myuser.save()
+        return myuser
 
 # class NewCategoryForm(forms.ModelForm):
 #     class Meta:
